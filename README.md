@@ -1,14 +1,14 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 <!-- Copyright Contributors to the ODPi Egeria project. -->
 
-![Egeria Logo](assets/img/ODPi_Egeria_Logo_color.png)
+![Egeria Logo](https://github.com/odpi/egeria/blob/master/assets/img/ODPi_Egeria_Logo_color.png))
 
 [![GitHub](https://img.shields.io/github/license/odpi/egeria)](LICENSE)
 
 
 # Egeria - Open Metadata and Governance
   
-This github project is part of the overall Egeria project. See the [main egeria project](https://github.com/odpi/egeria) for further information. The same governance rules & maintainer status apply as for that project
+This github project is part of the overall Egeria project. See the [egeria project](https://github.com/odpi/egeria) for further information. The same governance rules & maintainer status apply as for that project
 
 ## egeria-k8s-operator
 
