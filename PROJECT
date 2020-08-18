@@ -2,6 +2,10 @@ domain: my.domain
 layout: go.kubebuilder.io/v2
 projectName: egeria-k8s-operator
 repo: github.com/odpi/egeria-k8s-operator
+resources:
+- group: egeria
+  kind: Egeria
+  version: v1
 version: 3-alpha
 plugins:
   go.sdk.operatorframework.io/v2-alpha: {}

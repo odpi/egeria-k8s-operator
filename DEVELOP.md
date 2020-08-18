@@ -23,6 +23,10 @@ These commands use the oeprator-sdk to create the initial project. Code is then 
 ```
 operator-sdk init --plugins "go.kubebuilder.io/v2" --project-name 'egeria-k8s-operator' --repo 'github.com/odpi/egeria-k8s-operator'
 ```
+
+```
+operator-sdk create api --group egeria --version v1 --kind Egeria --resource=true --controller=true
+```
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.

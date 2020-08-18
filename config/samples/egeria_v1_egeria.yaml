@@ -1,0 +1,7 @@
+apiVersion: egeria.my.domain/v1
+kind: Egeria
+metadata:
+  name: egeria-sample
+spec:
+  # Add fields here
+  foo: bar
