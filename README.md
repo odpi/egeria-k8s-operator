@@ -17,6 +17,8 @@ support in the main project for building the base egeria container images, as we
 
 As of mid August this sub project is just starting. Please engage via our main project [slack channels](slack.odpi.org), team calls, or via github issues.
 
+See [DEVELOP.md](DEVELOP.md) for more details of the implementation and how to build.
+
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.
