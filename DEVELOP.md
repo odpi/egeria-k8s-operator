@@ -27,6 +27,19 @@ operator-sdk init --plugins "go.kubebuilder.io/v2" --project-name 'egeria-k8s-op
 ```
 operator-sdk create api --group egeria --version v1 --kind Egeria --resource=true --controller=true
 ```
+
+## Building the project and image
+```
+make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.0.1
+```
+## deploy the operator
+```
+make install
+make deploy IMG=odpi/egeria-k8s-operator:0.0.1
+```
+
+
+
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.
