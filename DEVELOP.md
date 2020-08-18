@@ -38,8 +38,14 @@ make install
 make deploy IMG=odpi/egeria-k8s-operator:0.0.1
 ```
 
+# Design decisions
 
-
+* We are using operator-sdk 1.0.0 for tooling
+* golang is the implementation language for the oeprator
+* operator is [cluster-scoped](https://sdk.operatorframework.io/docs/building-operators/golang/operator-scope/) - this is the default and can be revisited in future
+* operator uses a single [group](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) 'egeria' for it's APIs - also the default
+* The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'Egeria' - think of this as the k8s resource type we are dealing with
+* We will start with version 1 ('v1')
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.
