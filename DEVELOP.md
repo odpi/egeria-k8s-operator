@@ -38,6 +38,13 @@ Then we need to build the new CRD with
 make manifests
 ```
 
+## Changing the controller
+
+```
+make manifests
+make install
+make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.0.1
+```
 ## Building the project and image
 ```
 make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.0.1
