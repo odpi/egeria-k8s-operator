@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 <!-- Copyright Contributors to the ODPi Egeria project. -->
 
-![Egeria Logo](https://github.com/odpi/egeria/blob/master/assets/img/ODPi_Egeria_Logo_color.png))
+![Egeria Logo](https://github.com/odpi/egeria/blob/master/assets/img/ODPi_Egeria_Logo_color.png)
 
 [![GitHub](https://img.shields.io/github/license/odpi/egeria)](LICENSE)
 
@@ -16,6 +16,7 @@ Here we provide a kubernetes operator to support the deployment of Egeria into k
 support in the main project for building the base egeria container images, as well as a few helm charts that make use of them.
 
 As of mid August this sub project is just starting. Please engage via our main project [slack channels](slack.odpi.org), team calls, or via github issues.
+
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.
