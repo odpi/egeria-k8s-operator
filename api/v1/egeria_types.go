@@ -28,20 +28,24 @@ type EgeriaSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of Egeria. Edit Egeria_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// +kubebuilder:validation:Minimum=0
+	// Size is the size of the deployment
+	Size int32 `json:"size"`
 }
 
 // EgeriaStatus defines the observed state of Egeria
 type EgeriaStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	// Nodes are the names of the pods
+	Nodes []string `json:"nodes"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
 // Egeria is the Schema for the egeria API
+// +kubebuilder:subresource:status
 type Egeria struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

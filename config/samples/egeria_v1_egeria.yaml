@@ -1,4 +1,4 @@
-apiVersion: egeria.my.domain/v1
+apiVersion: egeria.odpi.org/v1
 kind: Egeria
 metadata:
   name: egeria-sample

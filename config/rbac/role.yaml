@@ -7,7 +7,7 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - egeria.my.domain
+  - egeria.odpi.org
   resources:
   - egeria
   verbs:
@@ -19,7 +19,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - egeria.my.domain
+  - egeria.odpi.org
   resources:
   - egeria/status
   verbs:

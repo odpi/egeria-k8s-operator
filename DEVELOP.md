@@ -27,6 +27,16 @@ operator-sdk init --plugins "go.kubebuilder.io/v2" --project-name 'egeria-k8s-op
 ```
 operator-sdk create api --group egeria --version v1 --kind Egeria --resource=true --controller=true
 ```
+## Changing the API model
+
+This is needed if the egeria type is modified -- it keeps the go type definitions in sync
+```
+make generate
+```
+Then we need to build the new CRD with
+```
+make manifests
+```
 
 ## Building the project and image
 ```

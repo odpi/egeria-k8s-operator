@@ -6,9 +6,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.3.0
   creationTimestamp: null
-  name: egeria.egeria.my.domain
+  name: egeria.egeria.odpi.org
 spec:
-  group: egeria.my.domain
+  group: egeria.odpi.org
   names:
     kind: Egeria
     listKind: EgeriaList
@@ -36,13 +36,26 @@ spec:
         spec:
           description: EgeriaSpec defines the desired state of Egeria
           properties:
-            foo:
-              description: Foo is an example field of Egeria. Edit Egeria_types.go
-                to remove/update
-              type: string
+            size:
+              description: Size is the size of the deployment
+              format: int32
+              minimum: 0
+              type: integer
+          required:
+          - size
           type: object
         status:
           description: EgeriaStatus defines the observed state of Egeria
+          properties:
+            nodes:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file Nodes are the names of the pods'
+              items:
+                type: string
+              type: array
+          required:
+          - nodes
           type: object
       type: object
   version: v1

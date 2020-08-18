@@ -34,8 +34,8 @@ type EgeriaReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=egeria.my.domain,resources=egeria,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=egeria.my.domain,resources=egeria/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=egeria.odpi.org,resources=egeria,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=egeria.odpi.org,resources=egeria/status,verbs=get;update;patch
 
 func (r *EgeriaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	_ = context.Background()
