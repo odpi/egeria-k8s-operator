@@ -18,7 +18,7 @@ These need to be installed and configured in order to build the k8s operator
 
 ## Creation of the template project
 
-These commands use the oeprator-sdk to create the initial project. Code is then edited manually. The commands used are included here in case we need to rebuild the template in future and remerge in customized code
+These commands use the operator-sdk to create the initial project. Code is then edited manually. The commands used are included here in case we need to rebuild the template in future and remerge in customized code
 
 ```
 operator-sdk init --plugins "go.kubebuilder.io/v2" --project-name 'egeria-k8s-operator' --repo 'github.com/odpi/egeria-k8s-operator'
@@ -84,6 +84,8 @@ kustomize build config/default | kubectl delete -f -
 * operator uses a single [group](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) 'egeria' for it's APIs - also the default
 * The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'Egeria' - think of this as the k8s resource type we are dealing with
 * We will start with version 1 ('v1')
+# Bugs
+* Ensure deployments/finalizers appears in the RBAC (role.yaml) otherwise error occurs `2020-08-19T16:38:54.623Z        ERROR   controller      Reconciler error        {"reconcilerGroup": "egeria.odpi.org", "reconcilerKind": "Egeria", "controller": "egeria", "name": "egeria-sample", "namespace": "default", "error": "deployments.apps \"egeria-sample\" is forbidden: cannot set blockOwnerDeletion if an ownerReference refers to a resource you can't set finalizers on: , <nil>"}`
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.

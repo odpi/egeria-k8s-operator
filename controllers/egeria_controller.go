@@ -47,9 +47,9 @@ type EgeriaReconciler struct {
 
 func (r *EgeriaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
-	log := r.Log.WithValues("memcached", req.NamespacedName)
+	log := r.Log.WithValues("egeria", req.NamespacedName)
 
-	// Fetch the Memcached instance
+	// Fetch the Egeria instance
 	egeria := &egeriav1.Egeria{}
 	err := r.Get(ctx, req.NamespacedName, egeria)
 	if err != nil {
@@ -97,15 +97,15 @@ func (r *EgeriaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{Requeue: true}, nil
 	}
 
-	// Update the Memcached status with the pod names
-	// List the pods for this memcached's deployment
+	// Update the Egeria status with the pod names
+	// List the pods for this egeria's deployment
 	podList := &corev1.PodList{}
 	listOpts := []client.ListOption{
 		client.InNamespace(egeria.Namespace),
 		client.MatchingLabels(labelsForEgeria(egeria.Name)),
 	}
 	if err = r.List(ctx, podList, listOpts...); err != nil {
-		log.Error(err, "Failed to list pods", "Memcached.Namespace", egeria.Namespace, "Memcached.Name", egeria.Name)
+		log.Error(err, "Failed to list pods", "Egeria.Namespace", egeria.Namespace, "Egeria.Name", egeria.Name)
 		return ctrl.Result{}, err
 	}
 	podNames := getPodNames(podList.Items)
@@ -123,7 +123,7 @@ func (r *EgeriaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-// deploymentForMemcached returns a memcached Deployment object
+// deploymentForEgeria returns an egeria Deployment object
 func (r *EgeriaReconciler) deploymentForEgeria(m *egeriav1.Egeria) *appsv1.Deployment {
 	ls := labelsForEgeria(m.Name)
 	replicas := m.Spec.Size
@@ -156,13 +156,13 @@ func (r *EgeriaReconciler) deploymentForEgeria(m *egeriav1.Egeria) *appsv1.Deplo
 			},
 		},
 	}
-	// Set Memcached instance as the owner and controller
+	// Set Egeria instance as the owner and controller
 	ctrl.SetControllerReference(m, dep, r.Scheme)
 	return dep
 }
 
 // labelsForEgeria returns the labels for selecting the resources
-// belonging to the given memcached CR name.
+// belonging to the given egeria CR name.
 func labelsForEgeria(name string) map[string]string {
 	return map[string]string{"app": "egeria", "egeria_cr": name}
 }

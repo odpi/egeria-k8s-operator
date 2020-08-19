@@ -10,6 +10,7 @@ rules:
   - apps
   resources:
   - deployments
+  - deployments/finalizers
   verbs:
   - create
   - delete
