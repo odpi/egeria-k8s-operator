@@ -54,7 +54,28 @@ make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.0.1
 make install
 make deploy IMG=odpi/egeria-k8s-operator:0.0.1
 ```
+## Check the operator controller is active
+```
+kubectl get deployment -n egeria-k8s-operator-system 
+```
+## Checking logs of the controller
+```
+ kubectl get pods -n egeria-k8s-operator-system 
+```
+Then use that pod id in the entry below:
+```
+kubectl logs egeria-k8s-operator-controller-manager-6bf887c74c-78mwc -n egeria-k8s-operator-system manager
 
+```
+## Create an instance of Egeria
+```
+kubectl apply -f config/samples/egeria_v1_egeria.yaml
+```
+## Cleaning up the crd after
+```
+kubectl delete -f config/crd/bases/egeria.odpi.org_egeria.yaml
+kustomize build config/default | kubectl delete -f -
+```
 # Design decisions
 
 * We are using operator-sdk 1.0.0 for tooling

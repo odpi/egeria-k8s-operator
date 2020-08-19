@@ -4,4 +4,4 @@ metadata:
   name: egeria-sample
 spec:
   # Add fields here
-  foo: bar
+  size: 3

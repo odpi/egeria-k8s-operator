@@ -1,4 +1,4 @@
-domain: my.domain
+domain: egeria.odpi.org
 layout: go.kubebuilder.io/v2
 projectName: egeria-k8s-operator
 repo: github.com/odpi/egeria-k8s-operator

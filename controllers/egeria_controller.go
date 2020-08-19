@@ -115,7 +115,7 @@ func (r *EgeriaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		egeria.Status.Nodes = podNames
 		err := r.Status().Update(ctx, egeria)
 		if err != nil {
-			log.Error(err, "Failed to update Memcached status")
+			log.Error(err, "Failed to update Egeria status")
 			return ctrl.Result{}, err
 		}
 	}
