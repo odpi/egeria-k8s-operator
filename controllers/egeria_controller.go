@@ -43,6 +43,7 @@ type EgeriaReconciler struct {
 // +kubebuilder:rbac:groups=egeria.odpi.org,resources=egeria,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=egeria.odpi.org,resources=egeria/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=egeria.odpi.org,resources=egeria/finalizers,verbs=update
 // +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;
 
 func (r *EgeriaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
@@ -144,11 +145,11 @@ func (r *EgeriaReconciler) deploymentForEgeria(m *egeriav1.Egeria) *appsv1.Deplo
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{{
-						Image: "egeria-k8s-operator:0.0.1",
+						Image: "odpi/egeria:2.2-SNAPSHOT",
 						Name:  "odpi",
 						//Command: []string{"memcached", "-m=64", "-o", "modern", "-v"},
 						Ports: []corev1.ContainerPort{{
-							ContainerPort: 9943,
+							ContainerPort: 9443,
 							Name:          "egeria",
 						}},
 					}},

@@ -10,7 +10,6 @@ rules:
   - apps
   resources:
   - deployments
-  - deployments/finalizers
   verbs:
   - create
   - delete
@@ -38,6 +37,12 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - egeria.odpi.org
+  resources:
+  - egeria/finalizers
+  verbs:
+  - update
 - apiGroups:
   - egeria.odpi.org
   resources:
