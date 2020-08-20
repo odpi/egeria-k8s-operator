@@ -71,6 +71,16 @@ kubectl logs egeria-k8s-operator-controller-manager-6bf887c74c-78mwc -n egeria-k
 ```
 kubectl apply -f config/samples/egeria_v1_egeria.yaml
 ```
+## Lookiing for instances of the egeria CRD:
+```
+kubectl get egeria.egeria.odpi.org 
+```
+## Changing properties of the sample instance
+```
+kubectl edit egeria.egeria.odpi.org egeria-sample
+```
+ie change the size to 10 to scale
+
 ## Cleaning up the crd after
 ```
 kubectl delete -f config/crd/bases/egeria.odpi.org_egeria.yaml
@@ -81,11 +91,11 @@ kustomize build config/default | kubectl delete -f -
 * We are using operator-sdk 1.0.0 for tooling
 * golang is the implementation language for the oeprator
 * operator is [cluster-scoped](https://sdk.operatorframework.io/docs/building-operators/golang/operator-scope/) - this is the default and can be revisited in future
-* operator uses a single [group](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) 'egeria' for it's APIs - also the default
+* operator uses a single [group](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) 'org.odpi.egeria' for it's APIs - also the default
 * The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'Egeria' - think of this as the k8s resource type we are dealing with
 * We will start with version 1 ('v1')
+ * 
 # Bugs
-* Ensure deployments/finalizers appears in the RBAC (role.yaml) otherwise error occurs `2020-08-19T16:38:54.623Z        ERROR   controller      Reconciler error        {"reconcilerGroup": "egeria.odpi.org", "reconcilerKind": "Egeria", "controller": "egeria", "name": "egeria-sample", "namespace": "default", "error": "deployments.apps \"egeria-sample\" is forbidden: cannot set blockOwnerDeletion if an ownerReference refers to a resource you can't set finalizers on: , <nil>"}`
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.
