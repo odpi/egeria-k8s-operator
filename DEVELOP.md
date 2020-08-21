@@ -96,6 +96,11 @@ kustomize build config/default | kubectl delete -f -
 * We will start with version 1 ('v1')
  * 
 # Bugs
+
+# Discussion
+ 
+See the #egeria-k8s channel on slack at https://slack.odpi.org
+
 ----
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
 Copyright Contributors to the ODPi Egeria project.
