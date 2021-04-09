@@ -34,28 +34,51 @@ spec:
         metadata:
           type: object
         spec:
-          description: EgeriaSpec defines the desired state of Egeria
           properties:
-            size:
-              description: Size is the size of the deployment
-              format: int32
-              minimum: 0
-              type: integer
+            servers:
+              items:
+                properties:
+                  name:
+                    items:
+                      type: string
+                    minItems: 1
+                    type: array
+                    uniqueItems: true
+                  replicas:
+                    type: integer
+                required:
+                - name
+                - replicas
+                type: object
+              minItems: 1
+              type: array
+              uniqueItems: true
           required:
-          - size
+          - servers
           type: object
         status:
-          description: EgeriaStatus defines the observed state of Egeria
           properties:
-            nodes:
+            platforms:
               description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                 of cluster Important: Run "make" to regenerate code after modifying
                 this file Nodes are the names of the pods'
               items:
-                type: string
+                description: First define the struct to store info on a platform
+                properties:
+                  name:
+                    type: string
+                  node:
+                    type: string
+                  replicas:
+                    type: integer
+                required:
+                - name
+                - node
+                - replicas
+                type: object
               type: array
           required:
-          - nodes
+          - platforms
           type: object
       type: object
   version: v1

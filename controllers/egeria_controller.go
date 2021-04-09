@@ -85,7 +85,16 @@ func (r *EgeriaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, err
 	}
 
-	// Ensure the deployment size is the same as the spec
+	// Ensure the deployment is as expected - compare spec with observed
+	for i := range egeria.Spec.PlatformNames
+	{
+		// Is platform found - if so, great!
+
+		// Is platform in the list, but not found - we need to make it happen
+	}
+
+	// Are there any platforms that we're not expecting - we need to remove
+	for j := range found.Spec.
 	size := egeria.Spec.Size
 	if *found.Spec.Replicas != size {
 		found.Spec.Replicas = &size
@@ -145,7 +154,7 @@ func (r *EgeriaReconciler) deploymentForEgeria(m *egeriav1.Egeria) *appsv1.Deplo
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{{
-						Image: "odpi/egeria:2.2-SNAPSHOT",
+						Image: "odpi/egeria:2.3-SNAPSHOT",
 						Name:  "odpi",
 						//Command: []string{"memcached", "-m=64", "-o", "modern", "-v"},
 						Ports: []corev1.ContainerPort{{

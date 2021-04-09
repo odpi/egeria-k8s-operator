@@ -24,21 +24,38 @@ import (
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // EgeriaSpec defines the desired state of Egeria
+
+type EgeriaServer struct {
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinItems=1
+	// +kubebuilder:validation:UniqueItems=true
+	Name []string `json:"name"`
+	Replicas  int `json:"replicas"`
+}
 type EgeriaSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// +kubebuilder:validation:Minimum=0
-	// Size is the size of the deployment
-	Size int32 `json:"size"`
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinItems=1
+	// +kubebuilder:validation:UniqueItems=true
+	Servers []EgeriaServer `json:"servers"`
 }
 
 // EgeriaStatus defines the observed state of Egeria
+
+// First define the struct to store info on a platform
+type EgeriaServerStatus struct {
+	Name string `json:"name"`
+	Replicas  int `json:"replicas"`
+	Node string `json:"node"`
+}
+
 type EgeriaStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	// Nodes are the names of the pods
-	Nodes []string `json:"nodes"`
+	Platforms []EgeriaServerStatus `json:"platforms"`
 }
 
 // +kubebuilder:object:root=true
