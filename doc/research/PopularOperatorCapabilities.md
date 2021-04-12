@@ -87,9 +87,55 @@ The key attributes include:
 
 ### RabbitMQ
 
+https://github.com/rabbitmq/cluster-operator
+
 This allows for simple cluster creation
 
  - rabbitmq configuration parameters (intervals, mem settings etc)
  - storage volume size
  - resource limits
  - replicas
+
+### MongoDB
+
+https://docs.mongodb.com/kubernetes-operator/master/tutorial/install-k8s-operator/
+
+An ops manager can be configured
+ - replicas
+ - version
+ - credentials
+ - connectivity type (ie load balancer)
+ - application db 
+ - backup target, credentials for s3
+ - providing an aggregated status overview
+
+You can then
+ - create a mongoDB instance
+ - more extenstive settings are in a configmap
+
+### mySQL 
+
+https://github.com/presslabs/mysql-operator
+
+* Backups (s3)
+* Cluster deployment (inc credentials), various config parms
+* link to predefined storage
+* restore cluster from backup
+* orchestrator - topology mapping, master/slave management, replication rules
+
+### Yugabyte DB
+
+https://github.com/yugabyte/yugabyte-operator
+
+* Deploy a new cluste
+* replicas for master & TServers
+* storage
+* resource scheduling/management
+* additional config flags
+
+### Data Explorer operator
+
+https://github.com/rhm-samples/data-explorer-operator
+
+Deploys an example environment including notebooks
+Minimal configuration
