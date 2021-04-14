@@ -27,3 +27,11 @@ Source: https://connect.redhat.com/partner-with-us/red-hat-openshift-operator-ce
   (Core Egeria already is, but we use other containers in our demos that aren't)
 * automated operations (need more clarity on this)
 * SPecific additional requirements for CNI/CSI integration for networking/storage solutions (not so relevant for Egeria)
+
+## Operator Distribution
+
+According to https://docs.openshift.com/container-platform/4.7/operators/understanding/olm-understanding-operatorhub.html#olm-understanding-operatorhub there is a 
+category known as 'Community Operators' which do not have official support, but are
+linked to their dev team through github. This is probably the most suitable
+category for Egeria - but EXCLUDES availability in the marketplace.
+

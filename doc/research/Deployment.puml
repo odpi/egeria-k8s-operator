@@ -1,0 +1,74 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'Just for clarity on the diagram
+abstract Server
+abstract Connector
+abstract TopicConnector
+abstract SecurityConnector
+
+' Basic platform associations
+
+Platform "1" o-- "*" Server
+
+' Server types
+Server "1" -- "0..n" Connector
+Server <-- MetadataServer
+Server <-- IntegrationDaemon
+Server <-- RepositoryProxy
+Server <-- MetadataAccessPoint
+Server <-- ViewServer
+
+' More server things
+Cohort -- Server
+MetadataServer -- Repository
+
+' Connectors
+Platform "1" --- "0..n" Connector
+Connector <-- ConfigurationConnector
+Connector "1" <-- "0..1" SecurityConnector
+SecurityConnector <-- PlatformSecurityConnector
+SecurityConnector <-- ServerSecurityConnector
+Connector <-- AuditLogConnector
+Connector <-- TopicConnector
+TopicConnector <-- KafkaConnector
+
+' UI
+"UIChassis" "0..1" -- "1" "Server"
+"UINginx" "1" -- "1..*" UIChassis
+"UINginx" "1" -- "1..*" UIStatic
+"ReactUI" -- Server
+
+
+' Instances
+
+PlatformInstance "1..*" -- "1" Platform
+ServerInstance "1..*" -- "1" Server
+PlatformInstance "0..1" o-- "*" ServerInstance
+"NGinxInstance" "1..*" -- "1..*" UINginx
+"ReactUIInstance" "1..*" -- "1..*" ReactUI
+
+' Kubernetes things
+Pod "1" <-- "PlatformInstance"
+Deployment "1" o-- "*" "Pod"
+Pod <-- NGinxInstance
+Pod <-- ReactUIInstance
+Deployment <-- StatefulSet
+
+' Additional detailed configuration
+class Pod {
+    portNumber
+    containerImageDetails
+    TLScertinfo
+    devLoggingLevel
+    serversToAutostart
+    }
+
+
+
+
+
+
+
+
+@enduml
