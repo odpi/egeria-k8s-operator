@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title Mapping Egeria Platform and Server to k8s resources
+
+' Basic platform associations
+
+Platform -- Server
+
+' Server types
+Server -- Connector
+
+
+
+
+
+
+
+
+' Connectors
+Platform -- Connector
+
+
+
+
+' Notes
+
+
+
+
+
+
+
+
+@enduml

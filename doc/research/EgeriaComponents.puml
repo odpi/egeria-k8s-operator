@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title Egeria Components for Deployment\n(k8s operator design)
+
+' Basic platform associations
+
+Platform "*" -- "*" Server
+
+' Server types
+Server "1" -- "0..n" Connector
+Server <-- MetadataServer
+Server <-- IntegrationDaemon
+Server <-- RepositoryProxy
+Server <-- MetadataAccessPoint
+Server <-- ViewServer
+
+' More server things
+MetadataServer "1" -- "1" Repository
+
+' Deployable units
+DeployableContainer <-- Platform
+DeployableContainer <-- UIServerChassis
+DeployableContainer <-- UIStaticServer
+
+DeployableContainer <-- ReactUI
+Deployable <-- Repository
+
+ExtensionLibrary <-- Connector
+
+Deployable <-- ExtensionLibrary
+Deployable <-- DeployableContainer
+
+' Connectors
+Platform "1" --- "0..n" Connector
+
+
+' UI
+"UIServerChassis" "0..1" -- "1" "Server"
+
+"ReactUI" "0..1" -- "1" ViewServer
+ViewServer "1..n" -- "1..n" Server
+
+' Notes
+note right of Repository: All connectors will refer to some\nkind of backend, but this is singled out\nas we will want to provide an OOTB\nrepo (perhaps Janus) as a 'native' option\nMay be using another operator to do this.
+note right of DeployableContainer: These map well to k8s pods
+note right of Server: This is the most important resource we manage\nso will likely need it's own CRD\nso we can create, delete, modify\nIt is also where we target REST api
+note right of Platform: This is basically a jar we run & our main focus. The UIs maybe later?
+note bottom of ExtensionLibrary: These are 'extra' jars we might add to a configmap\nand mount in container
+note left of UIStaticServer: This can be shared. association of\nui chassis is done via nginx\nor other routing
+note left of Deployable: The cardinality here is a logical view. in practice every\ncomponent is replicated for availability
+
+
+
+
+
+
+
+
+
+
+
+@enduml

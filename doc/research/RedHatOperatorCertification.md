@@ -26,7 +26,7 @@ Source: https://connect.redhat.com/partner-with-us/red-hat-openshift-operator-ce
 * Container images are trusted/secure - based on UBI 
   (Core Egeria already is, but we use other containers in our demos that aren't)
 * automated operations (need more clarity on this)
-* SPecific additional requirements for CNI/CSI integration for networking/storage solutions (not so relevant for Egeria)
+* Specific additional requirements for CNI/CSI integration for networking/storage solutions (not so relevant for Egeria)
 
 ## Operator Distribution
 
