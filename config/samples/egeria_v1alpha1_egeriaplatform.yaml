@@ -1,0 +1,7 @@
+apiVersion: egeria.egeria-project.org/v1alpha1
+kind: EgeriaPlatform
+metadata:
+  name: egeriaplatform-sample
+spec:
+  # Add fields here
+  foo: bar

@@ -1,11 +1,19 @@
-domain: egeria.odpi.org
-layout: go.kubebuilder.io/v2
-projectName: egeria-k8s-operator
+domain: egeria-project.org
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: egeria
 repo: github.com/odpi/egeria-k8s-operator
 resources:
-- group: egeria
-  kind: Egeria
-  version: v1
-version: 3-alpha
-plugins:
-  go.sdk.operatorframework.io/v2-alpha: {}
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: egeria-project.org
+  group: egeria
+  kind: EgeriaPlatform
+  path: github.com/odpi/egeria-k8s-operator/api/v1alpha1
+  version: v1alpha1
+version: "3"

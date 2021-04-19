@@ -7,9 +7,9 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - apps
+  - egeria.egeria-project.org
   resources:
-  - deployments
+  - egeriaplatforms
   verbs:
   - create
   - delete
@@ -19,34 +19,15 @@ rules:
   - update
   - watch
 - apiGroups:
-  - ""
+  - egeria.egeria-project.org
   resources:
-  - pods
-  verbs:
-  - get
-  - list
-- apiGroups:
-  - egeria.odpi.org
-  resources:
-  - egeria
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - egeria.odpi.org
-  resources:
-  - egeria/finalizers
+  - egeriaplatforms/finalizers
   verbs:
   - update
 - apiGroups:
-  - egeria.odpi.org
+  - egeria.egeria-project.org
   resources:
-  - egeria/status
+  - egeriaplatforms/status
   verbs:
   - get
   - patch

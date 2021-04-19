@@ -1,4 +1,4 @@
 ## Append samples you want in your CSV to this file as resources ##
 resources:
-- egeria_v1_egeria.yaml
-# +kubebuilder:scaffold:manifestskustomizesamples
+- egeria_v1alpha1_egeriaplatform.yaml
+#+kubebuilder:scaffold:manifestskustomizesamples
