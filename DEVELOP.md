@@ -68,7 +68,7 @@ kubectl logs egeria-k8s-operator-controller-manager-6bf887c74c-78mwc -n egeria-k
 ```
 ## Create an instance of Egeria
 ```
-kubectl apply -f config/samples/egeria_v1_egeria.yaml
+ kubectl apply -f config/samples/egeria_v1alpha1_egeriaplatform.yaml         
 ```
 ## Lookiing for instances of the egeria CRD:
 ```
@@ -82,8 +82,8 @@ ie change the size to 10 to scale
 
 ## Cleaning up the crd after
 ```
-kubectl delete -f config/crd/bases/egeria.odpi.org_egeria.yaml
-kustomize build config/default | kubectl delete -f -
+ kubectl delete -f config/crd/bases/egeria.egeria-project.org_egeriaplatforms.yaml        
+ kustomize build config/default | kubectl delete -f -
 ```
 # Design decisions
 
