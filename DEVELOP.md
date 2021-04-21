@@ -17,6 +17,10 @@ These need to be installed and configured in order to build the k8s operator
 * A *nix variant or macOS (shell script usage)
 * Ensure you have 'GO111MODULE=on' set
 
+## Known issues/gotchas
+
+* Due to a bug in the toolkit, the kube-proxy-rbac image used is provided
+by openshift. See https://github.com/operator-framework/operator-sdk/issues/4813#issuecomment-823669700 for more information. 
 ## Creation of the template project
 
 These commands use the operator-sdk to create the initial project. Code is then edited manually. The commands used are included here in case we need to rebuild the template in future and remerge in customized code
@@ -55,11 +59,11 @@ make deploy IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## Check the operator controller is active
 ```
-kubectl get deployment -n egeria-k8s-operator-system 
+kubectl get deployment -n egeria-system 
 ```
 ## Checking logs of the controller
 ```
- kubectl get pods -n egeria-k8s-operator-system 
+ kubectl get pods -n egeria-system 
 ```
 Then use that pod id in the entry below:
 ```
