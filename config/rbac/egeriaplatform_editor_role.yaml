@@ -1,0 +1,24 @@
+# permissions for end users to edit egeriaplatforms.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: egeriaplatform-editor-role
+rules:
+- apiGroups:
+  - egeria.egeria-project.org
+  resources:
+  - egeriaplatforms
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - egeria.egeria-project.org
+  resources:
+  - egeriaplatforms/status
+  verbs:
+  - get

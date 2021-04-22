@@ -10,22 +10,27 @@ This document is to aid any developers working on building the k8s operator. It 
 
 These need to be installed and configured in order to build the k8s operator
 
-* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.0.0](https://github.com/operator-framework/operator-sdk/releases/tag/v1.0.0)
-* [go](https://golang.org) 1.15 - install from website, os distro, or homebrew
+* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.6.1](https://github.com/operator-framework/operator-sdk/releases/tag/v1.6.1)
+* [go](https://golang.org) 1.15.x - install from website, os distro, or homebrew (As of April 2021 1.16 is not supported - see https://github.com/operator-framework/operator-sdk/issues/4690 )
 * Other dependencies as documented by [operator-sdk](https://sdk.operatorframework.io/docs/building-operators/golang/installation/) including docker, kubectl, kubernetes
 * make - for the build process
 * A *nix variant or macOS (shell script usage)
+* Ensure you have 'GO111MODULE=on' set
 
+## Known issues/gotchas
+
+* Due to a bug in the toolkit, the kube-proxy-rbac image used is provided
+by openshift. See https://github.com/operator-framework/operator-sdk/issues/4813#issuecomment-823669700 for more information. 
 ## Creation of the template project
 
 These commands use the operator-sdk to create the initial project. Code is then edited manually. The commands used are included here in case we need to rebuild the template in future and remerge in customized code
 
 ```
-operator-sdk init --plugins "go.kubebuilder.io/v2" --project-name 'egeria-k8s-operator' --repo 'github.com/odpi/egeria-k8s-operator'
+operator-sdk init --domain egeria-project.org --license apache2 --owner 'Contributors to the Egeria project' --project-name 'egeria' --repo 'github.com/odpi/egeria-k8s-operator'                                                                                                                              [11:13:14]
 ```
 
 ```
-operator-sdk create api --group egeria --version v1 --kind Egeria --resource=true --controller=true
+operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaPlatform   
 ```
 ## Changing the API model
 
@@ -41,26 +46,24 @@ make manifests
 ## Changing the controller
 
 ```
-make manifests
 make install
-make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.0.1
 ```
 ## Building the project and image
 ```
-make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.0.1
+make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## deploy the operator
 ```
 make install
-make deploy IMG=odpi/egeria-k8s-operator:0.0.1
+make deploy IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## Check the operator controller is active
 ```
-kubectl get deployment -n egeria-k8s-operator-system 
+kubectl get deployment -n egeria-system 
 ```
 ## Checking logs of the controller
 ```
- kubectl get pods -n egeria-k8s-operator-system 
+ kubectl get pods -n egeria-system 
 ```
 Then use that pod id in the entry below:
 ```
@@ -69,7 +72,7 @@ kubectl logs egeria-k8s-operator-controller-manager-6bf887c74c-78mwc -n egeria-k
 ```
 ## Create an instance of Egeria
 ```
-kubectl apply -f config/samples/egeria_v1_egeria.yaml
+ kubectl apply -f config/samples/egeria_v1alpha1_egeriaplatform.yaml         
 ```
 ## Lookiing for instances of the egeria CRD:
 ```
@@ -83,8 +86,8 @@ ie change the size to 10 to scale
 
 ## Cleaning up the crd after
 ```
-kubectl delete -f config/crd/bases/egeria.odpi.org_egeria.yaml
-kustomize build config/default | kubectl delete -f -
+ kubectl delete -f config/crd/bases/egeria.egeria-project.org_egeriaplatforms.yaml        
+ kustomize build config/default | kubectl delete -f -
 ```
 # Design decisions
 

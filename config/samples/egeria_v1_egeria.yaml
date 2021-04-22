@@ -1,7 +1,0 @@
-apiVersion: egeria.odpi.org/v1
-kind: Egeria
-metadata:
-  name: egeria-sample
-spec:
-  # Add fields here
-  size: 3

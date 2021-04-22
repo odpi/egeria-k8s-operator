@@ -26,9 +26,9 @@ rules:
   - get
   - list
 - apiGroups:
-  - egeria.odpi.org
+  - egeria.egeria-project.org
   resources:
-  - egeria
+  - egeriaplatforms
   verbs:
   - create
   - delete
@@ -38,15 +38,15 @@ rules:
   - update
   - watch
 - apiGroups:
-  - egeria.odpi.org
+  - egeria.egeria-project.org
   resources:
-  - egeria/finalizers
+  - egeriaplatforms/finalizers
   verbs:
   - update
 - apiGroups:
-  - egeria.odpi.org
+  - egeria.egeria-project.org
   resources:
-  - egeria/status
+  - egeriaplatforms/status
   verbs:
   - get
   - patch
