@@ -33,10 +33,8 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-      - name: set up OperatorSDK
-        uses: shivanshs9/setup-k8s-operator-sdk@v1
-        with:
-          version: "1.6.2"
+      - name: Retrieve local binaries for required tools
+        run: make customize controller-gen opm
       - name: Update type definitions
         run: make generate
       - name: Update CRD
