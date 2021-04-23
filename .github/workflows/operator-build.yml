@@ -33,8 +33,10 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
+      - name: Remove local binaries for tools (as otherwise make won't download)
+        run: rm bin/kustomize bin/controller-gen
       - name: Retrieve local binaries for required tools
-        run: make kustomize controller-gen opm
+        run: make kustomize controller-gen
       - name: Update type definitions
         run: make generate
       - name: Update CRD
