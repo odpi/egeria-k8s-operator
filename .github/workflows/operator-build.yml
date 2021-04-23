@@ -34,7 +34,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - name: Retrieve local binaries for required tools
-        run: make customize controller-gen opm
+        run: make kustomize controller-gen opm
       - name: Update type definitions
         run: make generate
       - name: Update CRD
