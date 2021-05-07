@@ -37,6 +37,8 @@ jobs:
         run: rm bin/kustomize bin/controller-gen
       - name: Retrieve local binaries for required tools
         run: make kustomize controller-gen
+      - name: Set up test environment
+        run: make test
       - name: Update type definitions
         run: make generate
       - name: Update CRD
