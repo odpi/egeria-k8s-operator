@@ -34,7 +34,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - name: Remove local binaries for tools (as otherwise make won't download)
-        run: rm bin/kustomize bin/controller-gen
+        run: rm -f bin/kustomize bin/controller-gen && rm -f testbin
       - name: Retrieve local binaries for required tools
         run: make kustomize controller-gen
       - name: Set up test environment
