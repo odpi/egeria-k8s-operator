@@ -32,6 +32,22 @@ operator-sdk init --domain egeria-project.org --license apache2 --owner 'Contrib
 ```
 operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaPlatform   
 ```
+## Dealing with platform-specifics
+
+The operator SDK will install platform specific binaries when a project is created
+(above)
+
+The build scripts do what is needed in the CI environment. For local
+use it's recommended to run:
+```
+make kustomize controller-gen
+```
+Further down the process, when looking at tests, `make test` will also download
+required binaries for testing.
+
+If you get any issues with binaries, clean out the 'bin' and 'testbin' directories
+to remove any platform dependent files & then repeat these steps.
+
 ## Changing the API model
 
 This is needed if the egeria type is modified -- it keeps the go type definitions in sync
