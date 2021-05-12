@@ -92,14 +92,17 @@ kubectl logs egeria-k8s-operator-controller-manager-6bf887c74c-78mwc -n egeria-k
 ```
 ## Lookiing for instances of the egeria CRD:
 ```
-kubectl get egeria.egeria.odpi.org 
+kubectl get EgeriaPlatform
 ```
-## Changing properties of the sample instance
+## Changing properties of the sample instance (name returned from above)
 ```
-kubectl edit egeria.egeria.odpi.org egeria-sample
+kubectl edit EgeriaPlatform/egeriaplatform-sample
 ```
 ie change the size to 10 to scale
-
+## Delete the instance
+```
+kubectl delete EgeriaPlatform/egeriaplatform-sample
+```
 ## Cleaning up the crd after
 ```
  kubectl delete -f config/crd/bases/egeria.egeria-project.org_egeriaplatforms.yaml        
