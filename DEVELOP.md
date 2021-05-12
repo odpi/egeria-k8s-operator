@@ -31,6 +31,7 @@ operator-sdk init --domain egeria-project.org --license apache2 --owner 'Contrib
 
 ```
 operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaPlatform   
+ operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaServer
 ```
 ## Dealing with platform-specifics
 
