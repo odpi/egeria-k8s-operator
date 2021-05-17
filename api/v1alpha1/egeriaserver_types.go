@@ -20,27 +20,26 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
-// EgeriaServerSpec defines the desired state of EgeriaServer
+// Desired state for Egeria Server
 type EgeriaServerSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of EgeriaServer. Edit egeriaserver_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// server name (as known by Egeria)
+	Name string `json:"name"`
+	// number of replicas
+	Size int32 `json:"replicas"`
+	// TODO: Consider including Audit Log connector & other platform config
 }
 
-// EgeriaServerStatus defines the observed state of EgeriaServer
+// Observed state of Egeria Server
 type EgeriaServerStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// current status - unknown, inactive, active
+	Status string `json:"status"`
+	// Name of the platform (flavour) we are running on
+	Platformname string `json:"platformname"`
 }
+
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
-
 // EgeriaServer is the Schema for the egeriaservers API
 type EgeriaServer struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,7 +50,6 @@ type EgeriaServer struct {
 }
 
 //+kubebuilder:object:root=true
-
 // EgeriaServerList contains a list of EgeriaServer
 type EgeriaServerList struct {
 	metav1.TypeMeta `json:",inline"`
