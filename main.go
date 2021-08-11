@@ -80,7 +80,6 @@ func main() {
 
 	if err = (&controllers.EgeriaPlatformReconciler{
 		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("EgeriaPlatform"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EgeriaPlatform")
@@ -88,7 +87,6 @@ func main() {
 	}
 	if err = (&controllers.EgeriaServerReconciler{
 		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("EgeriaServer"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EgeriaServer")

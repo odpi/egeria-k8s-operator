@@ -36,6 +36,10 @@ spec:
           spec:
             description: Desired state for Egeria Server
             properties:
+              config:
+                description: Reference to location of server config document (exact
+                  details not yet known)
+                type: string
               name:
                 description: server name (as known by Egeria)
                 type: string
@@ -44,6 +48,7 @@ spec:
                 format: int32
                 type: integer
             required:
+            - config
             - name
             - replicas
             type: object

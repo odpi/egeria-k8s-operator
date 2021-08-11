@@ -51,6 +51,7 @@ type EgeriaPlatformStatus struct {
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
+
 // EgeriaPlatform is the Schema for the egeriaplatforms API
 type EgeriaPlatform struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -61,6 +62,7 @@ type EgeriaPlatform struct {
 }
 
 //+kubebuilder:object:root=true
+
 // EgeriaPlatformList contains a list of EgeriaPlatform
 type EgeriaPlatformList struct {
 	metav1.TypeMeta `json:",inline"`
