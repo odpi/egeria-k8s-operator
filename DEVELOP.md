@@ -10,7 +10,7 @@ This document is to aid any developers working on building the k8s operator. It 
 
 These need to be installed and configured in order to build the k8s operator
 
-* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.6.2](https://github.com/operator-framework/operator-sdk/releases/tag/v1.6.2)
+* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.10.1](https://github.com/operator-framework/operator-sdk/releases/tag/v1.10.1)
 * [go](https://golang.org) 1.15.x - install from website, os distro, or homebrew (As of April 2021 1.16 is not supported - see https://github.com/operator-framework/operator-sdk/issues/4690 )
 * Other dependencies as documented by [operator-sdk](https://sdk.operatorframework.io/docs/building-operators/golang/installation/) including docker, kubectl, kubernetes
 * make - for the build process
@@ -31,6 +31,7 @@ operator-sdk init --domain egeria-project.org --license apache2 --owner 'Contrib
 
 ```
 operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaPlatform   
+ operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaServer
 ```
 ## Dealing with platform-specifics
 
@@ -92,14 +93,17 @@ kubectl logs egeria-k8s-operator-controller-manager-6bf887c74c-78mwc -n egeria-k
 ```
 ## Lookiing for instances of the egeria CRD:
 ```
-kubectl get egeria.egeria.odpi.org 
+kubectl get EgeriaPlatform
 ```
-## Changing properties of the sample instance
+## Changing properties of the sample instance (name returned from above)
 ```
-kubectl edit egeria.egeria.odpi.org egeria-sample
+kubectl edit EgeriaPlatform/egeriaplatform-sample
 ```
 ie change the size to 10 to scale
-
+## Delete the instance
+```
+kubectl delete EgeriaPlatform/egeriaplatform-sample
+```
 ## Cleaning up the crd after
 ```
  kubectl delete -f config/crd/bases/egeria.egeria-project.org_egeriaplatforms.yaml        

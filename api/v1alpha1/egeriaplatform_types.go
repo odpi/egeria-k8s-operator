@@ -20,25 +20,32 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
-// EgeriaPlatformSpec defines the desired state of EgeriaPlatform
+// Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of EgeriaPlatform. Edit egeriaplatform_types.go to remove/update
-	// Size is the size of the deployment
+	// Number of replicas for this platform (ie number of pods to run)
 	Size int32 `json:"replicas"`
+	// Secret containing TLS keys and certs
+	Security string `json:"security"`
+	// Optional container image to use, overriding operator configuration
+	Image string `json:"image,omitempty"`
+	// Optional Storage size ie 10G for PVC
+	StorageSize string `json:"storagesize,omitempty"`
+	// Optional Storage Class for PVC
+	StorageClass string `json:"storageclass,omitempty"`
+	// TODO: Consider including Audit Log connector & other platform config
 }
 
-// EgeriaPlatformStatus defines the observed state of EgeriaPlatform
+// Observed state of Egeria Platform
 type EgeriaPlatformStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-	// Nodes are the names of the pods
-	Nodes []string `json:"nodes"`
+	// Observed version from platform origin
+	Version string `json:"version"`
+	// list of servers we know about
+	Knownservers []string `json:"known"`
+	// list of servers that are active
+	Activeservers []string `json:"active"`
+	// Calculated load indicator to aid in scheduling
+	Workload int32 `json:"workload"`
+	// TODO: What else do we 'observe' about the status of the platform
 }
 
 //+kubebuilder:object:root=true

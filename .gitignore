@@ -4,14 +4,33 @@
 # Link to help info - https://git-scm.com/docs/gitignore
 #
 
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin
+testbin/*
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
 # Log file
 *.log
+# Kubernetes Generated files - skip generated files, except for vendored files
 
 # IntelliJ
 *.iml
 **.iml
 *.ipr
 *.iws
+!vendor/**/zz_generated.*
+
+# editor and IDE paraphernalia
 .idea
 venv
 
@@ -39,3 +58,6 @@ bin/**
 
 # build output
 cover.out
+*.swp
+*.swo
+*~

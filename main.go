@@ -80,10 +80,16 @@ func main() {
 
 	if err = (&controllers.EgeriaPlatformReconciler{
 		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("EgeriaPlatform"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "EgeriaPlatform")
+		os.Exit(1)
+	}
+	if err = (&controllers.EgeriaServerReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "EgeriaServer")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder
