@@ -35,15 +35,14 @@ type EgeriaPlatformSpec struct {
 	// TODO: Consider including Audit Log connector & other platform config
 }
 
-
 // Observed state of Egeria Platform
 type EgeriaPlatformStatus struct {
 	// Observed version from platform origin
 	Version string `json:"version"`
 	// list of servers we know about
-	Knownservers []string  `json:"known"`
+	Knownservers []string `json:"known"`
 	// list of servers that are active
-	Activeservers []string  `json:"active"`
+	Activeservers []string `json:"active"`
 	// Calculated load indicator to aid in scheduling
 	Workload int32 `json:"workload"`
 	// TODO: What else do we 'observe' about the status of the platform

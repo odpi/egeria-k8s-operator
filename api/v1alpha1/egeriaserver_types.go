@@ -26,8 +26,8 @@ type EgeriaServerSpec struct {
 	Name string `json:"name"`
 	// number of replicas
 	Size int32 `json:"replicas"`
-    // Reference to location of server config document (exact details not yet known)
-    Config string `json:"config"`
+	// Reference to location of server config document (exact details not yet known)
+	Config string `json:"config"`
 }
 
 // Observed state of Egeria Server
@@ -37,7 +37,6 @@ type EgeriaServerStatus struct {
 	// Name of the platform (flavour) we are running on
 	Platformname string `json:"platformname"`
 }
-
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
