@@ -25,11 +25,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	"reflect"
+	//"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/log"
-
 	// was egeriav1
 	egeriav1alpha1 "github.com/odpi/egeria-k8s-operator/api/v1alpha1"
 )
@@ -118,17 +116,17 @@ func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 		r.Log.Error(err, "Failed to list pods", "Egeria.Namespace", egeria.Namespace, "Egeria.Name", egeria.Name)
 		return ctrl.Result{}, err
 	}
-	podNames := getPodNames(podList.Items)
+	//podNames := getPodNames(podList.Items)
 
 	// Update status.Nodes if needed
-	if !reflect.DeepEqual(podNames, egeria.Status.Nodes) {
-		egeria.Status.Nodes = podNames
-		err := r.Status().Update(ctx, egeria)
-		if err != nil {
-			r.Log.Error(err, "Failed to update Egeria status")
-			return ctrl.Result{}, err
-		}
-	}
+	//if !reflect.DeepEqual(podNames, egeria.Status.Nodes) {
+	//	egeria.Status.Nodes = podNames
+	//	err := r.Status().Update(ctx, egeria)
+	//	if err != nil {
+	//		r.Log.Error(err, "Failed to update Egeria status")
+	//		return ctrl.Result{}, err
+	//	}
+	//}
 
 	return ctrl.Result{}, nil
 }
