@@ -26,7 +26,8 @@ type EgeriaServerSpec struct {
 	Name string `json:"name"`
 	// number of replicas
 	Size int32 `json:"replicas"`
-	// TODO: Consider including Audit Log connector & other platform config
+    // Reference to location of server config document (exact details not yet known)
+    Config string `json:"config"`
 }
 
 // Observed state of Egeria Server
