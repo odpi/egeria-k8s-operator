@@ -31,7 +31,6 @@ operator-sdk init --domain egeria-project.org --license apache2 --owner 'Contrib
 
 ```
 operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaPlatform   
- operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaServer
 ```
 ## Dealing with platform-specifics
 
@@ -76,8 +75,7 @@ make deploy IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## Check the operator controller is active
 ```
-kubectl get deployment -n egeria-system 
-```
+BBBbkubec```
 ## Checking logs of the controller
 ```
  kubectl get pods -n egeria-system 
