@@ -20,32 +20,39 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+type EgeriaServerSpec struct {
+	// Name of this server - must match name in provided config
+	Name string `json:"name"`
+	// k8s secret containing only the full server config document
+	ConfigSecret string `json:"config-secret"`
+}
+
+type EgeriaStorageSpec struct {
+	// Optional Persistent Storage size ie 10G for PVC
+	StorageSize string `json:"storagesize,omitempty"`
+	// Optional Storage Class for PVC - empty will use default
+	StorageClass string `json:"storageclass,omitempty"`
+}
+
 // Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
 	// Number of replicas for this platform (ie number of pods to run)
-	Size int32 `json:"replicas"`
+	Size int32 `json:"replicas,omitempty"`
 	// Secret containing TLS keys and certs
-	Security string `json:"security"`
-	// Optional container image to use, overriding operator configuration
+	Security string `json:"security-secret,omitempty"`
+	// Container image to use, overriding operator configuration
 	Image string `json:"image,omitempty"`
-	// Optional Storage size ie 10G for PVC
-	StorageSize string `json:"storagesize,omitempty"`
-	// Optional Storage Class for PVC
-	StorageClass string `json:"storageclass,omitempty"`
-	// TODO: Consider including Audit Log connector & other platform config
+	servers []EgeriaServerSpec `json:"servers"`
+	storage EgeriaStorageSpec `json:"storage,omitempty"`
 }
 
 // Observed state of Egeria Platform
 type EgeriaPlatformStatus struct {
-	// Observed version from platform origin
+	// Observed Egeria version from platform origin
 	Version string `json:"version"`
-	// list of servers we know about
-	Knownservers []string `json:"known"`
-	// list of servers that are active
+	// list of server names that are active - this should match those configured
 	Activeservers []string `json:"active"`
-	// Calculated load indicator to aid in scheduling
-	Workload int32 `json:"workload"`
-	// TODO: What else do we 'observe' about the status of the platform
+
 }
 
 //+kubebuilder:object:root=true

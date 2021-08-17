@@ -37,52 +37,59 @@ spec:
             description: Desired State for Egeria Platform
             properties:
               image:
-                description: Optional container image to use, overriding operator
-                  configuration
+                description: Container image to use, overriding operator configuration
                 type: string
               replicas:
                 description: Number of replicas for this platform (ie number of pods
                   to run)
                 format: int32
                 type: integer
-              security:
+              security-secret:
                 description: Secret containing TLS keys and certs
                 type: string
-              storageclass:
-                description: Optional Storage Class for PVC
-                type: string
-              storagesize:
-                description: Optional Storage size ie 10G for PVC
-                type: string
+              servers:
+                items:
+                  properties:
+                    config-secret:
+                      description: k8s secret containing only the full server config
+                        document
+                      type: string
+                    name:
+                      description: Name of this server - must match name in provided
+                        config
+                      type: string
+                  required:
+                  - config-secret
+                  - name
+                  type: object
+                type: array
+              storage:
+                properties:
+                  storageclass:
+                    description: Optional Storage Class for PVC - empty will use default
+                    type: string
+                  storagesize:
+                    description: Optional Persistent Storage size ie 10G for PVC
+                    type: string
+                type: object
             required:
-            - replicas
-            - security
+            - servers
             type: object
           status:
             description: Observed state of Egeria Platform
             properties:
               active:
-                description: list of servers that are active
-                items:
-                  type: string
-                type: array
-              known:
-                description: list of servers we know about
+                description: list of server names that are active - this should match
+                  those configured
                 items:
                   type: string
                 type: array
               version:
-                description: Observed version from platform origin
+                description: Observed Egeria version from platform origin
                 type: string
-              workload:
-                description: Calculated load indicator to aid in scheduling
-                format: int32
-                type: integer
             required:
             - active
-            - known
             - version
-            - workload
             type: object
         type: object
     served: true
