@@ -65,17 +65,19 @@ make manifests
 make install
 ```
 ## Building the project and image
+
+It's recommended to increment the docker image version each time - as it's likely to be cached by your container runtime.
 ```
 make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## deploy the operator
 ```
-make install
-make deploy IMG=odpi/egeria-k8s-operator:0.1.0
+make install && make deploy IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## Check the operator controller is active
 ```
-BBBbkubec```
+kubectl get pods -n egeria-system
+```
 ## Checking logs of the controller
 ```
  kubectl get pods -n egeria-system 

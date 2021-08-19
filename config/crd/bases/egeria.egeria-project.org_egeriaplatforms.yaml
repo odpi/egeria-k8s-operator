@@ -40,8 +40,8 @@ spec:
                 description: Container image to use, overriding operator configuration
                 type: string
               replicas:
-                description: Number of replicas for this platform (ie number of pods
-                  to run)
+                description: 'TODO: Add name into spec Number of replicas for this
+                  platform (ie number of pods to run)'
                 format: int32
                 type: integer
               security-secret:

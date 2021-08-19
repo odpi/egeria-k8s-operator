@@ -36,14 +36,15 @@ type EgeriaStorageSpec struct {
 
 // Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
+	//TODO: Add name into spec
 	// Number of replicas for this platform (ie number of pods to run)
 	Size int32 `json:"replicas,omitempty"`
 	// Secret containing TLS keys and certs
 	Security string `json:"security-secret,omitempty"`
 	// Container image to use, overriding operator configuration
-	Image string `json:"image,omitempty"`
-	servers []EgeriaServerSpec `json:"servers"`
-	storage EgeriaStorageSpec `json:"storage,omitempty"`
+	Image   string             `json:"image,omitempty"`
+	Servers []EgeriaServerSpec `json:"servers"`
+	Storage EgeriaStorageSpec  `json:"storage,omitempty"`
 }
 
 // Observed state of Egeria Platform
@@ -52,6 +53,7 @@ type EgeriaPlatformStatus struct {
 	Version string `json:"version"`
 	// list of server names that are active - this should match those configured
 	Activeservers []string `json:"active"`
+	// Get info about the config being used
 
 }
 
