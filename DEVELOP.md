@@ -31,7 +31,6 @@ operator-sdk init --domain egeria-project.org --license apache2 --owner 'Contrib
 
 ```
 operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaPlatform   
- operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaServer
 ```
 ## Dealing with platform-specifics
 
@@ -66,17 +65,18 @@ make manifests
 make install
 ```
 ## Building the project and image
+
+It's recommended to increment the docker image version each time - as it's likely to be cached by your container runtime.
 ```
 make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## deploy the operator
 ```
-make install
-make deploy IMG=odpi/egeria-k8s-operator:0.1.0
+make install && make deploy IMG=odpi/egeria-k8s-operator:0.1.0
 ```
 ## Check the operator controller is active
 ```
-kubectl get deployment -n egeria-system 
+kubectl get pods -n egeria-system
 ```
 ## Checking logs of the controller
 ```

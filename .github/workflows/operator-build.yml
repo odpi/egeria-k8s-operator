@@ -16,6 +16,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
     env:
       GO111MODULE: "on"
       CGO_ENABLED: 1
@@ -33,6 +36,12 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        # Override language selection by uncommenting this and choosing your languages
+        with:
+          languages: go
       - name: Remove local binaries for tools (as otherwise make won't download)
         run: rm -f bin/kustomize bin/controller-gen && rm -f testbin
       - name: Retrieve local binaries for required tools
@@ -46,3 +55,5 @@ jobs:
       # Cannot 'install' yet until we have external cluster
       - name: Build & test code
         run: make test
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
