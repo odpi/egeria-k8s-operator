@@ -27,13 +27,6 @@ type EgeriaServerSpec struct {
 	ConfigSecret string `json:"config-secret"`
 }
 
-type EgeriaStorageSpec struct {
-	// Optional Persistent Storage size ie 10G for PVC
-	StorageSize string `json:"storagesize,omitempty"`
-	// Optional Storage Class for PVC - empty will use default
-	StorageClass string `json:"storageclass,omitempty"`
-}
-
 // Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
 	//TODO: Add name into spec
@@ -44,7 +37,6 @@ type EgeriaPlatformSpec struct {
 	// Container image to use, overriding operator configuration
 	Image   string             `json:"image,omitempty"`
 	Servers []EgeriaServerSpec `json:"servers"`
-	Storage EgeriaStorageSpec  `json:"storage,omitempty"`
 }
 
 // Observed state of Egeria Platform

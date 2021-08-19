@@ -44,8 +44,8 @@ type EgeriaPlatformReconciler struct {
 //+kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/finalizers,verbs=update
-// -- Additional roles required to manage statefulsets & services
-//+kubebuilder:rbac:groups=apps,resources=statefulsets,verbs=get;list;watch;create;update;patch;delete
+// -- Additional roles required to manage deployments & services
+//+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;
 
@@ -78,38 +78,37 @@ func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	}
 
 	// TODO: check what we do if the crd goes away
-	// Check if the StatefulSet already exists, if not create a new one
-	found := &appsv1.StatefulSet{}
+	// Check if the Deployment already exists, if not create a new one
+	found := &appsv1.Deployment{}
 
 	err = r.Get(ctx, types.NamespacedName{Name: egeria.Name, Namespace: egeria.Namespace}, found)
 	if err != nil && errors.IsNotFound(err) {
-		// Define a new StatefulSet
-		dep := r.statefulsetForEgeriaPlatform(egeria)
-		log.FromContext(ctx).Info("Creating a new StatefulSet", "StatefulSet.Namespace", dep.Namespace, "StatefulSet.Name", dep.Name)
+		// Define a new Deployment
+		dep := r.deploymentForEgeriaPlatform(egeria)
+		log.FromContext(ctx).Info("Creating a new Deployment", "Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
 		err = r.Create(ctx, dep)
 		if err != nil {
-			log.FromContext(ctx).Error(err, "Failed to create new StatefulSet", "StatefulSet.Namespace", dep.Namespace, "StatefulSet.Name", dep.Name)
+			log.FromContext(ctx).Error(err, "Failed to create new Deployment", "Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
 			return ctrl.Result{}, err
 		}
-		// StatefulSet created successfully - return and requeue
+		// Deployment created successfully - return and requeue
 		// TODO Tag Statefulset with info about the config we used. See also https://cloud.redhat.com/blog/kubernetes-operators-best-practices
 		return ctrl.Result{Requeue: true}, nil
 	} else if err != nil {
-		log.FromContext(ctx).Error(err, "Failed to get StatefulSet")
+		log.FromContext(ctx).Error(err, "Failed to get Deployment")
 		return ctrl.Result{}, err
 	}
 
 	// TODO: Check we are using the same image as before(we only go by name)
-	// TODO: Check this statefulset is using the same config document that we specced (including name of secret & date)
-	// TODO: CHeck our storage spec is the same as before
+	// TODO: Check this deployment is using the same config document that we specced (including name of secret & date)
 	// TODO: Check our security certs (just the name - it's ok if the contents change) are same as before
-	// TODO: Ensure the statefulset size is the same as the spec
+	// TODO: Ensure the deployment size is the same as the spec
 	size := egeria.Spec.Size
 	if *found.Spec.Replicas != size {
 		found.Spec.Replicas = &size
 		err = r.Update(ctx, found)
 		if err != nil {
-			log.FromContext(ctx).Error(err, "Failed to update StatefulSet", "StatefulSet.Namespace", found.Namespace, "StatefulSet.Name", found.Name)
+			log.FromContext(ctx).Error(err, "Failed to update Deployment", "Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
 			return ctrl.Result{}, err
 		}
 		// Spec updated - return and requeue
@@ -126,34 +125,33 @@ func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 		log.FromContext(ctx).Info("Creating a new Service", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
 		err = r.Create(ctx, svc)
 		if err != nil {
-			log.FromContext(ctx).Error(err, "Failed to create new StatefulSet", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
+			log.FromContext(ctx).Error(err, "Failed to create new Service", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
 			return ctrl.Result{}, err
 		}
-		// StatefulSet created successfully - return and requeue
-		// TODO Tag Statefulset with info about the config we used. See also https://cloud.redhat.com/blog/kubernetes-operators-best-practices
+		// Deployment created successfully - return and requeue
+		// TODO Tag Deployment with info about the config we used. See also https://cloud.redhat.com/blog/kubernetes-operators-best-practices
 		return ctrl.Result{Requeue: true}, nil
 	} else if err != nil {
-		log.FromContext(ctx).Error(err, "Failed to get StatefulSet")
+		log.FromContext(ctx).Error(err, "Failed to get Deployment")
 		return ctrl.Result{}, err
 	}
 	// Update the Egeria status with the pod names
-	// List the pods for this egeria's statefulset
+	// List the pods for this egeria's deployment
 
 	return ctrl.Result{}, nil
 }
 
-// statefulsetForEgeria returns an egeria StatefulSet object
-func (r *EgeriaPlatformReconciler) statefulsetForEgeriaPlatform(m *egeriav1alpha1.EgeriaPlatform) *appsv1.StatefulSet {
-	ls := labelsForEgeria(m.Name)
+// deploymentForEgeria returns an egeria Deployment object
+func (r *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(m *egeriav1alpha1.EgeriaPlatform) *appsv1.Deployment {
+	ls := labelsForEgeria(m.Name, "deployment")
 	replicas := m.Spec.Size
 
-	dep := &appsv1.StatefulSet{
+	dep := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      m.Name,
 			Namespace: m.Namespace,
 		},
-		//TODO: Need to spec out storage
-		Spec: appsv1.StatefulSetSpec{
+		Spec: appsv1.DeploymentSpec{
 			Replicas: &replicas,
 			Selector: &metav1.LabelSelector{
 				MatchLabels: ls,
@@ -185,7 +183,7 @@ func (r *EgeriaPlatformReconciler) statefulsetForEgeriaPlatform(m *egeriav1alpha
 
 // servicetForEgeria returns an egeria Service  object
 func (r *EgeriaPlatformReconciler) serviceForEgeriaPlatform(m *egeriav1alpha1.EgeriaPlatform) *corev1.Service {
-	ls := labelsForEgeria(m.Name)
+	ls := labelsForEgeria(m.Name, "service")
 	dep := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      m.Name,
@@ -203,7 +201,7 @@ func (r *EgeriaPlatformReconciler) serviceForEgeriaPlatform(m *egeriav1alpha1.Eg
 					Name:     "egeria-port",
 				},
 			},
-			Selector: getServiceSelectorLabels("egeriaplatform", "egeria-service"),
+			Selector: getServiceSelectorLabels(m.Name),
 		},
 	}
 	// Set Egeria instance as the owner and controller
@@ -211,25 +209,30 @@ func (r *EgeriaPlatformReconciler) serviceForEgeriaPlatform(m *egeriav1alpha1.Eg
 	return dep
 }
 
-// labelsForEgeria returns the labels for selecting the resources
+// labelsForEgeria returns the labels we set on created resources
 // belonging to the given egeria CR name.
-func labelsForEgeria(name string) map[string]string {
-	return map[string]string{"app": "egeriaplatform", "egeria_cr": name}
+// see also https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
+func labelsForEgeria(crName string, compName string) map[string]string {
+	return map[string]string{
+		"app.kubernetes.io/name":       "egeriaplatform",
+		"app.kubernetes.io/instance":   crName, // name of Custom Resource
+		"app.kubernetes.io/version":    "0.9",  // TODO Figure out version to use
+		"app.kubernetes.io/component":  compName,
+		"app.kubernetes.io/part-of":    "Egeria",
+		"app.kubernetes.io/managed-by": "Operator",
+		"app.kubernetes.io/created-by": "egeriaplatform_controller",
+	}
 }
 
-// Service selector labels
-func getServiceSelectorLabels(component, name string) map[string]string {
-	return map[string]string{
-		"app.kubernetes.io/name":      name,
-		"app.kubernetes.io/component": component,
-		"app.kubernetes.io/part-of":   "egeria",
-	}
+// Service selector labels - this is the criteria used for directing requests to pods
+func getServiceSelectorLabels(crName string) map[string]string {
+	return labelsForEgeria(crName, "deployment")
 }
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *EgeriaPlatformReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&egeriav1alpha1.EgeriaPlatform{}).
-		Owns(&appsv1.StatefulSet{}).
+		Owns(&appsv1.Deployment{}).
 		Complete(r)
 }

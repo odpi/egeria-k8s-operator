@@ -63,15 +63,6 @@ spec:
                   - name
                   type: object
                 type: array
-              storage:
-                properties:
-                  storageclass:
-                    description: Optional Storage Class for PVC - empty will use default
-                    type: string
-                  storagesize:
-                    description: Optional Persistent Storage size ie 10G for PVC
-                    type: string
-                type: object
             required:
             - servers
             type: object
