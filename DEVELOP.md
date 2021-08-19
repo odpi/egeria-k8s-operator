@@ -19,9 +19,30 @@ These need to be installed and configured in order to build the k8s operator
 
 ## Known issues/gotchas
 
-* Due to a bug in the toolkit, the kube-proxy-rbac image used is provided
-by openshift. See https://github.com/operator-framework/operator-sdk/issues/4813#issuecomment-823669700 for more information. 
-## Creation of the template project
+* This is currently work in progress 
+
+## Quickstart to completely rebuild the operator & deploy
+
+You must have:
+* The 'kubectl' command installed
+* An available kubernetes cluster configured
+* docker running locally (for build)
+
+The following useful targets have been added to the Makefile to aid in the debug/test cycle. Tested on MacOS only
+
+*runit*: This does everything to rebuild the operator, including docker images. It automatically increments versions & when run again cleans up the previous version first
+
+ie
+```shell
+make runit
+```
+
+Note that this uses a file 'buildid.txt'. This starts containing '0' and is incremented in each build. This avoids clashes with cached versions when testing images.
+It should be treated as a convenience for now until an improved build and test process is put in place
+
+## Detailed build targets
+
+### Creation of the template project
 
 These commands use the operator-sdk to create the initial project. Code is then edited manually. The commands used are included here in case we need to rebuild the template in future and remerge in customized code
 
@@ -32,7 +53,7 @@ operator-sdk init --domain egeria-project.org --license apache2 --owner 'Contrib
 ```
 operator-sdk create api --group egeria --version v1alpha1 --kind EgeriaPlatform   
 ```
-## Dealing with platform-specifics
+### Dealing with platform-specifics
 
 The operator SDK will install platform specific binaries when a project is created
 (above)
@@ -48,7 +69,7 @@ required binaries for testing.
 If you get any issues with binaries, clean out the 'bin' and 'testbin' directories
 to remove any platform dependent files & then repeat these steps.
 
-## Changing the API model
+### Changing the API model
 
 This is needed if the egeria type is modified -- it keeps the go type definitions in sync
 ```
@@ -59,26 +80,26 @@ Then we need to build the new CRD with
 make manifests
 ```
 
-## Changing the controller
+### Changing the controller
 
 ```
 make install
 ```
-## Building the project and image
+### Building the project and image
 
 It's recommended to increment the docker image version each time - as it's likely to be cached by your container runtime.
 ```
 make docker-build docker-push IMG=odpi/egeria-k8s-operator:0.1.0
 ```
-## deploy the operator
+### deploy the operator
 ```
 make install && make deploy IMG=odpi/egeria-k8s-operator:0.1.0
 ```
-## Check the operator controller is active
+### Check the operator controller is active
 ```
 kubectl get pods -n egeria-system
 ```
-## Checking logs of the controller
+### Checking logs of the controller
 ```
  kubectl get pods -n egeria-system 
 ```
@@ -87,38 +108,44 @@ Then use that pod id in the entry below:
 kubectl logs egeria-k8s-operator-controller-manager-6bf887c74c-78mwc -n egeria-k8s-operator-system manager
 
 ```
-## Create an instance of Egeria
+### Create an instance of Egeria
 ```
  kubectl apply -f config/samples/egeria_v1alpha1_egeriaplatform.yaml         
 ```
-## Lookiing for instances of the egeria CRD:
+### Looking for instances of the egeria CRD:
 ```
 kubectl get EgeriaPlatform
 ```
-## Changing properties of the sample instance (name returned from above)
+### Changing properties of the sample instance (name returned from above)
 ```
 kubectl edit EgeriaPlatform/egeriaplatform-sample
 ```
 ie change the size to 10 to scale
-## Delete the instance
+### Delete the instance
 ```
 kubectl delete EgeriaPlatform/egeriaplatform-sample
 ```
-## Cleaning up the crd after
+### Cleaning up the crd after
 ```
  kubectl delete -f config/crd/bases/egeria.egeria-project.org_egeriaplatforms.yaml        
  kustomize build config/default | kubectl delete -f -
 ```
+
+
 # Design decisions
 
-* We are using operator-sdk 1.0.0 for tooling
+* We are using operator-sdk 1.10.0 for tooling
 * golang is the implementation language for the oeprator
 * operator is [cluster-scoped](https://sdk.operatorframework.io/docs/building-operators/golang/operator-scope/) - this is the default and can be revisited in future
 * operator uses a single [group](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) 'org.odpi.egeria' for it's APIs - also the default
-* The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'Egeria' - think of this as the k8s resource type we are dealing with
-* We will start with version 1 ('v1')
- * 
+* The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'EgeriaPlatform' - think of this as the k8s resource type we are dealing with
+* The operator manages the Egeria Platform. Servers are defined in regular Egeria config documents
+* Operational server API calls (ie like deleting a server instance) should not be used
+* Egeria servers must be configured with a remote metadata store such as crux
+
 # Bugs
+
+* lots inevitably - work in progress...
 
 # Discussion
  

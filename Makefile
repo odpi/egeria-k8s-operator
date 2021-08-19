@@ -201,3 +201,30 @@ catalog-build: opm ## Build a catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+
+# ---
+# Egeria specific customizations to aid in Development
+# ---
+
+# Rebuild all the code including kustomizations, CRDs
+.PHONY: rebuild
+rebuild: kustomize controller-gen generate manifests install
+
+# Build the docker image with auto incrementing build id (to avoid cache issues)
+.PHONY: image
+image: rebuild
+	let buildid=`cat buildid.txt`+1 && 	echo $${buildid} > buildid.txt
+	buildid=`cat buildid.txt` && $(MAKE) docker-build docker-push IMG=odpi/egeria-k8s-operator:0.9.$${buildid}
+
+# Cleanup any deployed artifacts
+.PHONY: clean-runit
+clean-runit:
+	kubectl delete EgeriaPlatform/egeriaplatform-sample || true
+	kubectl delete -f config/crd/bases/egeria.egeria-project.org_egeriaplatforms.yaml || true
+	bin/kustomize build config/default | kubectl delete -f - || true
+
+# Deploy the image for test
+.PHONY: runit
+runit: image clean-runit
+	buildid=`cat buildid.txt` && make install && make deploy IMG=odpi/egeria-k8s-operator:0.9.$${buildid}
+	kubectl apply -f config/samples/egeria_v1alpha1_egeriaplatform.yaml
