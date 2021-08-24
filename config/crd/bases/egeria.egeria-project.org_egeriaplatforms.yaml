@@ -75,12 +75,19 @@ spec:
                 items:
                   type: string
                 type: array
-              version:
-                description: Observed Egeria version from platform origin
+              deployment:
                 type: string
-            required:
-            - active
-            - version
+              pods:
+                items:
+                  type: string
+                type: array
+              service:
+                description: Get info about the config being used
+                type: string
+              version:
+                description: 'Observed Egeria version from platform origin TODO: Version
+                  - may be better via healthchecks'
+                type: string
             type: object
         type: object
     served: true

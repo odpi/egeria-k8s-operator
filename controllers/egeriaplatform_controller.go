@@ -27,7 +27,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	//"reflect"
+	"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	// was egeriav1
@@ -49,7 +49,7 @@ type EgeriaPlatformReconciler struct {
 //TODO: Retrieve service name and add to status for convenience
 //+kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 //TODO: Retrieve pod names and add into status for convenience
-//+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;
+//+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -98,6 +98,29 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 	} else if err != nil {
 		log.FromContext(ctx).Error(err, "Failed to get Deployment")
 		return ctrl.Result{}, err
+	}
+
+	// Update the status with the pod names
+	podList := &corev1.PodList{}
+	listOpts := []client.ListOption{
+		client.InNamespace(egeria.Namespace),
+		client.MatchingLabels(egeriaLabels(egeria.Name, "deployment")),
+	}
+	if err = reconciler.List(ctx, podList, listOpts...); err != nil {
+		//TODO: Logs should be consistent
+		log.FromContext(ctx).Error(err, "Failed to list pods", "Namespace", egeria.Namespace, "Name", egeria.Name)
+		return ctrl.Result{}, err
+	}
+	podNames := getPodNames(podList.Items)
+
+	// Update status.Nodes if needed
+	if !reflect.DeepEqual(podNames, egeria.Status.Pods) {
+		egeria.Status.Pods = podNames
+		err := reconciler.Status().Update(ctx, egeria)
+		if err != nil {
+			log.FromContext(ctx).Error(err, "Failed to update Memcached status")
+			return ctrl.Result{}, err
+		}
 	}
 
 	// TODO: Check we are using the same image as before(we only go by name)
@@ -240,4 +263,13 @@ func (reconciler *EgeriaPlatformReconciler) SetupWithManager(mgr ctrl.Manager) e
 		Owns(&appsv1.Deployment{}).
 		Owns(&corev1.Service{}).
 		Complete(reconciler)
+}
+
+// getPodNames returns the pod names of the array of pods passed in
+func getPodNames(pods []corev1.Pod) []string {
+	var podNames []string
+	for _, pod := range pods {
+		podNames = append(podNames, pod.Name)
+	}
+	return podNames
 }

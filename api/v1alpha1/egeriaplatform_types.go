@@ -42,11 +42,14 @@ type EgeriaPlatformSpec struct {
 // Observed state of Egeria Platform
 type EgeriaPlatformStatus struct {
 	// Observed Egeria version from platform origin
-	Version string `json:"version"`
+	//TODO: Version - may be better via healthchecks
+	Version string `json:"version,omitempty"`
 	// list of server names that are active - this should match those configured
-	Activeservers []string `json:"active"`
+	Activeservers []string `json:"active,omitempty"`
 	// Get info about the config being used
-
+	ManagedService    string   `json:"service,omitempty"`
+	ManagedDeployment string   `json:"deployment,omitempty"`
+	Pods              []string `json:"pods,omitempty"`
 }
 
 //+kubebuilder:object:root=true
