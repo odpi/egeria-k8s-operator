@@ -46,7 +46,9 @@ type EgeriaPlatformReconciler struct {
 //+kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/finalizers,verbs=update
 // -- Additional roles required to manage deployments & services
 //+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+//TODO: Retrieve service name and add to status for convenience
 //+kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
+//TODO: Retrieve pod names and add into status for convenience
 //+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
@@ -59,34 +61,33 @@ type EgeriaPlatformReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.7.2/pkg/reconcile
 //
-func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 
-	// Fetch the Egeria instance
+	// -- Fetch the Egeria instance - ie the custom resource definition object.
 	egeria := &egeriav1alpha1.EgeriaPlatform{}
-	err := r.Get(ctx, req.NamespacedName, egeria)
+	err := reconciler.Get(ctx, req.NamespacedName, egeria)
 	if err != nil {
 		if errors.IsNotFound(err) {
 			// Request object not found, could have been deleted after reconcile request.
 			// Owned objects are automatically garbage collected. For additional cleanup logic use finalizers.
 			// Return and don't requeue
-			log.FromContext(ctx).Info("Egeria resource not found. Ignoring since object must be deleted")
+			log.FromContext(ctx).Info("EgeriaPlatform custom resource + req.NamespacesName not found. Ignoring since object must be deleted.")
 			return ctrl.Result{}, nil
 		}
 		// Error reading the object - requeue the request.
-		log.FromContext(ctx).Error(err, "Failed to get Egeria")
+		log.FromContext(ctx).Error(err, "Failed to retrieve EgeriaPlatform custom resource.")
 		return ctrl.Result{}, err
 	}
 
 	// TODO: check what we do if the crd goes away
 	// Check if the Deployment already exists, if not create a new one
 	found := &appsv1.Deployment{}
-
-	err = r.Get(ctx, types.NamespacedName{Name: egeria.Name, Namespace: egeria.Namespace}, found)
+	err = reconciler.Get(ctx, types.NamespacedName{Name: egeria.Name + "-deployment", Namespace: egeria.Namespace}, found)
 	if err != nil && errors.IsNotFound(err) {
 		// Define a new Deployment
-		dep := r.deploymentForEgeriaPlatform(egeria)
+		dep := reconciler.deploymentForEgeriaPlatform(egeria)
 		log.FromContext(ctx).Info("Creating a new Deployment", "Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
-		err = r.Create(ctx, dep)
+		err = reconciler.Create(ctx, dep)
 		if err != nil {
 			log.FromContext(ctx).Error(err, "Failed to create new Deployment", "Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
 			return ctrl.Result{}, err
@@ -106,7 +107,7 @@ func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	size := egeria.Spec.Size
 	if *found.Spec.Replicas != size {
 		found.Spec.Replicas = &size
-		err = r.Update(ctx, found)
+		err = reconciler.Update(ctx, found)
 		if err != nil {
 			log.FromContext(ctx).Error(err, "Failed to update Deployment", "Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
 			return ctrl.Result{}, err
@@ -118,12 +119,12 @@ func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	// TODO: Check there is a service definition
 	foundsvc := &corev1.Service{}
 	// TODO: Compute service name from crd & modify to be unique
-	err = r.Get(ctx, types.NamespacedName{Name: "egeria-service", Namespace: egeria.Namespace}, foundsvc)
+	err = reconciler.Get(ctx, types.NamespacedName{Name: egeria.Name + "-service", Namespace: egeria.Namespace}, foundsvc)
 	if err != nil && errors.IsNotFound(err) {
 		// Define a new Service
-		svc := r.serviceForEgeriaPlatform(egeria)
+		svc := reconciler.serviceForEgeriaPlatform(egeria)
 		log.FromContext(ctx).Info("Creating a new Service", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
-		err = r.Create(ctx, svc)
+		err = reconciler.Create(ctx, svc)
 		if err != nil {
 			log.FromContext(ctx).Error(err, "Failed to create new Service", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
 			return ctrl.Result{}, err
@@ -138,34 +139,35 @@ func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	// Update the Egeria status with the pod names
 	// List the pods for this egeria's deployment
 
+	// TODO Check the services are running on the platforms
 	return ctrl.Result{}, nil
 }
 
 // deploymentForEgeria returns an egeria Deployment object
-func (r *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(m *egeriav1alpha1.EgeriaPlatform) *appsv1.Deployment {
-	ls := labelsForEgeria(m.Name, "deployment")
-	replicas := m.Spec.Size
+func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaInstance *egeriav1alpha1.EgeriaPlatform) *appsv1.Deployment {
+	labels := egeriaLabels(egeriaInstance.Name, "deployment")
+	replicas := egeriaInstance.Spec.Size
 
-	dep := &appsv1.Deployment{
+	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      m.Name,
-			Namespace: m.Namespace,
+			Name:      egeriaInstance.Name + "-deployment",
+			Namespace: egeriaInstance.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: &replicas,
 			Selector: &metav1.LabelSelector{
-				MatchLabels: ls,
+				MatchLabels: labels,
 			},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
-					Labels: ls,
+					Labels: labels,
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{{
-						//TODO: Use latest image for now, and hardcode
+						//TODO: image must be configurable
 						Image: "odpi/egeria:latest",
 						Name:  "odpi",
-						//Command: []string{"memcached", "-m=64", "-o", "modern", "-v"},
+						//Command: []string{"memcached", "-egeriaInstance=64", "-o", "modern", "-v"},
 						//TODO: Allow port to be overridden
 						Ports: []corev1.ContainerPort{{
 							ContainerPort: 9443,
@@ -177,21 +179,20 @@ func (r *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(m *egeriav1alpha1
 		},
 	}
 	// Set Egeria instance as the owner and controller
-	ctrl.SetControllerReference(m, dep, r.Scheme)
-	return dep
+	ctrl.SetControllerReference(egeriaInstance, deployment, reconciler.Scheme)
+	return deployment
 }
 
 // servicetForEgeria returns an egeria Service  object
-func (r *EgeriaPlatformReconciler) serviceForEgeriaPlatform(m *egeriav1alpha1.EgeriaPlatform) *corev1.Service {
-	ls := labelsForEgeria(m.Name, "service")
-	dep := &corev1.Service{
+func (reconciler *EgeriaPlatformReconciler) serviceForEgeriaPlatform(egeriaInstance *egeriav1alpha1.EgeriaPlatform) *corev1.Service {
+	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      m.Name,
-			Namespace: m.Namespace,
-			Labels:    ls,
+			Name:      egeriaInstance.Name + "-service",
+			Namespace: egeriaInstance.Namespace,
+			Labels:    egeriaLabels(egeriaInstance.Name, "service"),
 		},
 		Spec: corev1.ServiceSpec{
-			// TODO: More flexible service types needed in future
+			// TODO: More flexible service types needed in future (for now can be exposed manually after deployment-cloud dependent)
 			Type:      corev1.ServiceTypeClusterIP,
 			ClusterIP: corev1.ClusterIPNone,
 			Ports: []corev1.ServicePort{
@@ -201,23 +202,23 @@ func (r *EgeriaPlatformReconciler) serviceForEgeriaPlatform(m *egeriav1alpha1.Eg
 					Name:     "egeria-port",
 				},
 			},
-			Selector: getServiceSelectorLabels(m.Name),
+			Selector: getServiceSelectorLabels(egeriaInstance.Name),
 		},
 	}
 	// Set Egeria instance as the owner and controller
-	ctrl.SetControllerReference(m, dep, r.Scheme)
-	return dep
+	ctrl.SetControllerReference(egeriaInstance, service, reconciler.Scheme)
+	return service
 }
 
-// labelsForEgeria returns the labels we set on created resources
+// egeriaLabels returns the labels we set on created resources
 // belonging to the given egeria CR name.
 // see also https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
-func labelsForEgeria(crName string, compName string) map[string]string {
+func egeriaLabels(egeriaInstanceName string, componentName string) map[string]string {
 	return map[string]string{
 		"app.kubernetes.io/name":       "egeriaplatform",
-		"app.kubernetes.io/instance":   crName, // name of Custom Resource
-		"app.kubernetes.io/version":    "0.9",  // TODO Figure out version to use
-		"app.kubernetes.io/component":  compName,
+		"app.kubernetes.io/instance":   egeriaInstanceName, // name of Custom Resource
+		"app.kubernetes.io/version":    "0.9",              // TODO Figure out version to use
+		"app.kubernetes.io/component":  componentName,
 		"app.kubernetes.io/part-of":    "Egeria",
 		"app.kubernetes.io/managed-by": "Operator",
 		"app.kubernetes.io/created-by": "egeriaplatform_controller",
@@ -226,13 +227,17 @@ func labelsForEgeria(crName string, compName string) map[string]string {
 
 // Service selector labels - this is the criteria used for directing requests to pods
 func getServiceSelectorLabels(crName string) map[string]string {
-	return labelsForEgeria(crName, "deployment")
+	return egeriaLabels(crName+"-deployment", "deployment")
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *EgeriaPlatformReconciler) SetupWithManager(mgr ctrl.Manager) error {
+//
+// watches our CRs primarily, but additionally Deployments & Services - as we create them
+func (reconciler *EgeriaPlatformReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	// TODO: Can we make the watches more efficient with conditions?
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&egeriav1alpha1.EgeriaPlatform{}).
 		Owns(&appsv1.Deployment{}).
-		Complete(r)
+		Owns(&corev1.Service{}).
+		Complete(reconciler)
 }
