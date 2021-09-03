@@ -42,6 +42,9 @@ CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
 ENVTEST_K8S_VERSION = 1.21
 
+# Docker command to use (could be podman)
+CONTAINER_BUILD_TOOL ?= docker
+
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
@@ -99,10 +102,10 @@ run: manifests generate fmt vet ## Run a controller from your host.
 	go run ./main.go
 
 docker-build: test ## Build docker image with the manager.
-	docker build -t ${IMG} .
+	${CONTAINER_BUILD_TOOL} build -t ${IMG} .
 
 docker-push: ## Push docker image with the manager.
-	docker push ${IMG}
+	${CONTAINER_BUILD_TOOL} push ${IMG}
 
 ##@ Deployment
 
@@ -155,7 +158,7 @@ bundle: manifests kustomize ## Generate bundle manifests and metadata, then vali
 
 .PHONY: bundle-build
 bundle-build: ## Build the bundle image.
-	docker build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
+	${CONTAINER_BUILD_TOOL} build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 
 .PHONY: bundle-push
 bundle-push: ## Push the bundle image.
@@ -195,7 +198,8 @@ endif
 # https://github.com/operator-framework/community-operators/blob/7f1438c/docs/packaging-operator.md#updating-your-existing-operator
 .PHONY: catalog-build
 catalog-build: opm ## Build a catalog image.
-	$(OPM) index add --container-tool docker --mode semver --tag $(CATALOG_IMG) --bundles $(BUNDLE_IMGS) $(FROM_INDEX_OPT)
+//TODO: Check if podman is ok for container tool
+	$(OPM) index add --container-tool ${CONTAINER_BUILD_TOOL} --mode semver --tag $(CATALOG_IMG) --bundles $(BUNDLE_IMGS) $(FROM_INDEX_OPT)
 
 # Push the catalog image.
 .PHONY: catalog-push
@@ -210,7 +214,7 @@ catalog-push: ## Push a catalog image.
 .PHONY: rebuild
 rebuild: kustomize controller-gen generate manifests install
 
-# Build the docker image with auto incrementing build id (to avoid cache issues)
+# Build the container  image with auto incrementing build id (to avoid cache issues)
 .PHONY: image
 image: rebuild
 	let buildid=`cat buildid.txt`+1 && 	echo $${buildid} > buildid.txt
