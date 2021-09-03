@@ -100,6 +100,16 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		return ctrl.Result{}, err
 	}
 
+	// Update deployment name if needed
+	if !reflect.DeepEqual(egeria.Name+"-deployment", egeria.Status.ManagedDeployment) {
+		egeria.Status.ManagedDeployment = egeria.Name + "-deployment"
+		err := reconciler.Status().Update(ctx, egeria)
+		if err != nil {
+			log.FromContext(ctx).Error(err, "Failed to update status")
+			return ctrl.Result{}, err
+		}
+	}
+
 	// Update the status with the pod names
 	podList := &corev1.PodList{}
 	listOpts := []client.ListOption{
@@ -159,7 +169,17 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		log.FromContext(ctx).Error(err, "Failed to get Deployment")
 		return ctrl.Result{}, err
 	}
-	// Update the Egeria status with the pod names
+
+	// Update service name if needed
+	if !reflect.DeepEqual(egeria.Name+"-service", egeria.Status.ManagedService) {
+		egeria.Status.ManagedService = egeria.Name + "-service"
+		err := reconciler.Status().Update(ctx, egeria)
+		if err != nil {
+			log.FromContext(ctx).Error(err, "Failed to update status")
+			return ctrl.Result{}, err
+		}
+	}
+
 	// List the pods for this egeria's deployment
 
 	// TODO Check the services are running on the platforms
