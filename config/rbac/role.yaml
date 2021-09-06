@@ -9,7 +9,7 @@ rules:
 - apiGroups:
   - apps
   resources:
-  - statefulsets
+  - deployments
   verbs:
   - create
   - delete
@@ -25,6 +25,7 @@ rules:
   verbs:
   - get
   - list
+  - watch
 - apiGroups:
   - ""
   resources:

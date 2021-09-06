@@ -27,13 +27,6 @@ type EgeriaServerSpec struct {
 	ConfigSecret string `json:"config-secret"`
 }
 
-type EgeriaStorageSpec struct {
-	// Optional Persistent Storage size ie 10G for PVC
-	StorageSize string `json:"storagesize,omitempty"`
-	// Optional Storage Class for PVC - empty will use default
-	StorageClass string `json:"storageclass,omitempty"`
-}
-
 // Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
 	//TODO: Add name into spec
@@ -44,17 +37,19 @@ type EgeriaPlatformSpec struct {
 	// Container image to use, overriding operator configuration
 	Image   string             `json:"image,omitempty"`
 	Servers []EgeriaServerSpec `json:"servers"`
-	Storage EgeriaStorageSpec  `json:"storage,omitempty"`
 }
 
 // Observed state of Egeria Platform
 type EgeriaPlatformStatus struct {
 	// Observed Egeria version from platform origin
-	Version string `json:"version"`
+	//TODO: Version - may be better via healthchecks
+	Version string `json:"version,omitempty"`
 	// list of server names that are active - this should match those configured
-	Activeservers []string `json:"active"`
+	Activeservers []string `json:"active,omitempty"`
 	// Get info about the config being used
-
+	ManagedService    string   `json:"service,omitempty"`
+	ManagedDeployment string   `json:"deployment,omitempty"`
+	Pods              []string `json:"pods,omitempty"`
 }
 
 //+kubebuilder:object:root=true
