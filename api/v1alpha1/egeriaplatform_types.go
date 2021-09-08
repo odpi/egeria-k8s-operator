@@ -29,7 +29,7 @@ type EgeriaServerSpec struct {
 
 // Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
-	//TODO: Add name into spec
+	// TODO: Add name into spec
 	// Number of replicas for this platform (ie number of pods to run)
 	Size int32 `json:"replicas,omitempty"`
 	// Secret containing TLS keys and certs
