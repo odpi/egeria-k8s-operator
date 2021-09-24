@@ -131,6 +131,8 @@ kubectl delete EgeriaPlatform/egeriaplatform-sample
  kustomize build config/default | kubectl delete -f -
 ```
 
+# Useful tips with using Operator SDK
+* `controller-gen crd -www` provides useful annotations that can be used for crd validation, additing printable status, managing endpoints like /scale and /status.
 
 # Design decisions
 
@@ -141,7 +143,7 @@ kubectl delete EgeriaPlatform/egeriaplatform-sample
 * The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'EgeriaPlatform' - think of this as the k8s resource type we are dealing with
 * The operator manages the Egeria Platform. Servers are defined in regular Egeria config documents
 * Operational server API calls (ie like deleting a server instance) should not be used
-* Egeria servers must be configured with a remote metadata store such as crux
+* Egeria servers must be configured with a remote metadata store such as xtdb (crux)
 
 # Bugs
 

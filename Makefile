@@ -232,3 +232,11 @@ clean-runit:
 runit: image clean-runit
 	buildid=`cat buildid.txt` && make install && make deploy IMG=odpi/egeria-k8s-operator:0.9.$${buildid}
 	kubectl apply -f config/samples/egeria_v1alpha1_egeriaplatform.yaml
+
+# Cleanup downloaded tools
+.PHONY: clean-tools
+clean-tools:
+	rm -f bin/controller-gen
+	rm -f bin/setup-envtest
+	rm -f kustomize
+	rm -fr testbin

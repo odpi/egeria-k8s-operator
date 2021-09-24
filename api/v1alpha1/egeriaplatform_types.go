@@ -20,6 +20,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// EgeriaServerSpec : Server spec
 type EgeriaServerSpec struct {
 	// Name of this server - must match name in provided config
 	Name string `json:"name"`
@@ -27,9 +28,9 @@ type EgeriaServerSpec struct {
 	ConfigSecret string `json:"config-secret"`
 }
 
-// Desired State for Egeria Platform
+// EgeriaPlatformSpec : Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
-	// TODO: Add name into spec
+	// TODO: Look at moving to use the standard scaling approach https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource
 	// Number of replicas for this platform (ie number of pods to run)
 	Size int32 `json:"replicas,omitempty"`
 	// Secret containing TLS keys and certs
@@ -39,7 +40,7 @@ type EgeriaPlatformSpec struct {
 	Servers []EgeriaServerSpec `json:"servers"`
 }
 
-// Observed state of Egeria Platform
+// EgeriaPlatformStatus : Observed state of Egeria Platform
 type EgeriaPlatformStatus struct {
 	// Observed Egeria version from platform origin
 	//TODO: Version - may be better via healthchecks
@@ -56,6 +57,9 @@ type EgeriaPlatformStatus struct {
 //+kubebuilder:subresource:status
 
 // EgeriaPlatform is the Schema for the egeriaplatforms API
+// +kubebuilder:printcolumn:name="Pods",JSONPath=".status.pods",description="Current pods running",type=string
+// +kubebuilder:printcolumn:name="Deployment",JSONPath=".status.deployment",description="Deployment",type=string
+// +kubebuilder:printcolumn:name="Age",JSONPath=".metadata.creationTimestamp",description="Time since create",type=date
 type EgeriaPlatform struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

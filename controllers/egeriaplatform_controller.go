@@ -26,6 +26,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+	"time"
 
 	"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -41,15 +42,15 @@ type EgeriaPlatformReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/finalizers,verbs=update
+// +kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/finalizers,verbs=update
 // -- Additional roles required to manage deployments & services
-//+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
-//TODO: Retrieve service name and add to status for convenience
-//+kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
-//TODO: Retrieve pod names and add into status for convenience
-//+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// TODO: Retrieve service name and add to status for convenience
+// +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
+// TODO: Retrieve pod names and add into status for convenience
+// +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -73,6 +74,8 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 	// Fetch the Egeria instance - ie the custom resource definition object.
 	egeria, err = reconciler.getEgeriaPlatform(ctx, req)
 	if egeria == nil {
+		// There is no CRD, so as long as we've set the correct references, Garbage collection
+		// will delete everything else we've created
 		return ctrl.Result{}, err
 	}
 
@@ -84,7 +87,8 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		return ctrl.Result{}, err
 	}
 	if requeue == true {
-		return ctrl.Result{Requeue: true}, nil
+		// We need to wait a little longer as this is creating a deployment in the background
+		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	}
 
 	// Update deployment name if needed
@@ -125,7 +129,8 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		return ctrl.Result{}, err
 	}
 	if requeue == true {
-		return ctrl.Result{Requeue: true}, nil
+		// Allow time for the new service definition to be effective before rechecking
+		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	}
 
 	// Update service name if needed
@@ -134,10 +139,13 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		return ctrl.Result{}, err
 	}
 
+	//
 	// TODO: Add status conditions https://sdk.operatorframework.io/docs/building-operators/golang/advanced-topics/
 
 	// TODO Check the services are running on the platforms
-
+	// TODO Admission webhook may be needed to improve validation
+	// TODO: https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers
+	// We are all done. Fully reconciled!
 	return ctrl.Result{}, nil
 }
 
