@@ -47,9 +47,7 @@ type EgeriaPlatformReconciler struct {
 // +kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/finalizers,verbs=update
 // -- Additional roles required to manage deployments & services
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
-// TODO: Retrieve service name and add to status for convenience
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
-// TODO: Retrieve pod names and add into status for convenience
 // +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
@@ -313,15 +311,15 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{{
-						//TODO: image must be configurable
-						Image: "odpi/egeria:latest",
-						Name:  "odpi",
+						Image: egeriaInstance.Spec.Image,
+						Name:  "platform",
 						//Command: []string{"memcached", "-egeriaInstance=64", "-o", "modern", "-v"},
 						//TODO: Allow port to be overridden
 						Ports: []corev1.ContainerPort{{
 							ContainerPort: 9443,
-							Name:          "egeria",
+							Name:          "platformport",
 						}},
+						//TODO ReadinessProbe: corev1.ReadinessProbe{},
 					}},
 				},
 			},
