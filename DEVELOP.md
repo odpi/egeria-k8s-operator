@@ -130,7 +130,21 @@ kubectl delete EgeriaPlatform/egeriaplatform-sample
  kubectl delete -f config/crd/bases/egeria.egeria-project.org_egeriaplatforms.yaml        
  kustomize build config/default | kubectl delete -f -
 ```
+# Docker & quay.io
 
+Docker implements restrictions on pull rates. You may see an error like
+```
+  Warning  Failed          48s (x2 over 96s)   kubelet            Failed to pull image "docker.io/odpi/egeria:latest": rpc error: code = Unknown desc = Error reading manifest latest in docker.io/odpi/egeria: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+
+```
+and see your pods stuck in ErrImagePull state.
+
+If so, consider using a local registry, or a cloud service such as quay.io 
+
+If you wish to push images created by the operator build scripts to your own registry you can set `OPERATOR_REGISTRY` environment variable ie `export OPERATOR_REGISTRY=quay.io/superme`
+
+# Useful tips with using Operator SDK
+* `controller-gen crd -www` provides useful annotations that can be used for crd validation, additing printable status, managing endpoints like /scale and /status.
 
 # Design decisions
 
@@ -141,7 +155,7 @@ kubectl delete EgeriaPlatform/egeriaplatform-sample
 * The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'EgeriaPlatform' - think of this as the k8s resource type we are dealing with
 * The operator manages the Egeria Platform. Servers are defined in regular Egeria config documents
 * Operational server API calls (ie like deleting a server instance) should not be used
-* Egeria servers must be configured with a remote metadata store such as crux
+* Egeria servers must be configured with a remote metadata store such as xtdb (crux)
 
 # Bugs
 

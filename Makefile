@@ -45,6 +45,9 @@ ENVTEST_K8S_VERSION = 1.21
 # Docker command to use (could be podman)
 CONTAINER_BUILD_TOOL ?= docker
 
+# Override this to push the *operator* to a different location (registry+account)
+OPERATOR_REGISTRY=docker.io/odpi
+
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
@@ -218,7 +221,7 @@ rebuild: kustomize controller-gen generate manifests install
 .PHONY: image
 image: rebuild
 	let buildid=`cat buildid.txt`+1 && 	echo $${buildid} > buildid.txt
-	buildid=`cat buildid.txt` && $(MAKE) docker-build docker-push IMG=odpi/egeria-k8s-operator:0.9.$${buildid}
+	buildid=`cat buildid.txt` && $(MAKE) docker-build docker-push IMG=${OPERATOR_REGISTRY}/egeria-k8s-operator:0.9.$${buildid}
 
 # Cleanup any deployed artifacts
 .PHONY: clean-runit
@@ -230,5 +233,13 @@ clean-runit:
 # Deploy the image for test
 .PHONY: runit
 runit: image clean-runit
-	buildid=`cat buildid.txt` && make install && make deploy IMG=odpi/egeria-k8s-operator:0.9.$${buildid}
+	buildid=`cat buildid.txt` && make install && make deploy IMG=${OPERATOR_REGISTRY}/egeria-k8s-operator:0.9.$${buildid}
 	kubectl apply -f config/samples/egeria_v1alpha1_egeriaplatform.yaml
+
+# Cleanup downloaded tools
+.PHONY: clean-tools
+clean-tools:
+	rm -f bin/controller-gen
+	rm -f bin/setup-envtest
+	rm -f kustomize
+	rm -fr testbin

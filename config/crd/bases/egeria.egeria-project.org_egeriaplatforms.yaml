@@ -4,7 +4,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.4.1
+    controller-gen.kubebuilder.io/version: v0.6.1
   creationTimestamp: null
   name: egeriaplatforms.egeria.egeria-project.org
 spec:
@@ -16,7 +16,20 @@ spec:
     singular: egeriaplatform
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - description: Current pods running
+      jsonPath: .status.pods
+      name: Pods
+      type: string
+    - description: Deployment
+      jsonPath: .status.deployment
+      name: Deployment
+      type: string
+    - description: Time since create
+      jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
     schema:
       openAPIV3Schema:
         description: EgeriaPlatform is the Schema for the egeriaplatforms API
@@ -34,40 +47,56 @@ spec:
           metadata:
             type: object
           spec:
-            description: Desired State for Egeria Platform
+            description: 'EgeriaPlatformSpec : Desired State for Egeria Platform'
             properties:
               image:
+                default: docker.io/odpi/egeria:latest
                 description: Container image to use, overriding operator configuration
+                maxLength: 253
+                minLength: 1
                 type: string
               replicas:
-                description: 'TODO: Add name into spec Number of replicas for this
-                  platform (ie number of pods to run)'
+                default: 1
+                description: 'TODO: Look at moving to use the standard scaling approach
+                  https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource
+                  Number of replicas for this platform (ie number of pods to run)'
                 format: int32
+                maximum: 1000
+                minimum: 1
                 type: integer
               security-secret:
                 description: Secret containing TLS keys and certs
+                maxLength: 253
+                minLength: 1
                 type: string
               servers:
                 items:
+                  description: 'EgeriaServerSpec : Server spec'
                   properties:
                     config-secret:
                       description: k8s secret containing only the full server config
                         document
+                      maxLength: 253
+                      minLength: 1
                       type: string
                     name:
                       description: Name of this server - must match name in provided
                         config
+                      maxLength: 220
+                      minLength: 1
                       type: string
                   required:
                   - config-secret
                   - name
                   type: object
+                maxItems: 20
+                minItems: 0
                 type: array
             required:
             - servers
             type: object
           status:
-            description: Observed state of Egeria Platform
+            description: 'EgeriaPlatformStatus : Observed state of Egeria Platform'
             properties:
               active:
                 description: list of server names that are active - this should match
