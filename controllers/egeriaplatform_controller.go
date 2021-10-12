@@ -311,30 +311,18 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 					Labels: labels,
 				},
 				Spec: corev1.PodSpec{
+					Volumes: getVolumes(),
 					Containers: []corev1.Container{{
-						Image: egeriaInstance.Spec.Image,
 						Name:  "platform",
+						Image: egeriaInstance.Spec.Image,
 						//Command: []string{"memcached", "-egeriaInstance=64", "-o", "modern", "-v"},
 						//TODO: Allow port to be overridden
 						Ports: []corev1.ContainerPort{{
 							ContainerPort: 9443,
 							Name:          "platformport",
 						}},
-						// This probe allows for some settling time at startup & overrides the other probes
-						// TODO - Currently each probe is the same, ultimately should be unique
-						StartupProbe: &corev1.Probe{
-							Handler: corev1.Handler{
-								HTTPGet: &corev1.HTTPGetAction{
-									Port:   intstr.FromInt(9443),
-									Scheme: "HTTPS",
-									// TODO Replace hardcoded reference to garygeeke (relevant with platform security)
-									Path: "/open-metadata/platform-services/users/garygeeke/server-platform/origin",
-								},
-							},
-							InitialDelaySeconds: 30,
-							PeriodSeconds:       10,
-							FailureThreshold:    15,
-						},
+						// Mountpoints are needed for egeria configuration
+						VolumeMounts: getVolumeMounts(),
 						// This probe defines when to RESTART the container
 						LivenessProbe: &corev1.Probe{
 							Handler: corev1.Handler{
@@ -364,7 +352,23 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 							PeriodSeconds:       5,
 							FailureThreshold:    3,
 						},
-					}},
+						// This probe allows for some settling time at startup & overrides the other probes
+						// TODO - Currently each probe is the same, ultimately should be unique
+						StartupProbe: &corev1.Probe{
+							Handler: corev1.Handler{
+								HTTPGet: &corev1.HTTPGetAction{
+									Port:   intstr.FromInt(9443),
+									Scheme: "HTTPS",
+									// TODO Replace hardcoded reference to garygeeke (relevant with platform security)
+									Path: "/open-metadata/platform-services/users/garygeeke/server-platform/origin",
+								},
+							},
+							InitialDelaySeconds: 30,
+							PeriodSeconds:       10,
+							FailureThreshold:    15,
+						},
+					},
+					},
 				},
 			},
 		},
@@ -443,4 +447,32 @@ func getPodNames(pods []corev1.Pod) []string {
 		podNames = append(podNames, pod.Name)
 	}
 	return podNames
+}
+
+func getVolumeMounts() []corev1.VolumeMount {
+	// TODO loop through all possible volumes
+	return []corev1.VolumeMount{{
+		Name: "config1",
+		// Do not permit updating the configuration
+		ReadOnly: true,
+		// TODO: Need to aggregate data from multiple files? Or combine configs into one map
+		MountPath:        "/deployments/data/servers",
+		SubPath:          "",
+		MountPropagation: nil,
+		SubPathExpr:      "",
+	}}
+}
+
+func getVolumes() []corev1.Volume {
+	// TODO: loop through all volumes
+	return []corev1.Volume{{
+		Name: "config1",
+		VolumeSource: corev1.VolumeSource{
+			ConfigMap: &corev1.ConfigMapVolumeSource{
+				LocalObjectReference: corev1.LocalObjectReference{
+					Name: "corecfg",
+				},
+			},
+		},
+	}}
 }
