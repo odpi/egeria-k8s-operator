@@ -23,8 +23,12 @@ import (
 // EgeriaServerSpec : Server spec
 type EgeriaServerSpec struct {
 	// Name of this server - must match name in provided config
+	// +kubebuilder:validation:MaxLength=220
+	// +kubebuilder:validation:MinLength=1
 	Name string `json:"name"`
 	// k8s secret containing only the full server config document
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
 	ConfigSecret string `json:"config-secret"`
 }
 
@@ -32,11 +36,21 @@ type EgeriaServerSpec struct {
 type EgeriaPlatformSpec struct {
 	// TODO: Look at moving to use the standard scaling approach https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource
 	// Number of replicas for this platform (ie number of pods to run)
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=1000
+	// +kubebuilder:default:=1
 	Size int32 `json:"replicas,omitempty"`
 	// Secret containing TLS keys and certs
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
 	Security string `json:"security-secret,omitempty"`
 	// Container image to use, overriding operator configuration
-	Image   string             `json:"image,omitempty"`
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:default="docker.io/odpi/egeria:latest"
+	Image string `json:"image,omitempty"`
+	// +kubebuilder:validation:MaxItems=20
+	// +kubebuilder:validation:MinItems=0
 	Servers []EgeriaServerSpec `json:"servers"`
 }
 

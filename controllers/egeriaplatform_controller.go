@@ -25,6 +25,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/apimachinery/pkg/util/intstr"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"time"
 
@@ -319,7 +320,50 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 							ContainerPort: 9443,
 							Name:          "platformport",
 						}},
-						//TODO ReadinessProbe: corev1.ReadinessProbe{},
+						// This probe allows for some settling time at startup & overrides the other probes
+						// TODO - Currently each probe is the same, ultimately should be unique
+						StartupProbe: &corev1.Probe{
+							Handler: corev1.Handler{
+								HTTPGet: &corev1.HTTPGetAction{
+									Port:   intstr.FromInt(9443),
+									Scheme: "HTTPS",
+									// TODO Replace hardcoded reference to garygeeke (relevant with platform security)
+									Path: "/open-metadata/platform-services/users/garygeeke/server-platform/origin",
+								},
+							},
+							InitialDelaySeconds: 30,
+							PeriodSeconds:       10,
+							FailureThreshold:    15,
+						},
+						// This probe defines when to RESTART the container
+						LivenessProbe: &corev1.Probe{
+							Handler: corev1.Handler{
+								HTTPGet: &corev1.HTTPGetAction{
+									Port:   intstr.FromInt(9443),
+									Scheme: "HTTPS",
+									// TODO Replace hardcoded reference to garygeeke (relevant with platform security)
+									Path: "/open-metadata/platform-services/users/garygeeke/server-platform/origin",
+								},
+							},
+							InitialDelaySeconds: 30,
+							PeriodSeconds:       30,
+							FailureThreshold:    10,
+						},
+						// This probe defines if the pod can accept work via a service
+						// Can help with long-running queries, ensuring routing to another replica
+						ReadinessProbe: &corev1.Probe{
+							Handler: corev1.Handler{
+								HTTPGet: &corev1.HTTPGetAction{
+									Port:   intstr.FromInt(9443),
+									Scheme: "HTTPS",
+									// TODO Replace hardcoded reference to garygeeke (relevant with platform security)
+									Path: "/open-metadata/platform-services/users/garygeeke/server-platform/origin",
+								},
+							},
+							InitialDelaySeconds: 30,
+							PeriodSeconds:       5,
+							FailureThreshold:    3,
+						},
 					}},
 				},
 			},

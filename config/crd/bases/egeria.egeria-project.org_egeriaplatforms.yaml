@@ -50,16 +50,24 @@ spec:
             description: 'EgeriaPlatformSpec : Desired State for Egeria Platform'
             properties:
               image:
+                default: docker.io/odpi/egeria:latest
                 description: Container image to use, overriding operator configuration
+                maxLength: 253
+                minLength: 1
                 type: string
               replicas:
+                default: 1
                 description: 'TODO: Look at moving to use the standard scaling approach
                   https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource
                   Number of replicas for this platform (ie number of pods to run)'
                 format: int32
+                maximum: 1000
+                minimum: 1
                 type: integer
               security-secret:
                 description: Secret containing TLS keys and certs
+                maxLength: 253
+                minLength: 1
                 type: string
               servers:
                 items:
@@ -68,15 +76,21 @@ spec:
                     config-secret:
                       description: k8s secret containing only the full server config
                         document
+                      maxLength: 253
+                      minLength: 1
                       type: string
                     name:
                       description: Name of this server - must match name in provided
                         config
+                      maxLength: 220
+                      minLength: 1
                       type: string
                   required:
                   - config-secret
                   - name
                   type: object
+                maxItems: 20
+                minItems: 0
                 type: array
             required:
             - servers
