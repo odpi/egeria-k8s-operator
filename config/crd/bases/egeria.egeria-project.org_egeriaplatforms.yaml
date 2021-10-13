@@ -69,31 +69,13 @@ spec:
                 maxLength: 253
                 minLength: 1
                 type: string
-              servers:
-                items:
-                  description: 'EgeriaServerSpec : Server spec'
-                  properties:
-                    config-secret:
-                      description: k8s secret containing only the full server config
-                        document
-                      maxLength: 253
-                      minLength: 1
-                      type: string
-                    name:
-                      description: Name of this server - must match name in provided
-                        config
-                      maxLength: 220
-                      minLength: 1
-                      type: string
-                  required:
-                  - config-secret
-                  - name
-                  type: object
-                maxItems: 20
-                minItems: 0
-                type: array
+              serverconfig:
+                description: Configmap used for server configuration
+                maxLength: 253
+                minLength: 1
+                type: string
             required:
-            - servers
+            - serverconfig
             type: object
           status:
             description: 'EgeriaPlatformStatus : Observed state of Egeria Platform'

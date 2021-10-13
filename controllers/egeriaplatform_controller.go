@@ -311,7 +311,7 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 					Labels: labels,
 				},
 				Spec: corev1.PodSpec{
-					Volumes: getVolumes(),
+					Volumes: getVolumes(egeriaInstance.Spec.ServerConfig),
 					Containers: []corev1.Container{{
 						Name:  "platform",
 						Image: egeriaInstance.Spec.Image,
@@ -452,25 +452,22 @@ func getPodNames(pods []corev1.Pod) []string {
 func getVolumeMounts() []corev1.VolumeMount {
 	// TODO loop through all possible volumes
 	return []corev1.VolumeMount{{
-		Name: "config1",
+		Name: "serverconfig",
 		// Do not permit updating the configuration
 		ReadOnly: true,
 		// TODO: Need to aggregate data from multiple files? Or combine configs into one map
-		MountPath:        "/deployments/data/servers",
-		SubPath:          "",
-		MountPropagation: nil,
-		SubPathExpr:      "",
+		MountPath: "/deployments/data/servers",
 	}}
 }
 
-func getVolumes() []corev1.Volume {
-	// TODO: loop through all volumes
+func getVolumes(configname string) []corev1.Volume {
+	// In future we may have multiple volumes, so extracted out to fn
 	return []corev1.Volume{{
-		Name: "config1",
+		Name: "serverconfig",
 		VolumeSource: corev1.VolumeSource{
 			ConfigMap: &corev1.ConfigMapVolumeSource{
 				LocalObjectReference: corev1.LocalObjectReference{
-					Name: "corecfg",
+					Name: configname,
 				},
 			},
 		},

@@ -20,18 +20,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EgeriaServerSpec : Server spec
-type EgeriaServerSpec struct {
-	// Name of this server - must match name in provided config
-	// +kubebuilder:validation:MaxLength=220
-	// +kubebuilder:validation:MinLength=1
-	Name string `json:"name"`
-	// k8s secret containing only the full server config document
-	// +kubebuilder:validation:MaxLength=253
-	// +kubebuilder:validation:MinLength=1
-	ConfigSecret string `json:"config-secret"`
-}
-
 // EgeriaPlatformSpec : Desired State for Egeria Platform
 type EgeriaPlatformSpec struct {
 	// TODO: Look at moving to use the standard scaling approach https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource
@@ -49,9 +37,10 @@ type EgeriaPlatformSpec struct {
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:default="docker.io/odpi/egeria:latest"
 	Image string `json:"image,omitempty"`
-	// +kubebuilder:validation:MaxItems=20
-	// +kubebuilder:validation:MinItems=0
-	Servers []EgeriaServerSpec `json:"servers"`
+	// Configmap used for server configuration
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
+	ServerConfig string `json:"serverconfig"`
 }
 
 // EgeriaPlatformStatus : Observed state of Egeria Platform
