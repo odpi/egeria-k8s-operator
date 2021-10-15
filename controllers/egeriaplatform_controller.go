@@ -44,6 +44,7 @@ type EgeriaPlatformReconciler struct {
 }
 
 // +kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=egeria.egeria-project.org,resources=egeriaplatforms/finalizers,verbs=update
 // -- Additional roles required to manage deployments & services
@@ -70,35 +71,57 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 	var requeue bool
 	var egeria *egeriav1alpha1.EgeriaPlatform
 
+	log.FromContext(ctx).Info("Reconciler called.")
 	// Fetch the Egeria instance - ie the custom resource definition object.
 	egeria, err = reconciler.getEgeriaPlatform(ctx, req)
 	if egeria == nil {
 		// There is no CRD, so as long as we've set the correct references, Garbage collection
 		// will delete everything else we've created
+		log.FromContext(ctx).Info("Egeria custom resource not found.", "err", err)
 		return ctrl.Result{}, err
+	}
+
+	// See if we have the autostart config figured out
+	log.FromContext(ctx).Info("Checking autostart configmap", "err", err)
+	cm, err, requeue := reconciler.ensureAutostartConfigMap(ctx, egeria)
+	if (err != nil) || (cm == nil) {
+		log.FromContext(ctx).Info("Problems setting up autostart configmap.", "err", err)
+		return ctrl.Result{}, err
+	}
+	if requeue == true {
+		// We need to wait a little longer as this is creating a deployment in the background
+		log.FromContext(ctx).Info("Requeueing after creating autostart configmap")
+		return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
 	}
 
 	// TODO: Add finalizer for additional cleanup when CR deleted
 
 	// Check if the Deployment already exists, if not create a new one
+	log.FromContext(ctx).Info("Checking deployment", "err", err)
 	deployment, err, requeue := reconciler.ensureDeployment(ctx, egeria)
 	if (err != nil) || (deployment == nil) {
+		log.FromContext(ctx).Info("Problems checking Deployment.", "err", err)
 		return ctrl.Result{}, err
 	}
 	if requeue == true {
 		// We need to wait a little longer as this is creating a deployment in the background
+		log.FromContext(ctx).Info("Requeueing after creating deployment")
 		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	}
 
 	// Update deployment name if needed
+	log.FromContext(ctx).Info("Updating deployment name in cr", "err", err)
 	err = reconciler.updateDeploymentName(ctx, egeria)
 	if err != nil {
+		log.FromContext(ctx).Info("Problems updating deployment name", "err", err)
 		return ctrl.Result{}, err
 	}
 
 	// Update the status with the pod names
+	log.FromContext(ctx).Info("Updating pod names in cr", "err", err)
 	err = reconciler.updatePodNames(ctx, egeria)
 	if err != nil {
+		log.FromContext(ctx).Info("Problems updating pod names", "err", err)
 		return ctrl.Result{}, err
 	}
 
@@ -113,28 +136,36 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 	// TODO: Check our security certs (just the name - it's ok if the contents change) are same as before
 
 	// Ensure the deployment size is the same as the spec
+	log.FromContext(ctx).Info("Checking Replica count")
 	err, requeue = reconciler.checkReplicas(ctx, egeria, deployment)
 	if err != nil {
+		log.FromContext(ctx).Info("Problems checking replica count", "err", err)
 		return ctrl.Result{}, err
 	}
 	// TODO: Simplify signature/handling error & requeue
 	if requeue == true {
-		return ctrl.Result{Requeue: true}, nil
+		log.FromContext(ctx).Info("Requeueing after updating replica count")
+		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	}
 
 	// Check there is a service definition
+	log.FromContext(ctx).Info("Checking service")
 	err, requeue = reconciler.ensureService(ctx, egeria)
 	if err != nil {
+		log.FromContext(ctx).Info("Problems checking service", "err", err)
 		return ctrl.Result{}, err
 	}
 	if requeue == true {
 		// Allow time for the new service definition to be effective before rechecking
+		log.FromContext(ctx).Info("Requeueing after creating service")
 		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	}
 
 	// Update service name if needed
+	log.FromContext(ctx).Info("Checking service name")
 	err, requeue = reconciler.updateServiceName(ctx, egeria)
 	if err != nil {
+		log.FromContext(ctx).Info("Problems checking service name", "err", err)
 		return ctrl.Result{}, err
 	}
 
@@ -145,6 +176,9 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 	// TODO Admission webhook may be needed to improve validation
 	// TODO: https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers
 	// We are all done. Fully reconciled!
+
+	log.FromContext(ctx).Info("Fully Reconciled!")
+
 	return ctrl.Result{}, nil
 }
 
@@ -198,6 +232,29 @@ func (reconciler *EgeriaPlatformReconciler) ensureDeployment(ctx context.Context
 
 	// TODO: Ensure health check is appropriately setup so that service is only routed when working
 	return deployment, err, false
+}
+
+func (reconciler *EgeriaPlatformReconciler) ensureAutostartConfigMap(ctx context.Context, egeria *egeriav1alpha1.EgeriaPlatform) (*corev1.ConfigMap, error, bool) {
+	configmap := &corev1.ConfigMap{}
+	// TODO: Make object name generation configurable
+	err := reconciler.Get(ctx, types.NamespacedName{Name: egeria.Name + "-autostart", Namespace: egeria.Namespace}, configmap)
+	if err != nil && errors.IsNotFound(err) {
+		// Define a new Deployment
+		cm := reconciler.configmapForEgeriaPlatform(ctx, egeria)
+		log.FromContext(ctx).Info("Creating a new autostart Configmap", "ConfigMap.Namespace", cm.Namespace, "Deployment.Name", cm.Name)
+		err = reconciler.Create(ctx, cm)
+		if err != nil {
+			log.FromContext(ctx).Error(err, "Failed to create new ConfigMap", "ConfigMap.Namespace", cm.Namespace, "Deployment.Name", cm.Name)
+			return cm, err, false
+		}
+		// Deployment created successfully - return and requeue
+		// TODO Tag deployment with info about the config we used. See also https://cloud.redhat.com/blog/kubernetes-operators-best-practices
+		return cm, nil, true
+	} else if err != nil {
+		log.FromContext(ctx).Error(err, "Failed to get Deployment")
+		return nil, err, false
+	}
+	return configmap, nil, false
 }
 
 //
@@ -257,21 +314,24 @@ func (reconciler *EgeriaPlatformReconciler) ensureService(ctx context.Context, e
 	// TODO: Compute service name from crd & modify to be unique
 	err := reconciler.Get(ctx, types.NamespacedName{Name: egeria.Name + "-service", Namespace: egeria.Namespace}, service)
 	if err != nil && errors.IsNotFound(err) {
-		// Define a new Service
+		// We can't find the service, so will Define a new Service
 		svc := reconciler.serviceForEgeriaPlatform(egeria)
 		log.FromContext(ctx).Info("Creating a new Service", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
 		err = reconciler.Create(ctx, svc)
 		if err != nil {
 			log.FromContext(ctx).Error(err, "Failed to create new Service", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
+			// Theres a problem. do not requeue & return error
 			return err, false
 		}
 		// Deployment created successfully - return and requeue
 		// TODO Tag Deployment with info about the config we used. See also https://cloud.redhat.com/blog/kubernetes-operators-best-practices
 		return err, true
 	} else if err != nil {
+		// Some other error occurred - return & do not requeue for further processing
 		log.FromContext(ctx).Error(err, "Failed to get Deployment")
 		return err, false
 	}
+	// We found the deployment ok - continue (no requeue)
 	return err, false
 }
 
@@ -311,15 +371,23 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 					Labels: labels,
 				},
 				Spec: corev1.PodSpec{
+					// The server configuration is stored in a configmap, which is mapped to a volume
 					Volumes: getVolumes(egeriaInstance.Spec.ServerConfig),
 					Containers: []corev1.Container{{
 						Name:  "platform",
 						Image: egeriaInstance.Spec.Image,
-						//Command: []string{"memcached", "-egeriaInstance=64", "-o", "modern", "-v"},
 						//TODO: Allow port to be overridden
 						Ports: []corev1.ContainerPort{{
 							ContainerPort: 9443,
 							Name:          "platformport",
+						}},
+						// Additional environment, including the autostart configuration for servers found in configmap
+						EnvFrom: []corev1.EnvFromSource{{
+							ConfigMapRef: &corev1.ConfigMapEnvSource{
+								LocalObjectReference: corev1.LocalObjectReference{
+									Name: egeriaInstance.Name + "-autostart",
+								},
+							},
 						}},
 						// Mountpoints are needed for egeria configuration
 						VolumeMounts: getVolumeMounts(),
@@ -408,6 +476,33 @@ func (reconciler *EgeriaPlatformReconciler) serviceForEgeriaPlatform(egeriaInsta
 	return service
 }
 
+// TODO: Go equiv of javadoc?
+// serviceForEgeria returns an egeria Service  object
+// If configmap changes we need to update this
+func (reconciler *EgeriaPlatformReconciler) configmapForEgeriaPlatform(ctx context.Context, egeriaInstance *egeriav1alpha1.EgeriaPlatform) *corev1.ConfigMap {
+
+	// Figure out autostart list
+	var autostart = make(map[string]string)
+	//TODO avoid hardcoding serverame
+	//autostart["STARTUP_SERVER_LIST"] = "cocoMDS4, cocoMDS1, cocoView1"
+	autostart["STARTUP_SERVER_LIST"], _ = reconciler.getServersFromConfigMap(ctx, egeriaInstance)
+
+	configmap := &corev1.ConfigMap{
+		TypeMeta: metav1.TypeMeta{},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      egeriaInstance.Name + "-autostart",
+			Namespace: egeriaInstance.Namespace,
+			Labels:    egeriaLabels(egeriaInstance.Name, "autostart"),
+		},
+		Data: autostart,
+	}
+	// Set Egeria instance as the owner and controller
+	// TODO: resolve management of references
+	// TODO Ensure configmap gets deleted when no longer required
+	ctrl.SetControllerReference(egeriaInstance, configmap, reconciler.Scheme)
+	return configmap
+}
+
 // egeriaLabels returns the labels we set on created resources
 // belonging to the given egeria CR name.
 // see also https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
@@ -450,14 +545,16 @@ func getPodNames(pods []corev1.Pod) []string {
 }
 
 func getVolumeMounts() []corev1.VolumeMount {
-	// TODO loop through all possible volumes
-	return []corev1.VolumeMount{{
-		Name: "serverconfig",
-		// Do not permit updating the configuration
-		ReadOnly: true,
-		// TODO: Need to aggregate data from multiple files? Or combine configs into one map
-		MountPath: "/deployments/data/servers",
-	}}
+	return []corev1.VolumeMount{
+		// This contains all of the server configuration documents for the platform
+		{
+			Name: "serverconfig",
+			// Do not permit updating the configuration
+			ReadOnly: true,
+			// TODO: Need to aggregate data from multiple files? Or combine configs into one map
+			MountPath: "/deployments/data/servers",
+		},
+	}
 }
 
 func getVolumes(configname string) []corev1.Volume {
@@ -473,3 +570,27 @@ func getVolumes(configname string) []corev1.Volume {
 		},
 	}}
 }
+
+// TODO : Automatically create autostart server list from querying config
+
+func (reconciler *EgeriaPlatformReconciler) getServersFromConfigMap(ctx context.Context, egeria *egeriav1alpha1.EgeriaPlatform) (servers string, err error) {
+	// Retrieve the list of servers from the configmap
+	configmap := &corev1.ConfigMap{}
+	err = reconciler.Get(ctx, types.NamespacedName{Name: egeria.Spec.ServerConfig, Namespace: egeria.Namespace}, configmap)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			log.FromContext(ctx).Info("Configured server configmap not found.")
+			return "", err
+		}
+		// Error reading the object - requeue the request.
+		log.FromContext(ctx).Error(err, "Error reading server configmap")
+		return "", err
+	}
+	// We now have the configmap object. need to extract server names
+	for k := range configmap.Data {
+		servers += k + ","
+	}
+	return servers, nil
+}
+
+// TODO : Create ingress As ervice

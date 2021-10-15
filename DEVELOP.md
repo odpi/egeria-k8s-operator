@@ -153,9 +153,10 @@ If you wish to push images created by the operator build scripts to your own reg
 * operator is [cluster-scoped](https://sdk.operatorframework.io/docs/building-operators/golang/operator-scope/) - this is the default and can be revisited in future
 * operator uses a single [group](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) 'org.odpi.egeria' for it's APIs - also the default
 * The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'EgeriaPlatform' - think of this as the k8s resource type we are dealing with
-* The operator manages the Egeria Platform. Servers are defined in regular Egeria config documents
-* Operational server API calls (ie like deleting a server instance) should not be used
+* The operator manages the Egeria Platform. Servers are defined in regular Egeria config documents. All required for a platform are placed into a single configmap
+* Operational server API calls (ie like deleting a server instance) should not be used. Actions like starting a server can take a long time and would require asynchronous http requests to be managed
 * Egeria servers must be configured with a remote metadata store such as xtdb (crux)
+* Servers are started by setting the autostart server list
 
 # Bugs
 
