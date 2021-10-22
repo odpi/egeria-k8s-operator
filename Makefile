@@ -46,7 +46,7 @@ ENVTEST_K8S_VERSION = 1.21
 CONTAINER_BUILD_TOOL ?= docker
 
 # Override this to push the *operator* to a different location (registry+account)
-OPERATOR_REGISTRY=docker.io/odpi
+OPERATOR_REGISTRY=quay.io/odpi
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
