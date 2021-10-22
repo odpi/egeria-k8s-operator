@@ -50,7 +50,7 @@ spec:
             description: 'EgeriaPlatformSpec : Desired State for Egeria Platform'
             properties:
               image:
-                default: docker.io/odpi/egeria:latest
+                default: quay.io/odpi/egeria:latest
                 description: Container image to use, overriding operator configuration
                 maxLength: 253
                 minLength: 1
