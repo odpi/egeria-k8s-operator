@@ -46,6 +46,7 @@ maven-eclipse.xml
 
 # Mac OS
 __MACOSX
+.DS_Store
 
 # vscode editor
 **/.vscode*/**
