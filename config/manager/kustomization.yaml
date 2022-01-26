@@ -13,4 +13,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: quay.io/planetf1/egeria-k8s-operator
-  newTag: 0.9.87
+  newTag: 0.9.99
