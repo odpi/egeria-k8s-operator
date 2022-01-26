@@ -35,7 +35,7 @@ type EgeriaPlatformSpec struct {
 	// Container image to use, overriding operator configuration
 	// +kubebuilder:validation:MaxLength=253
 	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:default="docker.io/odpi/egeria:latest"
+	// +kubebuilder:default="quay.io/odpi/egeria:latest"
 	Image string `json:"image,omitempty"`
 	// Configmap used for server configuration
 	// +kubebuilder:validation:MaxLength=253
