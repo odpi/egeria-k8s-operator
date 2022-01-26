@@ -19,9 +19,10 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
       labels:
         control-plane: controller-manager
-        kubectl.kubernetes.io/default-container: manager
     spec:
       securityContext:
         runAsNonRoot: true
@@ -46,12 +47,14 @@ spec:
             port: 8081
           initialDelaySeconds: 5
           periodSeconds: 10
+        # TODO(user): Configure the resources accordingly based on the project requirements.
+        # More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
         resources:
           limits:
             cpu: 500m
-            memory: 768Mi
+            memory: 128Mi
           requests:
             cpu: 10m
-            memory: 256Mi
+            memory: 64Mi
       serviceAccountName: controller-manager
       terminationGracePeriodSeconds: 10

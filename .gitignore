@@ -21,44 +21,22 @@ testbin/*
 
 # Log file
 *.log
-# Kubernetes Generated files - skip generated files, except for vendored files
 
 # IntelliJ
 *.iml
 **.iml
 *.ipr
 *.iws
+
+# Kubernetes Generated files - skip generated files, except for vendored files
 !vendor/**/zz_generated.*
 
 # editor and IDE paraphernalia
 .idea
-venv
-
-# Eclipse
-.cache
-.classpath
-.project
-.checkstyle
-
-.settings
-.externalToolBuilders
-maven-eclipse.xml
-
-# Mac OS
-__MACOSX
-.DS_Store
-
-# vscode editor
-**/.vscode*/**
-**/.factorypath
-**/**.code-workspace
-
-# ignore binaries (downloaded as needed as they are platform dependent)
-testbin/**
-bin/**
-
-# build output
-cover.out
 *.swp
 *.swo
 *~
+venv
+# MacOS
+.DS_Store
+

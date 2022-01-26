@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Contributors to the Egeria project.
+Copyright 2022 Contributors to the Egeria project.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -62,115 +62,9 @@ type EgeriaPlatformReconciler struct {
 // ctrl.Result - see https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/reconcile
 //
 // For more details, check Reconcile and its Result here:
-// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.7.2/pkg/reconcile
-//
-func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-
-	// Common returns
-	var err error
-	var requeue bool
-	var egeria *egeriav1alpha1.EgeriaPlatform
-
-	log.FromContext(ctx).Info("Reconciler called.")
-	// Fetch the Egeria instance - ie the custom resource definition object.
-	egeria, err = reconciler.getEgeriaPlatform(ctx, req)
-	if egeria == nil {
-		// There is no CRD, so as long as we've set the correct references, Garbage collection
-		// will delete everything else we've created
-		log.FromContext(ctx).Info("Egeria custom resource not found.", "err", err)
-		return ctrl.Result{}, err
-	}
-
-	// See if we have the autostart config figured out
-	log.FromContext(ctx).Info("Checking autostart configmap", "err", err)
-	cm, err, requeue := reconciler.ensureAutostartConfigMap(ctx, egeria)
-	if (err != nil) || (cm == nil) {
-		log.FromContext(ctx).Info("Problems setting up autostart configmap.", "err", err)
-		return ctrl.Result{}, err
-	}
-	if requeue == true {
-		// We need to wait a little longer as this is creating a deployment in the background
-		log.FromContext(ctx).Info("Requeueing after creating autostart configmap")
-		return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
-	}
-
-	// TODO: Add finalizer for additional cleanup when CR deleted
-
-	// Check if the Deployment already exists, if not create a new one
-	log.FromContext(ctx).Info("Checking deployment", "err", err)
-	deployment, err, requeue := reconciler.ensureDeployment(ctx, egeria)
-	if (err != nil) || (deployment == nil) {
-		log.FromContext(ctx).Info("Problems checking Deployment.", "err", err)
-		return ctrl.Result{}, err
-	}
-	if requeue == true {
-		// We need to wait a little longer as this is creating a deployment in the background
-		log.FromContext(ctx).Info("Requeueing after creating deployment")
-		return ctrl.Result{RequeueAfter: time.Minute}, nil
-	}
-
-	// Update deployment name if needed
-	log.FromContext(ctx).Info("Updating deployment name in cr", "err", err)
-	err = reconciler.updateDeploymentName(ctx, egeria)
-	if err != nil {
-		log.FromContext(ctx).Info("Problems updating deployment name", "err", err)
-		return ctrl.Result{}, err
-	}
-
-	// Update the status with the pod names
-	log.FromContext(ctx).Info("Updating pod names in cr", "err", err)
-	err = reconciler.updatePodNames(ctx, egeria)
-	if err != nil {
-		log.FromContext(ctx).Info("Problems updating pod names", "err", err)
-		return ctrl.Result{}, err
-	}
-
-	// TODO: Check we are using the same image as before(we only go by name)
-
-	// TODO: Extract version from container image metadata?
-
-	// TODO: Check this deployment is using the same config document that we specced (including name of secret & date)
-	// TODO: Check for added/removed/changed servers. Update configuration/startup server and restart as needed
-	// TODO: Rolling restart
-
-	// TODO: Check our security certs (just the name - it's ok if the contents change) are same as before
-
-	// Ensure the deployment size is the same as the spec
-	log.FromContext(ctx).Info("Checking Replica count")
-	err, requeue = reconciler.checkReplicas(ctx, egeria, deployment)
-	if err != nil {
-		log.FromContext(ctx).Info("Problems checking replica count", "err", err)
-		return ctrl.Result{}, err
-	}
-	// TODO: Simplify signature/handling error & requeue
-	if requeue == true {
-		log.FromContext(ctx).Info("Requeueing after updating replica count")
-		return ctrl.Result{RequeueAfter: time.Minute}, nil
-	}
-
-	// Check there is a service definition
-	log.FromContext(ctx).Info("Checking service")
-	err, requeue = reconciler.ensureService(ctx, egeria)
-	if err != nil {
-		log.FromContext(ctx).Info("Problems checking service", "err", err)
-		return ctrl.Result{}, err
-	}
-	if requeue == true {
-		// Allow time for the new service definition to be effective before rechecking
-		log.FromContext(ctx).Info("Requeueing after creating service")
-		return ctrl.Result{RequeueAfter: time.Minute}, nil
-	}
-
-	// Update service name if needed
-	log.FromContext(ctx).Info("Checking service name")
-	err, requeue = reconciler.updateServiceName(ctx, egeria)
-	if err != nil {
-		log.FromContext(ctx).Info("Problems checking service name", "err", err)
-		return ctrl.Result{}, err
-	}
-
-	//
-	// TODO: Add status conditions https://sdk.operatorframework.io/docs/building-operators/golang/advanced-topics/
+// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.10.0/pkg/reconcile
+func (r *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	_ = log.FromContext(ctx)
 
 	// TODO Check the services are running on the platforms
 	// TODO Admission webhook may be needed to improve validation
