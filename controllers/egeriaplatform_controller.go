@@ -499,7 +499,7 @@ func (reconciler *EgeriaPlatformReconciler) configmapForEgeriaPlatform(ctx conte
 	// Set Egeria instance as the owner and controller
 	// TODO: resolve management of references
 	// TODO Ensure configmap gets deleted when no longer required
-	ctrl.SetControllerReference(egeriaInstance, configmap, reconciler.Scheme)
+	_ = ctrl.SetControllerReference(egeriaInstance, configmap, reconciler.Scheme)
 	return configmap
 }
 
