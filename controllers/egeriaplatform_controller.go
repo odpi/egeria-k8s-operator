@@ -23,16 +23,16 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/intstr"
-	"sigs.k8s.io/controller-runtime/pkg/log"
+	"reflect"
 	"time"
 
-	"reflect"
+	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	// was egeriav1
+	"sigs.k8s.io/controller-runtime/pkg/log"
+
 	egeriav1alpha1 "github.com/odpi/egeria-k8s-operator/api/v1alpha1"
 )
 
@@ -62,7 +62,7 @@ type EgeriaPlatformReconciler struct {
 // ctrl.Result - see https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/reconcile
 //
 // For more details, check Reconcile and its Result here:
-// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.7.2/pkg/reconcile
+// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.11.0/pkg/reconcile
 //
 func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 
@@ -390,10 +390,10 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 							},
 						}},
 						// Mountpoints are needed for egeria configuration
-						VolumeMounts: getVolumeMounts(),
+						//TODO: VolumeMounts: BmeMounts(),
 						// This probe defines when to RESTART the container
 						LivenessProbe: &corev1.Probe{
-							Handler: corev1.Handler{
+							ProbeHandler: corev1.ProbeHandler{
 								HTTPGet: &corev1.HTTPGetAction{
 									Port:   intstr.FromInt(9443),
 									Scheme: "HTTPS",
@@ -408,7 +408,7 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 						// This probe defines if the pod can accept work via a service
 						// Can help with long-running queries, ensuring routing to another replica
 						ReadinessProbe: &corev1.Probe{
-							Handler: corev1.Handler{
+							ProbeHandler: corev1.ProbeHandler{
 								HTTPGet: &corev1.HTTPGetAction{
 									Port:   intstr.FromInt(9443),
 									Scheme: "HTTPS",
@@ -423,7 +423,7 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 						// This probe allows for some settling time at startup & overrides the other probes
 						// TODO - Currently each probe is the same, ultimately should be unique
 						StartupProbe: &corev1.Probe{
-							Handler: corev1.Handler{
+							ProbeHandler: corev1.ProbeHandler{
 								HTTPGet: &corev1.HTTPGetAction{
 									Port:   intstr.FromInt(9443),
 									Scheme: "HTTPS",

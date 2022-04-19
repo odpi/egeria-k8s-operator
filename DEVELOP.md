@@ -10,8 +10,8 @@ This document is to aid any developers working on building the k8s operator. It 
 
 These need to be installed and configured in order to build the k8s operator
 
-* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.10.1](https://github.com/operator-framework/operator-sdk/releases/tag/v1.10.1)
-* [go](https://golang.org) 1.16.x - install from website, os distro, or homebrew 
+* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.19.1](https://github.com/operator-framework/operator-sdk/releases/tag/v1.19.1) (Last migrated 2022-04-19)
+* [go](https://golang.org) 1.17.x - install from website, os distro, or homebrew 
 * Other dependencies as documented by [operator-sdk](https://sdk.operatorframework.io/docs/building-operators/golang/installation/) including docker, kubectl, kubernetes
 * make - for the build process
 * A *nix variant or macOS (shell script usage)

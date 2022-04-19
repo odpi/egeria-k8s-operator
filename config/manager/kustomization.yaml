@@ -12,5 +12,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
 - name: controller
-  newName: quay.io/planetf1/egeria-k8s-operator
-  newTag: 0.9.99
+  newName: quay.io/odpi/egeria-k8s-operator
+  newTag: 0.9.105
