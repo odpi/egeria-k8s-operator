@@ -630,7 +630,7 @@ func (reconciler *EgeriaPlatformReconciler) getVolumeMounts(ctx context.Context,
 			Name:     configname[i],
 			ReadOnly: true,
 			// TODO: Mountpath should be configurable - though does depend on container image
-			MountPath: "/deployments/data/servers/" + mountName,
+			MountPath: "/deployments/data/servers/" + mountName + "/config",
 			// TODO: Note this is a lower-cased name. If it needs to be same as server name we'll need to read from configmap
 
 		},
