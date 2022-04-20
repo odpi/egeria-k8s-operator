@@ -1,1 +1,383 @@
-{"class":"OMAGServerConfigResponse","relatedHTTPCode":200,"omagserverConfig":{"class":"OMAGServerConfig","versionId":"V2.0","localServerId":"1c295428-e2b7-4d2e-ac61-fc90261acc0f","localServerName":"cocoView1","localServerType":"View Server","organizationName":"Coco Pharmaceuticals","localServerURL":"https://lab-datalake:9443","localServerUserId":"cocoView1npa","localServerPassword":"cocoView1passw0rd","maxPageSize":1000,"serverSecurityConnection":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"connectorProviderClassName":"org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"}},"eventBusConfig":{"class":"EventBusConfig","topicURLRoot":"egeria.omag","configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"consumer":{"bootstrap.servers":"lab-kafka:9092"}},"additionalProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"viewServicesConfig":[{"class":"ViewServiceConfig","viewServiceId":5000,"viewServiceAdminClass":"org.odpi.openmetadata.viewservices.glossaryauthor.admin.GlossaryAuthorViewAdmin","viewServiceName":"Glossary Author","viewServiceFullName":"Glossary Author OMVS","viewServiceURLMarker":"glossary-author","viewServiceDescription":"View Service for glossary authoring.","viewServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/view-services/glossary-author-view/","viewServiceOperationalStatus":"ENABLED","omagserverPlatformRootURL":"https://lab-core:9443","omagserverName":"cocoMDS2"},{"class":"IntegrationViewServiceConfig","viewServiceId":5001,"viewServiceAdminClass":"org.odpi.openmetadata.viewservices.rex.admin.RexViewAdmin","viewServiceName":"Repository Explorer","viewServiceFullName":"Repository Explorer OMVS","viewServiceURLMarker":"rex","viewServiceDescription":"Explore open metadata instances.","viewServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/view-services/rex-view/","viewServiceOperationalStatus":"ENABLED","resourceEndpoints":[{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"Core Platform","platformRootURL":"https://lab-core:9443","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"DataLake Platform","platformRootURL":"https://lab-datalake:9443","platformName":"DataLake"},{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"Development Platform","platformRootURL":"https://lab-dev:9443","platformName":"Development"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Data Lake Operations","serverName":"cocoMDS1","serverInstanceName":"cocoMDS1","platformName":"DataLake"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Governance","serverName":"cocoMDS2","serverInstanceName":"cocoMDS2","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Research","serverName":"cocoMDS3","serverInstanceName":"cocoMDS3","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Business Systems","serverName":"cocoMDS5","serverInstanceName":"cocoMDS5","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Manufacturing","serverName":"cocoMDS6","serverInstanceName":"cocoMDS6","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Development","serverName":"cocoMDSx","serverInstanceName":"cocoMDSx","platformName":"Development"}],"omagserverPlatformRootURL":"UNUSED"},{"class":"IntegrationViewServiceConfig","viewServiceId":5002,"viewServiceAdminClass":"org.odpi.openmetadata.viewservices.tex.admin.TexViewAdmin","viewServiceName":"Type Explorer","viewServiceFullName":"Type Explorer OMVS","viewServiceURLMarker":"tex","viewServiceDescription":"Explore the open metadata types in a repository or cohort.","viewServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/view-services/tex-view/","viewServiceOperationalStatus":"ENABLED","resourceEndpoints":[{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"Core Platform","platformRootURL":"https://lab-core:9443","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"DataLake Platform","platformRootURL":"https://lab-datalake:9443","platformName":"DataLake"},{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"Development Platform","platformRootURL":"https://lab-dev:9443","platformName":"Development"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Data Lake Operations","serverName":"cocoMDS1","serverInstanceName":"cocoMDS1","platformName":"DataLake"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Governance","serverName":"cocoMDS2","serverInstanceName":"cocoMDS2","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Research","serverName":"cocoMDS3","serverInstanceName":"cocoMDS3","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Business Systems","serverName":"cocoMDS5","serverInstanceName":"cocoMDS5","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Manufacturing","serverName":"cocoMDS6","serverInstanceName":"cocoMDS6","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Development","serverName":"cocoMDSx","serverInstanceName":"cocoMDSx","platformName":"Development"}],"omagserverPlatformRootURL":"UNUSED"},{"class":"IntegrationViewServiceConfig","viewServiceId":5003,"viewServiceAdminClass":"org.odpi.openmetadata.viewservices.dino.admin.DinoViewAdmin","viewServiceName":"Dynamic Infrastructure and Operations","viewServiceFullName":"Dynamic Infrastructure and Operations OMVS","viewServiceURLMarker":"dino","viewServiceDescription":"Explore and operate an open metadata ecosystem.","viewServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/view-services/dino-view/","viewServiceOperationalStatus":"ENABLED","resourceEndpoints":[{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"Core Platform","platformRootURL":"https://lab-core:9443","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"DataLake Platform","platformRootURL":"https://lab-datalake:9443","platformName":"DataLake"},{"class":"ResourceEndpointConfig","resourceCategory":"Platform","description":"Development Platform","platformRootURL":"https://lab-dev:9443","platformName":"Development"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Data Lake Operations","serverName":"cocoMDS1","serverInstanceName":"cocoMDS1","platformName":"DataLake"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Governance","serverName":"cocoMDS2","serverInstanceName":"cocoMDS2","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Research","serverName":"cocoMDS3","serverInstanceName":"cocoMDS3","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Data Lake Users","serverName":"cocoMDS4","serverInstanceName":"cocoMDS4","platformName":"DataLake"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Business Systems","serverName":"cocoMDS5","serverInstanceName":"cocoMDS5","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Manufacturing","serverName":"cocoMDS6","serverInstanceName":"cocoMDS6","platformName":"Core"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"Development","serverName":"cocoMDSx","serverInstanceName":"cocoMDSx","platformName":"Development"},{"class":"ResourceEndpointConfig","resourceCategory":"Server","description":"View Server","serverName":"cocoView1","serverInstanceName":"cocoView1","platformName":"DataLake"}],"omagserverPlatformRootURL":"UNUSED"}],"repositoryServicesConfig":{"class":"RepositoryServicesConfig","auditLogConnections":[{"class":"Connection","headerVersion":0,"displayName":"Console","connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"4afac741-3dcc-4c60-a4ca-a6dede994e3f","qualifiedName":"Console Audit Log Store Connector","displayName":"Console Audit Log Store Connector","description":"Connector supports logging of audit log messages to stdout.","connectorProviderClassName":"org.odpi.openmetadata.adapters.repositoryservices.auditlogstore.console.ConsoleAuditLogStoreProvider"},"configurationProperties":{"supportedSeverities":["<Unknown>","Information","Event","Decision","Action","Error","Exception","Security","Startup","Shutdown","Asset","Types","Cohort"]}}]},"auditTrail":["Fri Sep 03 14:29:36 GMT 2021 garygeeke updated configuration for local server's URL root to https://lab-datalake:9443.","Fri Sep 03 14:29:36 GMT 2021 garygeeke removed configuration for local server type name.","Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server type name to View Server.","Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server's owning organization's name to Coco Pharmaceuticals.","Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server's userId to cocoView1npa.","Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server's password to cocoView1passw0rd.","Fri Sep 03 14:29:37 GMT 2021 garygeeke added configuration for an Open Metadata Server Security Connector","Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for default event bus.","Fri Sep 03 14:29:37 GMT 2021 garygeeke set up default audit log destinations.","Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for view service glossary-author.","Fri Sep 03 14:29:38 GMT 2021 garygeeke updated configuration for view service rex.","Fri Sep 03 14:29:38 GMT 2021 garygeeke updated configuration for view service tex.","Fri Sep 03 14:29:38 GMT 2021 garygeeke updated configuration for view service dino.","Fri Sep 03 14:29:47 GMT 2021 garygeeke deployed configuration for server."]}}
+{
+  "class": "OMAGServerConfig",
+  "versionId": "V2.0",
+  "localServerId": "1c295428-e2b7-4d2e-ac61-fc90261acc0f",
+  "localServerName": "cocoView1",
+  "localServerType": "View Server",
+  "organizationName": "Coco Pharmaceuticals",
+  "localServerURL": "https://lab-datalake:9443",
+  "localServerUserId": "cocoView1npa",
+  "localServerPassword": "cocoView1passw0rd",
+  "maxPageSize": 1000,
+  "serverSecurityConnection": {
+    "class": "Connection",
+    "headerVersion": 0,
+    "connectorType": {
+      "class": "ConnectorType",
+      "headerVersion": 0,
+      "connectorProviderClassName": "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
+    }
+  },
+  "eventBusConfig": {
+    "class": "EventBusConfig",
+    "topicURLRoot": "egeria.omag",
+    "configurationProperties": {
+      "producer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      },
+      "consumer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      }
+    },
+    "additionalProperties": {
+      "producer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      },
+      "consumer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      }
+    }
+  },
+  "viewServicesConfig": [
+    {
+      "class": "ViewServiceConfig",
+      "viewServiceId": 5000,
+      "viewServiceAdminClass": "org.odpi.openmetadata.viewservices.glossaryauthor.admin.GlossaryAuthorViewAdmin",
+      "viewServiceName": "Glossary Author",
+      "viewServiceFullName": "Glossary Author OMVS",
+      "viewServiceURLMarker": "glossary-author",
+      "viewServiceDescription": "View Service for glossary authoring.",
+      "viewServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/view-services/glossary-author-view/",
+      "viewServiceOperationalStatus": "ENABLED",
+      "omagserverPlatformRootURL": "https://lab-core:9443",
+      "omagserverName": "cocoMDS2"
+    },
+    {
+      "class": "IntegrationViewServiceConfig",
+      "viewServiceId": 5001,
+      "viewServiceAdminClass": "org.odpi.openmetadata.viewservices.rex.admin.RexViewAdmin",
+      "viewServiceName": "Repository Explorer",
+      "viewServiceFullName": "Repository Explorer OMVS",
+      "viewServiceURLMarker": "rex",
+      "viewServiceDescription": "Explore open metadata instances.",
+      "viewServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/view-services/rex-view/",
+      "viewServiceOperationalStatus": "ENABLED",
+      "resourceEndpoints": [
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "Core Platform",
+          "platformRootURL": "https://lab-core:9443",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "DataLake Platform",
+          "platformRootURL": "https://lab-datalake:9443",
+          "platformName": "DataLake"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "Development Platform",
+          "platformRootURL": "https://lab-dev:9443",
+          "platformName": "Development"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Data Lake Operations",
+          "serverName": "cocoMDS1",
+          "serverInstanceName": "cocoMDS1",
+          "platformName": "DataLake"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Governance",
+          "serverName": "cocoMDS2",
+          "serverInstanceName": "cocoMDS2",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Research",
+          "serverName": "cocoMDS3",
+          "serverInstanceName": "cocoMDS3",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Business Systems",
+          "serverName": "cocoMDS5",
+          "serverInstanceName": "cocoMDS5",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Manufacturing",
+          "serverName": "cocoMDS6",
+          "serverInstanceName": "cocoMDS6",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Development",
+          "serverName": "cocoMDSx",
+          "serverInstanceName": "cocoMDSx",
+          "platformName": "Development"
+        }
+      ],
+      "omagserverPlatformRootURL": "UNUSED"
+    },
+    {
+      "class": "IntegrationViewServiceConfig",
+      "viewServiceId": 5002,
+      "viewServiceAdminClass": "org.odpi.openmetadata.viewservices.tex.admin.TexViewAdmin",
+      "viewServiceName": "Type Explorer",
+      "viewServiceFullName": "Type Explorer OMVS",
+      "viewServiceURLMarker": "tex",
+      "viewServiceDescription": "Explore the open metadata types in a repository or cohort.",
+      "viewServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/view-services/tex-view/",
+      "viewServiceOperationalStatus": "ENABLED",
+      "resourceEndpoints": [
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "Core Platform",
+          "platformRootURL": "https://lab-core:9443",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "DataLake Platform",
+          "platformRootURL": "https://lab-datalake:9443",
+          "platformName": "DataLake"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "Development Platform",
+          "platformRootURL": "https://lab-dev:9443",
+          "platformName": "Development"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Data Lake Operations",
+          "serverName": "cocoMDS1",
+          "serverInstanceName": "cocoMDS1",
+          "platformName": "DataLake"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Governance",
+          "serverName": "cocoMDS2",
+          "serverInstanceName": "cocoMDS2",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Research",
+          "serverName": "cocoMDS3",
+          "serverInstanceName": "cocoMDS3",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Business Systems",
+          "serverName": "cocoMDS5",
+          "serverInstanceName": "cocoMDS5",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Manufacturing",
+          "serverName": "cocoMDS6",
+          "serverInstanceName": "cocoMDS6",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Development",
+          "serverName": "cocoMDSx",
+          "serverInstanceName": "cocoMDSx",
+          "platformName": "Development"
+        }
+      ],
+      "omagserverPlatformRootURL": "UNUSED"
+    },
+    {
+      "class": "IntegrationViewServiceConfig",
+      "viewServiceId": 5003,
+      "viewServiceAdminClass": "org.odpi.openmetadata.viewservices.dino.admin.DinoViewAdmin",
+      "viewServiceName": "Dynamic Infrastructure and Operations",
+      "viewServiceFullName": "Dynamic Infrastructure and Operations OMVS",
+      "viewServiceURLMarker": "dino",
+      "viewServiceDescription": "Explore and operate an open metadata ecosystem.",
+      "viewServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/view-services/dino-view/",
+      "viewServiceOperationalStatus": "ENABLED",
+      "resourceEndpoints": [
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "Core Platform",
+          "platformRootURL": "https://lab-core:9443",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "DataLake Platform",
+          "platformRootURL": "https://lab-datalake:9443",
+          "platformName": "DataLake"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Platform",
+          "description": "Development Platform",
+          "platformRootURL": "https://lab-dev:9443",
+          "platformName": "Development"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Data Lake Operations",
+          "serverName": "cocoMDS1",
+          "serverInstanceName": "cocoMDS1",
+          "platformName": "DataLake"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Governance",
+          "serverName": "cocoMDS2",
+          "serverInstanceName": "cocoMDS2",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Research",
+          "serverName": "cocoMDS3",
+          "serverInstanceName": "cocoMDS3",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Data Lake Users",
+          "serverName": "cocoMDS4",
+          "serverInstanceName": "cocoMDS4",
+          "platformName": "DataLake"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Business Systems",
+          "serverName": "cocoMDS5",
+          "serverInstanceName": "cocoMDS5",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Manufacturing",
+          "serverName": "cocoMDS6",
+          "serverInstanceName": "cocoMDS6",
+          "platformName": "Core"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "Development",
+          "serverName": "cocoMDSx",
+          "serverInstanceName": "cocoMDSx",
+          "platformName": "Development"
+        },
+        {
+          "class": "ResourceEndpointConfig",
+          "resourceCategory": "Server",
+          "description": "View Server",
+          "serverName": "cocoView1",
+          "serverInstanceName": "cocoView1",
+          "platformName": "DataLake"
+        }
+      ],
+      "omagserverPlatformRootURL": "UNUSED"
+    }
+  ],
+  "repositoryServicesConfig": {
+    "class": "RepositoryServicesConfig",
+    "auditLogConnections": [
+      {
+        "class": "Connection",
+        "headerVersion": 0,
+        "displayName": "Console",
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "4afac741-3dcc-4c60-a4ca-a6dede994e3f",
+          "qualifiedName": "Console Audit Log Store Connector",
+          "displayName": "Console Audit Log Store Connector",
+          "description": "Connector supports logging of audit log messages to stdout.",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.repositoryservices.auditlogstore.console.ConsoleAuditLogStoreProvider"
+        },
+        "configurationProperties": {
+          "supportedSeverities": [
+            "<Unknown>",
+            "Information",
+            "Event",
+            "Decision",
+            "Action",
+            "Error",
+            "Exception",
+            "Security",
+            "Startup",
+            "Shutdown",
+            "Asset",
+            "Types",
+            "Cohort"
+          ]
+        }
+      }
+    ]
+  },
+  "auditTrail": [
+    "Fri Sep 03 14:29:36 GMT 2021 garygeeke updated configuration for local server's URL root to https://lab-datalake:9443.",
+    "Fri Sep 03 14:29:36 GMT 2021 garygeeke removed configuration for local server type name.",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server type name to View Server.",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server's owning organization's name to Coco Pharmaceuticals.",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server's userId to cocoView1npa.",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for local server's password to cocoView1passw0rd.",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke added configuration for an Open Metadata Server Security Connector",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for default event bus.",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke set up default audit log destinations.",
+    "Fri Sep 03 14:29:37 GMT 2021 garygeeke updated configuration for view service glossary-author.",
+    "Fri Sep 03 14:29:38 GMT 2021 garygeeke updated configuration for view service rex.",
+    "Fri Sep 03 14:29:38 GMT 2021 garygeeke updated configuration for view service tex.",
+    "Fri Sep 03 14:29:38 GMT 2021 garygeeke updated configuration for view service dino.",
+    "Fri Sep 03 14:29:47 GMT 2021 garygeeke deployed configuration for server."
+  ]
+}

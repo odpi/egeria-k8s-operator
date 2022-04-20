@@ -1,1 +1,978 @@
-{"class":"OMAGServerConfigResponse","relatedHTTPCode":200,"omagserverConfig":{"class":"OMAGServerConfig","versionId":"V2.0","localServerId":"be786231-7ef4-44ed-8e87-8cff15a65675","localServerName":"cocoMDS4","localServerType":"Metadata Access Point","organizationName":"Coco Pharmaceuticals","localServerURL":"https://lab-datalake:9443","localServerUserId":"cocoMDS4npa","localServerPassword":"cocoMDS4passw0rd","maxPageSize":600,"serverSecurityConnection":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"connectorProviderClassName":"org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"}},"eventBusConfig":{"class":"EventBusConfig","topicURLRoot":"egeria.omag","configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"consumer":{"bootstrap.servers":"lab-kafka:9092"}},"additionalProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServicesConfig":[{"class":"AccessServiceConfig","accessServiceId":1000,"accessServiceAdminClass":"org.odpi.openmetadata.accessservices.assetcatalog.admin.AssetCatalogAdmin","accessServiceName":"Asset Catalog","accessServiceFullName":"Asset Catalog OMAS","accessServiceURLMarker":"asset-catalog","accessServiceDescription":"Search and understand your assets","accessServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/access-services/asset-catalog/","accessServiceOperationalStatus":"ENABLED","accessServiceInTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.assetcatalog.inTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOutTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.assetcatalog.outTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOptions":{"SupportedZones":["data-lake"]}},{"class":"AccessServiceConfig","accessServiceId":1001,"accessServiceAdminClass":"org.odpi.openmetadata.accessservices.assetconsumer.admin.AssetConsumerAdmin","accessServiceName":"Asset Consumer","accessServiceFullName":"Asset Consumer OMAS","accessServiceURLMarker":"asset-consumer","accessServiceDescription":"Access assets through connectors","accessServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/access-services/asset-consumer/","accessServiceOperationalStatus":"ENABLED","accessServiceInTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.assetconsumer.inTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOutTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.assetconsumer.outTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOptions":{"SupportedZones":["data-lake"]}},{"class":"AccessServiceConfig","accessServiceId":1003,"accessServiceAdminClass":"org.odpi.openmetadata.accessservices.communityprofile.admin.CommunityProfileAdmin","accessServiceName":"Community Profile","accessServiceFullName":"Community Profile OMAS","accessServiceURLMarker":"community-profile","accessServiceDescription":"Define personal profile and collaborate","accessServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/access-services/community-profile/","accessServiceOperationalStatus":"ENABLED","accessServiceInTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.communityprofile.inTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOutTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.communityprofile.outTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOptions":{"KarmaPointPlateau":"500"}},{"class":"AccessServiceConfig","accessServiceId":1022,"accessServiceAdminClass":"org.odpi.openmetadata.accessservices.glossaryview.server.admin.GlossaryViewAdmin","accessServiceName":"Glossary View","accessServiceFullName":"Glossary View OMAS","accessServiceURLMarker":"glossary-view","accessServiceDescription":"Support glossary terms visualization","accessServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/access-services/glossary-view/","accessServiceOperationalStatus":"ENABLED","accessServiceInTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.glossaryview.inTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOutTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.glossaryview.outTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}}},{"class":"AccessServiceConfig","accessServiceId":1006,"accessServiceAdminClass":"org.odpi.openmetadata.accessservices.datascience.admin.DataScienceAdmin","accessServiceName":"Data Science","accessServiceFullName":"Data Science OMAS","accessServiceURLMarker":"data-science","accessServiceDescription":"Create and manage data science definitions and models","accessServiceWiki":"https://egeria.odpi.org/open-metadata-implementation/access-services/data-science/","accessServiceOperationalStatus":"ENABLED","accessServiceInTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.datascience.inTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOutTopic":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.server.cocoMDS4.omas.datascience.outTopic"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}},"accessServiceOptions":{"SupportedZones":["data-lake"]}}],"repositoryServicesConfig":{"class":"RepositoryServicesConfig","auditLogConnections":[{"class":"Connection","headerVersion":0,"displayName":"Console","connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"4afac741-3dcc-4c60-a4ca-a6dede994e3f","qualifiedName":"Console Audit Log Store Connector","displayName":"Console Audit Log Store Connector","description":"Connector supports logging of audit log messages to stdout.","connectorProviderClassName":"org.odpi.openmetadata.adapters.repositoryservices.auditlogstore.console.ConsoleAuditLogStoreProvider"},"configurationProperties":{"supportedSeverities":["<Unknown>","Information","Event","Decision","Action","Error","Exception","Security","Startup","Shutdown","Asset","Types","Cohort"]}}],"enterpriseAccessConfig":{"class":"EnterpriseAccessConfig","enterpriseMetadataCollectionName":"cocoMDS4 Enterprise Metadata Collection","enterpriseMetadataCollectionId":"69b8f323-0f0f-43d7-9429-a21ae85ae389","enterpriseOMRSTopicConnection":{"class":"VirtualConnection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"connectorProviderClassName":"org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"},"embeddedConnections":[{"class":"EmbeddedConnection","headerVersion":0,"position":0,"displayName":"Enterprise OMRS Events","embeddedConnection":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"ed8e682b-2fec-4403-b551-02f8c46322ef","qualifiedName":"In Memory Open Metadata Topic Connector","displayName":"In Memory Open Metadata Topic Connector","description":"In Memory Open Metadata Topic Connector supports string based events over an in memory event bus.","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.inmemory.InMemoryOpenMetadataTopicProvider","recognizedConfigurationProperties":["sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"cocoMDS4.openmetadata.repositoryservices.enterprise.cocoMDS4.OMRSTopic"},"configurationProperties":{"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675"}}}]},"enterpriseOMRSTopicProtocolVersion":"V1"},"cohortConfigList":[{"class":"CohortConfig","cohortName":"cocoCohort","cohortRegistryConnection":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"108b85fe-d7a8-45c3-9f88-742ac4e4fd14","qualifiedName":"File Based Cohort Registry Store Connector","displayName":"File Based Cohort Registry Store Connector","description":"Connector supports storing of the open metadata cohort registry in a file.","connectorProviderClassName":"org.odpi.openmetadata.adapters.repositoryservices.cohortregistrystore.file.FileBasedRegistryStoreProvider"},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"./data/servers/cocoMDS4/cohorts/cocoCohort.registrystore"}},"cohortOMRSRegistrationTopicConnection":{"class":"VirtualConnection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"connectorProviderClassName":"org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"},"embeddedConnections":[{"class":"EmbeddedConnection","headerVersion":0,"position":0,"displayName":"cocoCohort OMRS Topic for registrations","embeddedConnection":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.openmetadata.repositoryservices.cohort.cocoCohort.OMRSTopic.registration"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}}}]},"cohortOMRSTypesTopicConnection":{"class":"VirtualConnection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"connectorProviderClassName":"org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"},"embeddedConnections":[{"class":"EmbeddedConnection","headerVersion":0,"position":0,"displayName":"cocoCohort OMRS Topic for types","embeddedConnection":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.openmetadata.repositoryservices.cohort.cocoCohort.OMRSTopic.types"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}}}]},"cohortOMRSInstancesTopicConnection":{"class":"VirtualConnection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"connectorProviderClassName":"org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"},"embeddedConnections":[{"class":"EmbeddedConnection","headerVersion":0,"position":0,"displayName":"cocoCohort OMRS Topic for instances","embeddedConnection":{"class":"Connection","headerVersion":0,"connectorType":{"class":"ConnectorType","headerVersion":0,"type":{"class":"ElementType","headerVersion":0,"elementOrigin":"LOCAL_COHORT","elementVersion":0,"elementTypeId":"954421eb-33a6-462d-a8ca-b5709a1bd0d4","elementTypeName":"ConnectorType","elementTypeVersion":1,"elementTypeDescription":"A set of properties describing a type of connector."},"guid":"3851e8d0-e343-400c-82cb-3918fed81da6","qualifiedName":"Kafka Open Metadata Topic Connector","displayName":"Kafka Open Metadata Topic Connector","description":"Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.","supportedAssetTypeName":"KafkaTopic","expectedDataFormat":"PLAINTEXT","connectorProviderClassName":"org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider","connectorInterfaces":["org.odpi.openmetadata.frameworks.connectors.Connector","org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic","org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"],"recognizedConfigurationProperties":["producer","consumer","local.server.id","sleepTime"]},"endpoint":{"class":"Endpoint","headerVersion":0,"address":"egeria.omag.openmetadata.repositoryservices.cohort.cocoCohort.OMRSTopic.instances"},"configurationProperties":{"producer":{"bootstrap.servers":"lab-kafka:9092"},"local.server.id":"be786231-7ef4-44ed-8e87-8cff15a65675","consumer":{"bootstrap.servers":"lab-kafka:9092"}}}}]},"cohortOMRSTopicProtocolVersion":"V1","eventsToProcessRule":"ALL"}]},"auditTrail":["Fri Sep 03 14:29:09 GMT 2021 garygeeke updated configuration for local server's URL root to https://lab-datalake:9443.","Fri Sep 03 14:29:09 GMT 2021 garygeeke updated configuration for maximum page size to 600.","Fri Sep 03 14:29:10 GMT 2021 garygeeke removed configuration for local server type name.","Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for local server's owning organization's name to Coco Pharmaceuticals.","Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for local server's userId to cocoMDS4npa.","Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for local server's password to cocoMDS4passw0rd.","Fri Sep 03 14:29:10 GMT 2021 garygeeke added configuration for an Open Metadata Server Security Connector","Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for default event bus.","Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for cohort cocoCohort.","Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for access services.","Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).","Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for access services.","Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).","Fri Sep 03 14:29:12 GMT 2021 garygeeke updated configuration for access services.","Fri Sep 03 14:29:12 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).","Fri Sep 03 14:29:12 GMT 2021 garygeeke updated configuration for access services.","Fri Sep 03 14:29:13 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).","Fri Sep 03 14:29:13 GMT 2021 garygeeke updated configuration for access services.","Fri Sep 03 14:29:13 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).","Fri Sep 03 14:29:44 GMT 2021 garygeeke deployed configuration for server."]}}
+{
+  "class": "OMAGServerConfig",
+  "versionId": "V2.0",
+  "localServerId": "be786231-7ef4-44ed-8e87-8cff15a65675",
+  "localServerName": "cocoMDS4",
+  "localServerType": "Metadata Access Point",
+  "organizationName": "Coco Pharmaceuticals",
+  "localServerURL": "https://lab-datalake:9443",
+  "localServerUserId": "cocoMDS4npa",
+  "localServerPassword": "cocoMDS4passw0rd",
+  "maxPageSize": 600,
+  "serverSecurityConnection": {
+    "class": "Connection",
+    "headerVersion": 0,
+    "connectorType": {
+      "class": "ConnectorType",
+      "headerVersion": 0,
+      "connectorProviderClassName": "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
+    }
+  },
+  "eventBusConfig": {
+    "class": "EventBusConfig",
+    "topicURLRoot": "egeria.omag",
+    "configurationProperties": {
+      "producer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      },
+      "consumer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      }
+    },
+    "additionalProperties": {
+      "producer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      },
+      "consumer": {
+        "bootstrap.servers": "lab-kafka:9092"
+      }
+    }
+  },
+  "accessServicesConfig": [
+    {
+      "class": "AccessServiceConfig",
+      "accessServiceId": 1000,
+      "accessServiceAdminClass": "org.odpi.openmetadata.accessservices.assetcatalog.admin.AssetCatalogAdmin",
+      "accessServiceName": "Asset Catalog",
+      "accessServiceFullName": "Asset Catalog OMAS",
+      "accessServiceURLMarker": "asset-catalog",
+      "accessServiceDescription": "Search and understand your assets",
+      "accessServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/access-services/asset-catalog/",
+      "accessServiceOperationalStatus": "ENABLED",
+      "accessServiceInTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.assetcatalog.inTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOutTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.assetcatalog.outTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOptions": {
+        "SupportedZones": [
+          "data-lake"
+        ]
+      }
+    },
+    {
+      "class": "AccessServiceConfig",
+      "accessServiceId": 1001,
+      "accessServiceAdminClass": "org.odpi.openmetadata.accessservices.assetconsumer.admin.AssetConsumerAdmin",
+      "accessServiceName": "Asset Consumer",
+      "accessServiceFullName": "Asset Consumer OMAS",
+      "accessServiceURLMarker": "asset-consumer",
+      "accessServiceDescription": "Access assets through connectors",
+      "accessServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/access-services/asset-consumer/",
+      "accessServiceOperationalStatus": "ENABLED",
+      "accessServiceInTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.assetconsumer.inTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOutTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.assetconsumer.outTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOptions": {
+        "SupportedZones": [
+          "data-lake"
+        ]
+      }
+    },
+    {
+      "class": "AccessServiceConfig",
+      "accessServiceId": 1003,
+      "accessServiceAdminClass": "org.odpi.openmetadata.accessservices.communityprofile.admin.CommunityProfileAdmin",
+      "accessServiceName": "Community Profile",
+      "accessServiceFullName": "Community Profile OMAS",
+      "accessServiceURLMarker": "community-profile",
+      "accessServiceDescription": "Define personal profile and collaborate",
+      "accessServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/access-services/community-profile/",
+      "accessServiceOperationalStatus": "ENABLED",
+      "accessServiceInTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.communityprofile.inTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOutTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.communityprofile.outTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOptions": {
+        "KarmaPointPlateau": "500"
+      }
+    },
+    {
+      "class": "AccessServiceConfig",
+      "accessServiceId": 1022,
+      "accessServiceAdminClass": "org.odpi.openmetadata.accessservices.glossaryview.server.admin.GlossaryViewAdmin",
+      "accessServiceName": "Glossary View",
+      "accessServiceFullName": "Glossary View OMAS",
+      "accessServiceURLMarker": "glossary-view",
+      "accessServiceDescription": "Support glossary terms visualization",
+      "accessServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/access-services/glossary-view/",
+      "accessServiceOperationalStatus": "ENABLED",
+      "accessServiceInTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.glossaryview.inTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOutTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.glossaryview.outTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      }
+    },
+    {
+      "class": "AccessServiceConfig",
+      "accessServiceId": 1006,
+      "accessServiceAdminClass": "org.odpi.openmetadata.accessservices.datascience.admin.DataScienceAdmin",
+      "accessServiceName": "Data Science",
+      "accessServiceFullName": "Data Science OMAS",
+      "accessServiceURLMarker": "data-science",
+      "accessServiceDescription": "Create and manage data science definitions and models",
+      "accessServiceWiki": "https://egeria.odpi.org/open-metadata-implementation/access-services/data-science/",
+      "accessServiceOperationalStatus": "ENABLED",
+      "accessServiceInTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.datascience.inTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOutTopic": {
+        "class": "Connection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+          "qualifiedName": "Kafka Open Metadata Topic Connector",
+          "displayName": "Kafka Open Metadata Topic Connector",
+          "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+          "supportedAssetTypeName": "KafkaTopic",
+          "expectedDataFormat": "PLAINTEXT",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+          "connectorInterfaces": [
+            "org.odpi.openmetadata.frameworks.connectors.Connector",
+            "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+            "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+          ],
+          "recognizedConfigurationProperties": [
+            "producer",
+            "consumer",
+            "local.server.id",
+            "sleepTime"
+          ]
+        },
+        "endpoint": {
+          "class": "Endpoint",
+          "headerVersion": 0,
+          "address": "egeria.omag.server.cocoMDS4.omas.datascience.outTopic"
+        },
+        "configurationProperties": {
+          "producer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          },
+          "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+          "consumer": {
+            "bootstrap.servers": "lab-kafka:9092"
+          }
+        }
+      },
+      "accessServiceOptions": {
+        "SupportedZones": [
+          "data-lake"
+        ]
+      }
+    }
+  ],
+  "repositoryServicesConfig": {
+    "class": "RepositoryServicesConfig",
+    "auditLogConnections": [
+      {
+        "class": "Connection",
+        "headerVersion": 0,
+        "displayName": "Console",
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "type": {
+            "class": "ElementType",
+            "headerVersion": 0,
+            "elementOrigin": "LOCAL_COHORT",
+            "elementVersion": 0,
+            "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+            "elementTypeName": "ConnectorType",
+            "elementTypeVersion": 1,
+            "elementTypeDescription": "A set of properties describing a type of connector."
+          },
+          "guid": "4afac741-3dcc-4c60-a4ca-a6dede994e3f",
+          "qualifiedName": "Console Audit Log Store Connector",
+          "displayName": "Console Audit Log Store Connector",
+          "description": "Connector supports logging of audit log messages to stdout.",
+          "connectorProviderClassName": "org.odpi.openmetadata.adapters.repositoryservices.auditlogstore.console.ConsoleAuditLogStoreProvider"
+        },
+        "configurationProperties": {
+          "supportedSeverities": [
+            "<Unknown>",
+            "Information",
+            "Event",
+            "Decision",
+            "Action",
+            "Error",
+            "Exception",
+            "Security",
+            "Startup",
+            "Shutdown",
+            "Asset",
+            "Types",
+            "Cohort"
+          ]
+        }
+      }
+    ],
+    "enterpriseAccessConfig": {
+      "class": "EnterpriseAccessConfig",
+      "enterpriseMetadataCollectionName": "cocoMDS4 Enterprise Metadata Collection",
+      "enterpriseMetadataCollectionId": "69b8f323-0f0f-43d7-9429-a21ae85ae389",
+      "enterpriseOMRSTopicConnection": {
+        "class": "VirtualConnection",
+        "headerVersion": 0,
+        "connectorType": {
+          "class": "ConnectorType",
+          "headerVersion": 0,
+          "connectorProviderClassName": "org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"
+        },
+        "embeddedConnections": [
+          {
+            "class": "EmbeddedConnection",
+            "headerVersion": 0,
+            "position": 0,
+            "displayName": "Enterprise OMRS Events",
+            "embeddedConnection": {
+              "class": "Connection",
+              "headerVersion": 0,
+              "connectorType": {
+                "class": "ConnectorType",
+                "headerVersion": 0,
+                "type": {
+                  "class": "ElementType",
+                  "headerVersion": 0,
+                  "elementOrigin": "LOCAL_COHORT",
+                  "elementVersion": 0,
+                  "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+                  "elementTypeName": "ConnectorType",
+                  "elementTypeVersion": 1,
+                  "elementTypeDescription": "A set of properties describing a type of connector."
+                },
+                "guid": "ed8e682b-2fec-4403-b551-02f8c46322ef",
+                "qualifiedName": "In Memory Open Metadata Topic Connector",
+                "displayName": "In Memory Open Metadata Topic Connector",
+                "description": "In Memory Open Metadata Topic Connector supports string based events over an in memory event bus.",
+                "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.inmemory.InMemoryOpenMetadataTopicProvider",
+                "recognizedConfigurationProperties": [
+                  "sleepTime"
+                ]
+              },
+              "endpoint": {
+                "class": "Endpoint",
+                "headerVersion": 0,
+                "address": "cocoMDS4.openmetadata.repositoryservices.enterprise.cocoMDS4.OMRSTopic"
+              },
+              "configurationProperties": {
+                "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675"
+              }
+            }
+          }
+        ]
+      },
+      "enterpriseOMRSTopicProtocolVersion": "V1"
+    },
+    "cohortConfigList": [
+      {
+        "class": "CohortConfig",
+        "cohortName": "cocoCohort",
+        "cohortRegistryConnection": {
+          "class": "Connection",
+          "headerVersion": 0,
+          "connectorType": {
+            "class": "ConnectorType",
+            "headerVersion": 0,
+            "type": {
+              "class": "ElementType",
+              "headerVersion": 0,
+              "elementOrigin": "LOCAL_COHORT",
+              "elementVersion": 0,
+              "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+              "elementTypeName": "ConnectorType",
+              "elementTypeVersion": 1,
+              "elementTypeDescription": "A set of properties describing a type of connector."
+            },
+            "guid": "108b85fe-d7a8-45c3-9f88-742ac4e4fd14",
+            "qualifiedName": "File Based Cohort Registry Store Connector",
+            "displayName": "File Based Cohort Registry Store Connector",
+            "description": "Connector supports storing of the open metadata cohort registry in a file.",
+            "connectorProviderClassName": "org.odpi.openmetadata.adapters.repositoryservices.cohortregistrystore.file.FileBasedRegistryStoreProvider"
+          },
+          "endpoint": {
+            "class": "Endpoint",
+            "headerVersion": 0,
+            "address": "./data/servers/cocoMDS4/cohorts/cocoCohort.registrystore"
+          }
+        },
+        "cohortOMRSRegistrationTopicConnection": {
+          "class": "VirtualConnection",
+          "headerVersion": 0,
+          "connectorType": {
+            "class": "ConnectorType",
+            "headerVersion": 0,
+            "connectorProviderClassName": "org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"
+          },
+          "embeddedConnections": [
+            {
+              "class": "EmbeddedConnection",
+              "headerVersion": 0,
+              "position": 0,
+              "displayName": "cocoCohort OMRS Topic for registrations",
+              "embeddedConnection": {
+                "class": "Connection",
+                "headerVersion": 0,
+                "connectorType": {
+                  "class": "ConnectorType",
+                  "headerVersion": 0,
+                  "type": {
+                    "class": "ElementType",
+                    "headerVersion": 0,
+                    "elementOrigin": "LOCAL_COHORT",
+                    "elementVersion": 0,
+                    "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+                    "elementTypeName": "ConnectorType",
+                    "elementTypeVersion": 1,
+                    "elementTypeDescription": "A set of properties describing a type of connector."
+                  },
+                  "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+                  "qualifiedName": "Kafka Open Metadata Topic Connector",
+                  "displayName": "Kafka Open Metadata Topic Connector",
+                  "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+                  "supportedAssetTypeName": "KafkaTopic",
+                  "expectedDataFormat": "PLAINTEXT",
+                  "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+                  "connectorInterfaces": [
+                    "org.odpi.openmetadata.frameworks.connectors.Connector",
+                    "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+                    "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+                  ],
+                  "recognizedConfigurationProperties": [
+                    "producer",
+                    "consumer",
+                    "local.server.id",
+                    "sleepTime"
+                  ]
+                },
+                "endpoint": {
+                  "class": "Endpoint",
+                  "headerVersion": 0,
+                  "address": "egeria.omag.openmetadata.repositoryservices.cohort.cocoCohort.OMRSTopic.registration"
+                },
+                "configurationProperties": {
+                  "producer": {
+                    "bootstrap.servers": "lab-kafka:9092"
+                  },
+                  "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+                  "consumer": {
+                    "bootstrap.servers": "lab-kafka:9092"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "cohortOMRSTypesTopicConnection": {
+          "class": "VirtualConnection",
+          "headerVersion": 0,
+          "connectorType": {
+            "class": "ConnectorType",
+            "headerVersion": 0,
+            "connectorProviderClassName": "org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"
+          },
+          "embeddedConnections": [
+            {
+              "class": "EmbeddedConnection",
+              "headerVersion": 0,
+              "position": 0,
+              "displayName": "cocoCohort OMRS Topic for types",
+              "embeddedConnection": {
+                "class": "Connection",
+                "headerVersion": 0,
+                "connectorType": {
+                  "class": "ConnectorType",
+                  "headerVersion": 0,
+                  "type": {
+                    "class": "ElementType",
+                    "headerVersion": 0,
+                    "elementOrigin": "LOCAL_COHORT",
+                    "elementVersion": 0,
+                    "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+                    "elementTypeName": "ConnectorType",
+                    "elementTypeVersion": 1,
+                    "elementTypeDescription": "A set of properties describing a type of connector."
+                  },
+                  "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+                  "qualifiedName": "Kafka Open Metadata Topic Connector",
+                  "displayName": "Kafka Open Metadata Topic Connector",
+                  "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+                  "supportedAssetTypeName": "KafkaTopic",
+                  "expectedDataFormat": "PLAINTEXT",
+                  "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+                  "connectorInterfaces": [
+                    "org.odpi.openmetadata.frameworks.connectors.Connector",
+                    "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+                    "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+                  ],
+                  "recognizedConfigurationProperties": [
+                    "producer",
+                    "consumer",
+                    "local.server.id",
+                    "sleepTime"
+                  ]
+                },
+                "endpoint": {
+                  "class": "Endpoint",
+                  "headerVersion": 0,
+                  "address": "egeria.omag.openmetadata.repositoryservices.cohort.cocoCohort.OMRSTopic.types"
+                },
+                "configurationProperties": {
+                  "producer": {
+                    "bootstrap.servers": "lab-kafka:9092"
+                  },
+                  "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+                  "consumer": {
+                    "bootstrap.servers": "lab-kafka:9092"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "cohortOMRSInstancesTopicConnection": {
+          "class": "VirtualConnection",
+          "headerVersion": 0,
+          "connectorType": {
+            "class": "ConnectorType",
+            "headerVersion": 0,
+            "connectorProviderClassName": "org.odpi.openmetadata.repositoryservices.connectors.omrstopic.OMRSTopicProvider"
+          },
+          "embeddedConnections": [
+            {
+              "class": "EmbeddedConnection",
+              "headerVersion": 0,
+              "position": 0,
+              "displayName": "cocoCohort OMRS Topic for instances",
+              "embeddedConnection": {
+                "class": "Connection",
+                "headerVersion": 0,
+                "connectorType": {
+                  "class": "ConnectorType",
+                  "headerVersion": 0,
+                  "type": {
+                    "class": "ElementType",
+                    "headerVersion": 0,
+                    "elementOrigin": "LOCAL_COHORT",
+                    "elementVersion": 0,
+                    "elementTypeId": "954421eb-33a6-462d-a8ca-b5709a1bd0d4",
+                    "elementTypeName": "ConnectorType",
+                    "elementTypeVersion": 1,
+                    "elementTypeDescription": "A set of properties describing a type of connector."
+                  },
+                  "guid": "3851e8d0-e343-400c-82cb-3918fed81da6",
+                  "qualifiedName": "Kafka Open Metadata Topic Connector",
+                  "displayName": "Kafka Open Metadata Topic Connector",
+                  "description": "Kafka Open Metadata Topic Connector supports string based events over an Apache Kafka event bus.",
+                  "supportedAssetTypeName": "KafkaTopic",
+                  "expectedDataFormat": "PLAINTEXT",
+                  "connectorProviderClassName": "org.odpi.openmetadata.adapters.eventbus.topic.kafka.KafkaOpenMetadataTopicProvider",
+                  "connectorInterfaces": [
+                    "org.odpi.openmetadata.frameworks.connectors.Connector",
+                    "org.odpi.openmetadata.repositoryservices.connectors.openmetadatatopic.OpenMetadataTopic",
+                    "org.odpi.openmetadata.frameworks.auditlog.AuditLoggingComponent"
+                  ],
+                  "recognizedConfigurationProperties": [
+                    "producer",
+                    "consumer",
+                    "local.server.id",
+                    "sleepTime"
+                  ]
+                },
+                "endpoint": {
+                  "class": "Endpoint",
+                  "headerVersion": 0,
+                  "address": "egeria.omag.openmetadata.repositoryservices.cohort.cocoCohort.OMRSTopic.instances"
+                },
+                "configurationProperties": {
+                  "producer": {
+                    "bootstrap.servers": "lab-kafka:9092"
+                  },
+                  "local.server.id": "be786231-7ef4-44ed-8e87-8cff15a65675",
+                  "consumer": {
+                    "bootstrap.servers": "lab-kafka:9092"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "cohortOMRSTopicProtocolVersion": "V1",
+        "eventsToProcessRule": "ALL"
+      }
+    ]
+  },
+  "auditTrail": [
+    "Fri Sep 03 14:29:09 GMT 2021 garygeeke updated configuration for local server's URL root to https://lab-datalake:9443.",
+    "Fri Sep 03 14:29:09 GMT 2021 garygeeke updated configuration for maximum page size to 600.",
+    "Fri Sep 03 14:29:10 GMT 2021 garygeeke removed configuration for local server type name.",
+    "Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for local server's owning organization's name to Coco Pharmaceuticals.",
+    "Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for local server's userId to cocoMDS4npa.",
+    "Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for local server's password to cocoMDS4passw0rd.",
+    "Fri Sep 03 14:29:10 GMT 2021 garygeeke added configuration for an Open Metadata Server Security Connector",
+    "Fri Sep 03 14:29:10 GMT 2021 garygeeke updated configuration for default event bus.",
+    "Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for cohort cocoCohort.",
+    "Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for access services.",
+    "Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).",
+    "Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for access services.",
+    "Fri Sep 03 14:29:11 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).",
+    "Fri Sep 03 14:29:12 GMT 2021 garygeeke updated configuration for access services.",
+    "Fri Sep 03 14:29:12 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).",
+    "Fri Sep 03 14:29:12 GMT 2021 garygeeke updated configuration for access services.",
+    "Fri Sep 03 14:29:13 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).",
+    "Fri Sep 03 14:29:13 GMT 2021 garygeeke updated configuration for access services.",
+    "Fri Sep 03 14:29:13 GMT 2021 garygeeke updated configuration for enterprise repository services (used by access services).",
+    "Fri Sep 03 14:29:44 GMT 2021 garygeeke deployed configuration for server."
+  ]
+}
