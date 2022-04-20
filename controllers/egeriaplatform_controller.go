@@ -484,10 +484,9 @@ func (reconciler *EgeriaPlatformReconciler) configmapForEgeriaPlatform(ctx conte
 
 	// Figure out autostart list
 	var autostart = make(map[string]string)
-	//TODO avoid hardcoding serverame
-	//autostart["STARTUP_SERVER_LIST"] = "cocoMDS4, cocoMDS1, cocoView1"
-	//autostart["STARTUP_SERVER_LIST"], _ = reconciler.getServersFromConfigMaps(ctx, egeriaInstance)
-
+	if egeriaInstance.Spec.Autostart == true {
+		autostart["STARTUP_SERVER_LIST"], _ = reconciler.getServersFromConfigMaps(ctx, egeriaInstance)
+	}
 	configmap := &corev1.ConfigMap{
 		TypeMeta: metav1.TypeMeta{},
 		ObjectMeta: metav1.ObjectMeta{

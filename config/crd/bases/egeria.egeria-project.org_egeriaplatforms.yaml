@@ -49,6 +49,11 @@ spec:
           spec:
             description: 'EgeriaPlatformSpec : Desired State for Egeria Platform'
             properties:
+              autostart:
+                default: true
+                description: If true, configured servers will be started when the
+                  platform starts up
+                type: boolean
               image:
                 default: quay.io/odpi/egeria:latest
                 description: Container image to use, overriding operator configuration
@@ -78,6 +83,7 @@ spec:
                 minItems: 1
                 type: array
             required:
+            - autostart
             - serverconfig
             type: object
           status:

@@ -42,6 +42,9 @@ type EgeriaPlatformSpec struct {
 	// +kubebuilder:validation:MinItems=1
 	// Should be unique, but cannot be set - restriction of schema validation
 	ServerConfig []string `json:"serverconfig"`
+	// +kubebuilder:default:=true
+	// If true, configured servers will be started when the platform starts up
+	Autostart bool `json:"autostart"`
 }
 
 // EgeriaPlatformStatus : Observed state of Egeria Platform
