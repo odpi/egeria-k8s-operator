@@ -443,7 +443,7 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 	}
 	// Set Egeria instance as the owner and controller
 	// TODO: resolve management of references
-	ctrl.SetControllerReference(egeriaInstance, deployment, reconciler.Scheme)
+	_ = ctrl.SetControllerReference(egeriaInstance, deployment, reconciler.Scheme)
 	return deployment
 }
 
@@ -472,7 +472,7 @@ func (reconciler *EgeriaPlatformReconciler) serviceForEgeriaPlatform(egeriaInsta
 	}
 	// Set Egeria instance as the owner and controller
 	// TODO: resolve management of references
-	ctrl.SetControllerReference(egeriaInstance, service, reconciler.Scheme)
+	_ = ctrl.SetControllerReference(egeriaInstance, service, reconciler.Scheme)
 	return service
 }
 
