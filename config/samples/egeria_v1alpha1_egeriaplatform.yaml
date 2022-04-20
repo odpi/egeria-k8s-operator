@@ -5,6 +5,4 @@ metadata:
 spec:
   # Add fields here
   replicas: 3
-  servers:
-    - name: egeria
-      config-secret: tbd
+  serverconfig: corecfg

@@ -10,8 +10,8 @@ This document is to aid any developers working on building the k8s operator. It 
 
 These need to be installed and configured in order to build the k8s operator
 
-* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.10.1](https://github.com/operator-framework/operator-sdk/releases/tag/v1.10.1)
-* [go](https://golang.org) 1.15.x - install from website, os distro, or homebrew (As of April 2021 1.16 is not supported - see https://github.com/operator-framework/operator-sdk/issues/4690 )
+* [operator sdk](https://github.com/operator-framework/operator-sdk) - version [1.19.1](https://github.com/operator-framework/operator-sdk/releases/tag/v1.19.1) (Last migrated 2022-04-19)
+* [go](https://golang.org) 1.17.x - install from website, os distro, or homebrew 
 * Other dependencies as documented by [operator-sdk](https://sdk.operatorframework.io/docs/building-operators/golang/installation/) including docker, kubectl, kubernetes
 * make - for the build process
 * A *nix variant or macOS (shell script usage)
@@ -139,7 +139,7 @@ Docker implements restrictions on pull rates. You may see an error like
 ```
 and see your pods stuck in ErrImagePull state.
 
-If so, consider using a local registry, or a cloud service such as quay.io 
+If so, consider using a local registry, or a cloud service such as quay.io. This is now the default for the operator.
 
 If you wish to push images created by the operator build scripts to your own registry you can set `OPERATOR_REGISTRY` environment variable ie `export OPERATOR_REGISTRY=quay.io/superme`
 
@@ -148,14 +148,15 @@ If you wish to push images created by the operator build scripts to your own reg
 
 # Design decisions
 
-* We are using operator-sdk 1.10.0 for tooling
+* We are using operator-sdk 1.16.0 for tooling (last checked: 2022-01-26)
 * golang is the implementation language for the oeprator
 * operator is [cluster-scoped](https://sdk.operatorframework.io/docs/building-operators/golang/operator-scope/) - this is the default and can be revisited in future
 * operator uses a single [group](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) 'org.odpi.egeria' for it's APIs - also the default
 * The initial implementation uses a single [kind](https://book.kubebuilder.io/cronjob-tutorial/gvks.html) called 'EgeriaPlatform' - think of this as the k8s resource type we are dealing with
-* The operator manages the Egeria Platform. Servers are defined in regular Egeria config documents
-* Operational server API calls (ie like deleting a server instance) should not be used
+* The operator manages the Egeria Platform. Servers are defined in regular Egeria config documents. All required for a platform are placed into a single configmap
+* Operational server API calls (ie like deleting a server instance) should not be used. Actions like starting a server can take a long time and would require asynchronous http requests to be managed
 * Egeria servers must be configured with a remote metadata store such as xtdb (crux)
+* Servers are started by setting the autostart server list
 
 # Bugs
 
