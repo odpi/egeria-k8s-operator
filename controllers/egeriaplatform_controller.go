@@ -88,7 +88,7 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		log.FromContext(ctx).Info("Problems setting up autostart configmap.", "err", err)
 		return ctrl.Result{}, err
 	}
-	if requeue == true {
+	if requeue {
 		// We need to wait a little longer as this is creating a deployment in the background
 		log.FromContext(ctx).Info("Requeueing after creating autostart configmap")
 		return ctrl.Result{RequeueAfter: 10 * time.Second}, nil
@@ -103,7 +103,7 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		log.FromContext(ctx).Info("Problems checking Deployment.", "err", err)
 		return ctrl.Result{}, err
 	}
-	if requeue == true {
+	if requeue {
 		// We need to wait a little longer as this is creating a deployment in the background
 		log.FromContext(ctx).Info("Requeueing after creating deployment")
 		return ctrl.Result{RequeueAfter: time.Minute}, nil
@@ -143,7 +143,7 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		return ctrl.Result{}, err
 	}
 	// TODO: Simplify signature/handling error & requeue
-	if requeue == true {
+	if requeue {
 		log.FromContext(ctx).Info("Requeueing after updating replica count")
 		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	}
@@ -155,7 +155,7 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 		log.FromContext(ctx).Info("Problems checking service", "err", err)
 		return ctrl.Result{}, err
 	}
-	if requeue == true {
+	if requeue {
 		// Allow time for the new service definition to be effective before rechecking
 		log.FromContext(ctx).Info("Requeueing after creating service")
 		return ctrl.Result{RequeueAfter: time.Minute}, nil
@@ -544,18 +544,18 @@ func getPodNames(pods []corev1.Pod) []string {
 	return podNames
 }
 
-func getVolumeMounts() []corev1.VolumeMount {
-	return []corev1.VolumeMount{
-		// This contains all of the server configuration documents for the platform
-		{
-			Name: "serverconfig",
-			// Do not permit updating the configuration
-			ReadOnly: true,
-			// TODO: Need to aggregate data from multiple files? Or combine configs into one map
-			MountPath: "/deployments/data/servers",
-		},
-	}
-}
+//func getVolumeMounts() []corev1.VolumeMount {
+//	return []corev1.VolumeMount{
+//		// This contains all of the server configuration documents for the platform
+//		{
+//			Name: "serverconfig",
+//			// Do not permit updating the configuration
+//			ReadOnly: true,
+//			// TODO: Need to aggregate data from multiple files? Or combine configs into one map
+//			MountPath: "/deployments/data/servers",
+//		},
+//	}
+//}
 
 func getVolumes(configname string) []corev1.Volume {
 	// In future we may have multiple volumes, so extracted out to fn
