@@ -215,7 +215,7 @@ func (reconciler *EgeriaPlatformReconciler) ensureDeployment(ctx context.Context
 	err := reconciler.Get(ctx, types.NamespacedName{Name: egeria.Name + "-deployment", Namespace: egeria.Namespace}, deployment)
 	if err != nil && errors.IsNotFound(err) {
 		// Define a new Deployment
-		dep := reconciler.deploymentForEgeriaPlatform(egeria)
+		dep := reconciler.deploymentForEgeriaPlatform(ctx, egeria)
 		log.FromContext(ctx).Info("Creating a new Deployment", "Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
 		err = reconciler.Create(ctx, dep)
 		if err != nil {
@@ -352,7 +352,7 @@ func (reconciler *EgeriaPlatformReconciler) checkReplicas(ctx context.Context, e
 
 // TODO: Migrate to stateful set if identity needed
 // deploymentForEgeria returns an egeria Deployment object
-func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaInstance *egeriav1alpha1.EgeriaPlatform) *appsv1.Deployment {
+func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(ctx context.Context, egeriaInstance *egeriav1alpha1.EgeriaPlatform) *appsv1.Deployment {
 	labels := egeriaLabels(egeriaInstance.Name, "deployment")
 	replicas := egeriaInstance.Spec.Size
 
@@ -371,8 +371,8 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 					Labels: labels,
 				},
 				Spec: corev1.PodSpec{
-					// The server configuration is stored in a configmap, which is mapped to a volume
-					Volumes: getVolumes(egeriaInstance.Spec.ServerConfig),
+					// The server configuration is stored in configmaps, which are each mapped to a volume
+					Volumes: reconciler.getVolumes(ctx, egeriaInstance.Spec.ServerConfig, egeriaInstance),
 					Containers: []corev1.Container{{
 						Name:  "platform",
 						Image: egeriaInstance.Spec.Image,
@@ -390,7 +390,8 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(egeriaIn
 							},
 						}},
 						// Mountpoints are needed for egeria configuration
-						//TODO: VolumeMounts: BmeMounts(),
+						//TODO: Fix mounts
+						VolumeMounts: reconciler.getVolumeMounts(ctx, egeriaInstance.Spec.ServerConfig, egeriaInstance),
 						// This probe defines when to RESTART the container
 						LivenessProbe: &corev1.Probe{
 							ProbeHandler: corev1.ProbeHandler{
@@ -485,7 +486,7 @@ func (reconciler *EgeriaPlatformReconciler) configmapForEgeriaPlatform(ctx conte
 	var autostart = make(map[string]string)
 	//TODO avoid hardcoding serverame
 	//autostart["STARTUP_SERVER_LIST"] = "cocoMDS4, cocoMDS1, cocoView1"
-	autostart["STARTUP_SERVER_LIST"], _ = reconciler.getServersFromConfigMap(ctx, egeriaInstance)
+	//autostart["STARTUP_SERVER_LIST"], _ = reconciler.getServersFromConfigMaps(ctx, egeriaInstance)
 
 	configmap := &corev1.ConfigMap{
 		TypeMeta: metav1.TypeMeta{},
@@ -557,40 +558,114 @@ func getPodNames(pods []corev1.Pod) []string {
 //	}
 //}
 
-func getVolumes(configname string) []corev1.Volume {
-	// In future we may have multiple volumes, so extracted out to fn
-	return []corev1.Volume{{
-		Name: "serverconfig",
-		VolumeSource: corev1.VolumeSource{
-			ConfigMap: &corev1.ConfigMapVolumeSource{
-				LocalObjectReference: corev1.LocalObjectReference{
-					Name: configname,
+// creates the volume section of the pod spec, based on list of configmaps specified in CR
+func (reconciler *EgeriaPlatformReconciler) getVolumes(ctx context.Context, configname []string, egeria *egeriav1alpha1.EgeriaPlatform) []corev1.Volume {
+
+	log.FromContext(ctx).Info("Getting list of volumes")
+	var vols []corev1.Volume
+	serverconfigmap := &corev1.ConfigMap{}
+	var mountName string
+
+	for i := range configname {
+		// entry for each volume
+		// TODO - there is no error checking here - needs refactoring
+		_ = reconciler.Get(ctx, types.NamespacedName{Name: egeria.Spec.ServerConfig[i], Namespace: egeria.Namespace}, serverconfigmap)
+
+		// We now have the configmap object. need to extract server names. Should just be one, but allow for multiple
+		// for now we'll just run this loop and use last
+		for k := range serverconfigmap.Data {
+			log.FromContext(ctx).Info("Using filename as key: ", "servername", k)
+			mountName = k // use last one
+		}
+
+		log.FromContext(ctx).Info("Adding to volume list: ", "name", configname[i])
+		vols = append(vols, corev1.Volume{
+			Name: configname[i],
+			VolumeSource: corev1.VolumeSource{
+				ConfigMap: &corev1.ConfigMapVolumeSource{
+					LocalObjectReference: corev1.LocalObjectReference{
+						Name: configname[i],
+					},
+					Items: []corev1.KeyToPath{
+						{
+							Key:  mountName,
+							Path: mountName + ".config",
+						},
+					},
 				},
 			},
 		},
-	}}
+		)
+	}
+
+	// return the built list
+	return vols
+}
+
+func (reconciler *EgeriaPlatformReconciler) getVolumeMounts(ctx context.Context, configname []string, egeria *egeriav1alpha1.EgeriaPlatform) []corev1.VolumeMount {
+
+	var vols []corev1.VolumeMount
+	serverconfigmap := &corev1.ConfigMap{}
+	var mountName string
+
+	log.FromContext(ctx).Info("Building list of volume mounts")
+	for i := range configname {
+		log.FromContext(ctx).Info("Adding to volume mount: ", "name", configname[i])
+
+		// Need to inspect the configmap to check the name (specifically, could be mixed case)
+		// TODO - there is no error checking here - needs refactoring
+		_ = reconciler.Get(ctx, types.NamespacedName{Name: egeria.Spec.ServerConfig[i], Namespace: egeria.Namespace}, serverconfigmap)
+
+		// We now have the configmap object. need to extract server names. Should just be one, but allow for multiple
+		// for now we'll just run this loop and use last
+		for k := range serverconfigmap.Data {
+			// TODO: needs error checking
+			log.FromContext(ctx).Info("Using filename as key: ", "servername", k)
+			mountName = k // use last one
+			//TODO:  Enforce only one server name, or fix lowercase in better way
+		}
+
+		// entry for each volume
+		vols = append(vols, corev1.VolumeMount{
+			Name:     configname[i],
+			ReadOnly: true,
+			// TODO: Mountpath should be configurable - though does depend on container image
+			MountPath: "/deployments/data/servers/" + mountName,
+			// TODO: Note this is a lower-cased name. If it needs to be same as server name we'll need to read from configmap
+
+		},
+		)
+	}
+
+	// return the built list
+	return vols
 }
 
 // TODO : Automatically create autostart server list from querying config
 
-func (reconciler *EgeriaPlatformReconciler) getServersFromConfigMap(ctx context.Context, egeria *egeriav1alpha1.EgeriaPlatform) (servers string, err error) {
+func (reconciler *EgeriaPlatformReconciler) getServersFromConfigMaps(ctx context.Context, egeria *egeriav1alpha1.EgeriaPlatform) (servers string, err error) {
 	// Retrieve the list of servers from the configmap
-	configmap := &corev1.ConfigMap{}
-	err = reconciler.Get(ctx, types.NamespacedName{Name: egeria.Spec.ServerConfig, Namespace: egeria.Namespace}, configmap)
-	if err != nil {
-		if errors.IsNotFound(err) {
-			log.FromContext(ctx).Error(err, "Configured server configmap not found.")
+	serverconfigmap := &corev1.ConfigMap{}
+	// iterate through the list of configured configmaps - one per server ideally
+	for cm := range egeria.Spec.ServerConfig {
+		err = reconciler.Get(ctx, types.NamespacedName{Name: egeria.Spec.ServerConfig[cm], Namespace: egeria.Namespace}, serverconfigmap)
+		if err != nil {
+			if errors.IsNotFound(err) {
+				log.FromContext(ctx).Error(err, "Configured server configmap not found.")
+				return "", err
+			}
+			// Error reading the object - requeue the request.
+			log.FromContext(ctx).Error(err, "Error reading server configmap")
 			return "", err
 		}
-		// Error reading the object - requeue the request.
-		log.FromContext(ctx).Error(err, "Error reading server configmap")
-		return "", err
+		// We now have the configmap object. need to extract server names. Should just be one, but allow for multiple
+		for k := range serverconfigmap.Data {
+			log.FromContext(ctx).Info("Found server config & adding to startup list: ", "servername", k)
+			servers += k + ","
+		}
 	}
-	// We now have the configmap object. need to extract server names
-	for k := range configmap.Data {
-		log.FromContext(ctx).Info("Found server config & adding to startup list: ", "servername", k)
-		servers += k + ","
-	}
+
+	// This should be a list built from all configmaps
 	return servers, nil
 }
 

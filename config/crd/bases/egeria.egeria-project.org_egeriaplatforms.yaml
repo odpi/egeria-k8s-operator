@@ -70,10 +70,13 @@ spec:
                 minLength: 1
                 type: string
               serverconfig:
-                description: Configmap used for server configuration
-                maxLength: 253
-                minLength: 1
-                type: string
+                description: Configmap used for server configuration Should be unique,
+                  but cannot be set - restriction of schema validation
+                items:
+                  type: string
+                maxItems: 253
+                minItems: 1
+                type: array
             required:
             - serverconfig
             type: object

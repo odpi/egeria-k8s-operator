@@ -38,9 +38,10 @@ type EgeriaPlatformSpec struct {
 	// +kubebuilder:default="quay.io/odpi/egeria:latest"
 	Image string `json:"image,omitempty"`
 	// Configmap used for server configuration
-	// +kubebuilder:validation:MaxLength=253
-	// +kubebuilder:validation:MinLength=1
-	ServerConfig string `json:"serverconfig"`
+	// +kubebuilder:validation:MaxItems=253
+	// +kubebuilder:validation:MinItems=1
+	// Should be unique, but cannot be set - restriction of schema validation
+	ServerConfig []string `json:"serverconfig"`
 }
 
 // EgeriaPlatformStatus : Observed state of Egeria Platform
