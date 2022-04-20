@@ -47,13 +47,17 @@ spec:
           metadata:
             type: object
           spec:
-            description: 'EgeriaPlatformSpec : Desired State for Egeria Platform'
+            description: 'EgeriaPlatformSpec : Desired State for Egeria Platform√'
             properties:
               autostart:
                 default: true
                 description: If true, configured servers will be started when the
                   platform starts up
                 type: boolean
+              egerialoglevel:
+                default: "OFF"
+                description: Sets the log level for debugging
+                type: string
               image:
                 default: quay.io/odpi/egeria:latest
                 description: Container image to use, overriding operator configuration
@@ -84,6 +88,7 @@ spec:
                 type: array
             required:
             - autostart
+            - egerialoglevel
             - serverconfig
             type: object
           status:

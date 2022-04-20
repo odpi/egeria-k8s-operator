@@ -389,6 +389,7 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(ctx cont
 								},
 							},
 						}},
+						Env: []corev1.EnvVar{corev1.EnvVar{Name: "LOGGING_LEVEL_ROOT", Value: egeriaInstance.Spec.EgeriaLogLevel}},
 						// Mountpoints are needed for egeria configuration
 						//TODO: Fix mounts
 						VolumeMounts: reconciler.getVolumeMounts(ctx, egeriaInstance.Spec.ServerConfig, egeriaInstance),

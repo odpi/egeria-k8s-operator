@@ -5,6 +5,7 @@ metadata:
 spec:
   # Add fields here
   replicas: 3
-  autostart: true
+  autostart: false
+  egerialoglevel: "DEBUG"
   serverconfig:
    - cocomds1
