@@ -3,9 +3,9 @@ kind: EgeriaPlatform
 metadata:
   name: egeriaplatform-sample
 spec:
-  # Add fields here
   replicas: 3
-  autostart: false
-  egerialoglevel: "DEBUG"
   serverconfig:
    - cocomds1
+  # Useful for debugging
+  #autostart: false
+  #egerialoglevel: "DEBUG"

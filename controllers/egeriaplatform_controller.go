@@ -373,6 +373,25 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(ctx cont
 				Spec: corev1.PodSpec{
 					// The server configuration is stored in configmaps, which are each mapped to a volume
 					Volumes: reconciler.getVolumes(ctx, egeriaInstance.Spec.ServerConfig, egeriaInstance),
+
+					// The initContainer will copy config data obtained from configmaps into the data directory
+					// This is required as Egeria will write to these files -- though the data is ephemeral
+					InitContainers: []corev1.Container{{
+						Name:         "init",
+						Image:        egeriaInstance.Spec.UtilImage,
+						VolumeMounts: reconciler.getVolumeMounts(ctx, egeriaInstance.Spec.ServerConfig, egeriaInstance),
+						Command: []string{
+							"/bin/cp",
+							"-rTfL",
+							"/deployments/shadowdata",
+							"/deployments/data",
+						},
+						//Command: []string{
+						//	"/bin/sh",
+						//	"-c",
+						//	"sleep 10000",
+						//},
+					}},
 					Containers: []corev1.Container{{
 						Name:  "platform",
 						Image: egeriaInstance.Spec.Image,
@@ -598,6 +617,20 @@ func (reconciler *EgeriaPlatformReconciler) getVolumes(ctx context.Context, conf
 		)
 	}
 
+	// Finally we add an emptyDir -- this is used for the main 'data' directory, since this container is ephemeral. Any
+	// persistent data needs to be managed through the server configuration documents, or the repositories themselves,
+	// for example using a XTDB deployment. No attempt is made at this level to keep persistent store, since scaling/HA is
+	// an intrinsic part of using an operator
+
+	log.FromContext(ctx).Info("Adding to volume list: ", "name", "data")
+	vols = append(vols, corev1.Volume{
+		Name: "data",
+		VolumeSource: corev1.VolumeSource{
+			EmptyDir: &corev1.EmptyDirVolumeSource{},
+		},
+	},
+	)
+
 	// return the built list
 	return vols
 }
@@ -630,12 +663,27 @@ func (reconciler *EgeriaPlatformReconciler) getVolumeMounts(ctx context.Context,
 			Name:     configname[i],
 			ReadOnly: true,
 			// TODO: Mountpath should be configurable - though does depend on container image
-			MountPath: "/deployments/data/servers/" + mountName + "/config",
+			// These are mounted to an alternate location. Egeria needs to write to config files and this
+			// cannot be done for a configmap mount. Instead an initialization pod will perform a copy from shadowdata to data
+			// so care should be taken with what is placed in shadowdata
+			MountPath: "/deployments/shadowdata/servers/" + mountName + "/config",
 			// TODO: Note this is a lower-cased name. If it needs to be same as server name we'll need to read from configmap
 
 		},
 		)
+
 	}
+
+	// Now add our data mount
+	vols = append(vols, corev1.VolumeMount{
+		Name: "data",
+		// TODO: Mountpath should be configurable - though does depend on container image
+		// These are mounted to an alternate location. Egeria needs to write to config files and this
+		// cannot be done for a configmap mount. Instead an initialization pod will perform a copy from shadowdata to data
+		// so care should be taken with what is placed in shadowdata
+		MountPath: "/deployments/data",
+	},
+	)
 
 	// return the built list
 	return vols
