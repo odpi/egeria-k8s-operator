@@ -15,9 +15,9 @@ This github project is part of the overall Egeria project. See the [egeria proje
 This project provides a Kubernetes operator to support the deployment of Egeria. This is in addition to the current
 support in the main project for building the base egeria container images, as well as a few helm charts that make use of them.
 
-Documentation can be found on our new [Egeria Documentation Site](https://odpi.github.io/egeria-docs/guides/admin/kubernetes/intro/)
+Documentation can be found on our new [Egeria Documentation Site](http://egeria-project.org/guides/operations/kubernetes/)
 
-Please engage via our main project [slack channels](slack.odpi.org), team calls, or via github issues in this repo.
+Please engage via our [community](http://egeria-project.org/guides/community/), team calls, or via github issues in this repo.
 
 See [DEVELOP.md](DEVELOP.md) for more specific details of the implementation and how to build.
 

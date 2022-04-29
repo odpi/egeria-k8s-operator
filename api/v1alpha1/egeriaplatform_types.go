@@ -20,7 +20,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EgeriaPlatformSpec : Desired State for Egeria Platform
+// EgeriaPlatformSpec : Desired State for Egeria Platform√
 type EgeriaPlatformSpec struct {
 	// TODO: Look at moving to use the standard scaling approach https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource
 	// Number of replicas for this platform (ie number of pods to run)
@@ -37,10 +37,22 @@ type EgeriaPlatformSpec struct {
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:default="quay.io/odpi/egeria:latest"
 	Image string `json:"image,omitempty"`
-	// Configmap used for server configuration
+	// Container image to use, overriding operator configuration
 	// +kubebuilder:validation:MaxLength=253
 	// +kubebuilder:validation:MinLength=1
-	ServerConfig string `json:"serverconfig"`
+	// +kubebuilder:default="quay.io/odpi/egeria:latest"
+	UtilImage string `json:"utilimage,omitempty"`
+	// Configmap used for server configuration
+	// +kubebuilder:validation:MaxItems=253
+	// +kubebuilder:validation:MinItems=1
+	// Should be unique, but cannot be set - restriction of schema validation
+	ServerConfig []string `json:"serverconfig"`
+	// +kubebuilder:default:=true
+	// If true, configured servers will be started when the platform starts up
+	Autostart bool `json:"autostart"`
+	// +kubebuilder:default:="OFF"
+	// Sets the log level for debugging
+	EgeriaLogLevel string `json:"egerialoglevel"`
 }
 
 // EgeriaPlatformStatus : Observed state of Egeria Platform
