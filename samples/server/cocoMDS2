@@ -9,15 +9,6 @@
   "localServerUserId": "cocoMDS2npa",
   "localServerPassword": "cocoMDS2passw0rd",
   "maxPageSize": 600,
-  "serverSecurityConnection": {
-    "class": "Connection",
-    "headerVersion": 0,
-    "connectorType": {
-      "class": "ConnectorType",
-      "headerVersion": 0,
-      "connectorProviderClassName": "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
-    }
-  },
   "eventBusConfig": {
     "class": "EventBusConfig",
     "topicURLRoot": "egeria.omag",
