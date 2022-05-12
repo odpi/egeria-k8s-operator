@@ -356,6 +356,8 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(ctx cont
 	labels := egeriaLabels(egeriaInstance.Name, "deployment")
 	replicas := egeriaInstance.Spec.Size
 
+	downloadContainer, _ := reconciler.setupInitContainerForDownloads(ctx, egeriaInstance)
+
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      egeriaInstance.Name + "-deployment",
@@ -377,7 +379,7 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(ctx cont
 					// The initContainer will copy config data obtained from configmaps into the data directory
 					// This is required as Egeria will write to these files -- though the data is ephemeral
 					InitContainers: []corev1.Container{{
-						Name:         "init",
+						Name:         "copyconfig",
 						Image:        egeriaInstance.Spec.UtilImage,
 						VolumeMounts: reconciler.getVolumeMounts(ctx, egeriaInstance.Spec.ServerConfig, egeriaInstance),
 						Command: []string{
@@ -391,7 +393,9 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(ctx cont
 						//	"-c",
 						//	"sleep 10000",
 						//},
-					}},
+					},
+						downloadContainer,
+					},
 					Containers: []corev1.Container{{
 						Name:  "platform",
 						Image: egeriaInstance.Spec.Image,
@@ -408,7 +412,10 @@ func (reconciler *EgeriaPlatformReconciler) deploymentForEgeriaPlatform(ctx cont
 								},
 							},
 						}},
-						Env: []corev1.EnvVar{corev1.EnvVar{Name: "LOGGING_LEVEL_ROOT", Value: egeriaInstance.Spec.EgeriaLogLevel}},
+						Env: []corev1.EnvVar{
+							corev1.EnvVar{Name: "LOGGING_LEVEL_ROOT", Value: egeriaInstance.Spec.EgeriaLogLevel},
+							corev1.EnvVar{Name: "LOADER_PATH", Value: "/deployments/extralibs,/deployments/server/lib"},
+						},
 						// Mountpoints are needed for egeria configuration
 						//TODO: Fix mounts
 						VolumeMounts: reconciler.getVolumeMounts(ctx, egeriaInstance.Spec.ServerConfig, egeriaInstance),
@@ -631,6 +638,16 @@ func (reconciler *EgeriaPlatformReconciler) getVolumes(ctx context.Context, conf
 	},
 	)
 
+	// Add another volume for downloadable libraries
+	log.FromContext(ctx).Info("Adding to volume list: ", "name", "libraries")
+	vols = append(vols, corev1.Volume{
+		Name: "libraries",
+		VolumeSource: corev1.VolumeSource{
+			EmptyDir: &corev1.EmptyDirVolumeSource{},
+		},
+	},
+	)
+
 	// return the built list
 	return vols
 }
@@ -684,6 +701,17 @@ func (reconciler *EgeriaPlatformReconciler) getVolumeMounts(ctx context.Context,
 		MountPath: "/deployments/data",
 	},
 	)
+	// Extra Libraries/Downloads
+	// TODO: Consider consolidation of volumes for extra files
+	vols = append(vols, corev1.VolumeMount{
+		Name: "libraries",
+		// TODO: Mountpath should be configurable - though does depend on container image
+		// These are mounted to an alternate location. Egeria needs to write to config files and this
+		// cannot be done for a configmap mount. Instead an initialization pod will perform a copy from shadowdata to data
+		// so care should be taken with what is placed in shadowdata
+		MountPath: "/deployments/extralibs",
+	},
+	)
 
 	// return the built list
 	return vols
@@ -717,4 +745,30 @@ func (reconciler *EgeriaPlatformReconciler) getServersFromConfigMaps(ctx context
 	return servers, nil
 }
 
-// TODO : Create ingress As ervice
+// TODO: Create ingress As Service
+
+func (reconciler *EgeriaPlatformReconciler) setupInitContainerForDownloads(ctx context.Context, egeria *egeriav1alpha1.EgeriaPlatform) (container corev1.Container, err error) {
+
+	{
+
+		extractCommand := ""
+
+		for k := range egeria.Spec.Libraries {
+			log.FromContext(ctx).Info("Found library: ", "url", egeria.Spec.Libraries[k].Url)
+			log.FromContext(ctx).Info("Found library: ", "filename", egeria.Spec.Libraries[k].Filename)
+			extractCommand += "curl " + egeria.Spec.Libraries[k].Url + " -o /deployments/extralibs/" + egeria.Spec.Libraries[k].Filename + " && "
+		}
+		extractCommand += "true"
+
+		return corev1.Container{
+			Name:         "download",
+			Image:        egeria.Spec.UtilImage,
+			VolumeMounts: reconciler.getVolumeMounts(ctx, egeria.Spec.ServerConfig, egeria),
+			Command: []string{
+				"sh",
+				"-c",
+			},
+			Args: []string{extractCommand},
+		}, err
+	}
+}
