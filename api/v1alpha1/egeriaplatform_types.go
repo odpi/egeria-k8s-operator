@@ -20,6 +20,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// AdditionalDownloads - to define extra files to be downloaded
+type Download struct {
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
+	Filename string `json:"filename"`
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
+	Url string `json:"url"`
+}
+
 // EgeriaPlatformSpec : Desired State for Egeria Platform√
 type EgeriaPlatformSpec struct {
 	// TODO: Look at moving to use the standard scaling approach https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource
@@ -49,10 +59,14 @@ type EgeriaPlatformSpec struct {
 	ServerConfig []string `json:"serverconfig"`
 	// +kubebuilder:default:=true
 	// If true, configured servers will be started when the platform starts up
-	Autostart bool `json:"autostart"`
+	Autostart bool `json:"autostart,omitempty"`
 	// +kubebuilder:default:="OFF"
 	// Sets the log level for debugging
-	EgeriaLogLevel string `json:"egerialoglevel"`
+	EgeriaLogLevel string `json:"egerialoglevel,omitempty"`
+	// Extra Libraries to be added to classpath. These are downloaded during initialization. For more security use a custom container image with these already present.
+	// +kubebuilder:validation:MaxItems=253
+	// +kubebuilder:validation:MinItems=1
+	Libraries []Download `json:"libraries,omitempty"`
 }
 
 // EgeriaPlatformStatus : Observed state of Egeria Platform

@@ -1,10 +1,9 @@
-
 ---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.7.0
+    controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
   name: egeriaplatforms.egeria.egeria-project.org
 spec:
@@ -64,6 +63,28 @@ spec:
                 maxLength: 253
                 minLength: 1
                 type: string
+              libraries:
+                description: Extra Libraries to be added to classpath. These are downloaded
+                  during initialization. For more security use a custom container
+                  image with these already present.
+                items:
+                  description: AdditionalDownloads - to define extra files to be downloaded
+                  properties:
+                    filename:
+                      maxLength: 253
+                      minLength: 1
+                      type: string
+                    url:
+                      maxLength: 253
+                      minLength: 1
+                      type: string
+                  required:
+                  - filename
+                  - url
+                  type: object
+                maxItems: 253
+                minItems: 1
+                type: array
               replicas:
                 default: 1
                 description: 'TODO: Look at moving to use the standard scaling approach
@@ -93,8 +114,6 @@ spec:
                 minLength: 1
                 type: string
             required:
-            - autostart
-            - egerialoglevel
             - serverconfig
             type: object
           status:
