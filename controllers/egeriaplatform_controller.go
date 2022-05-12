@@ -753,10 +753,10 @@ func (reconciler *EgeriaPlatformReconciler) setupInitContainerForDownloads(ctx c
 
 		extractCommand := ""
 
-		for k := range egeria.Spec.Libraries {
-			log.FromContext(ctx).Info("Found library: ", "url", egeria.Spec.Libraries[k].Url)
-			log.FromContext(ctx).Info("Found library: ", "filename", egeria.Spec.Libraries[k].Filename)
-			extractCommand += "curl " + egeria.Spec.Libraries[k].Url + " -o /deployments/extralibs/" + egeria.Spec.Libraries[k].Filename + " && "
+		for _, lib := range egeria.Spec.Libraries {
+			log.FromContext(ctx).Info("Found library: ", "url", lib.Url)
+			log.FromContext(ctx).Info("Found library: ", "filename", lib.Filename)
+			extractCommand += "curl " + lib.Url + " -o /deployments/extralibs/" + lib.Filename + " && "
 		}
 		extractCommand += "true"
 

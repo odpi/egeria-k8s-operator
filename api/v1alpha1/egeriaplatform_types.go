@@ -22,8 +22,12 @@ import (
 
 // AdditionalDownloads - to define extra files to be downloaded
 type Download struct {
-	Filename string `json:"filename,omitempty"`
-	Url      string `json:"url,omitempty"`
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
+	Filename string `json:"filename"`
+	// +kubebuilder:validation:MaxLength=253
+	// +kubebuilder:validation:MinLength=1
+	Url string `json:"url"`
 }
 
 // EgeriaPlatformSpec : Desired State for Egeria Platform√

@@ -12,4 +12,4 @@ spec:
   # Dummy file for validating connector download (or indeed any library that is needed)
   libraries:
     - url: http://www.google.com
-    - filename: notreallyalibrary.jar
+      filename: notreallyalibrary.jar
