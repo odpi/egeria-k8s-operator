@@ -1,5 +1,5 @@
 /*
-Copyright 2022 Contributors to the Egeria project.
+Copyright 2023 Contributors to the Egeria project.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -63,7 +63,6 @@ type EgeriaPlatformReconciler struct {
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.11.0/pkg/reconcile
-//
 func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 
 	// Common returns
@@ -182,9 +181,7 @@ func (reconciler *EgeriaPlatformReconciler) Reconcile(ctx context.Context, req c
 	return ctrl.Result{}, nil
 }
 
-//
 // Retrieve the Custom Resource for Egeria which we are doing the reconciliation on
-//
 func (reconciler *EgeriaPlatformReconciler) getEgeriaPlatform(ctx context.Context, req ctrl.Request) (*egeriav1alpha1.EgeriaPlatform, error) {
 
 	// TODO: Handle case where CR is in the process of being deleted
@@ -206,9 +203,7 @@ func (reconciler *EgeriaPlatformReconciler) getEgeriaPlatform(ctx context.Contex
 	return egeria, nil
 }
 
-//
 // Ensure that a deployment exists for this Egeria instance (ie a platform)
-//
 func (reconciler *EgeriaPlatformReconciler) ensureDeployment(ctx context.Context, egeria *egeriav1alpha1.EgeriaPlatform) (*appsv1.Deployment, error, bool) {
 	deployment := &appsv1.Deployment{}
 	// TODO: Make object name generation configurable
@@ -257,9 +252,7 @@ func (reconciler *EgeriaPlatformReconciler) ensureAutostartConfigMap(ctx context
 	return configmap, nil, false
 }
 
-//
 // Updates the CR with a summary of the deployment for visibility in the status report
-//
 func (reconciler *EgeriaPlatformReconciler) updateDeploymentName(ctx context.Context, egeria *egeriav1alpha1.EgeriaPlatform) error {
 	if !reflect.DeepEqual(egeria.Name+"-deployment", egeria.Status.ManagedDeployment) {
 		egeria.Status.ManagedDeployment = egeria.Name + "-deployment"

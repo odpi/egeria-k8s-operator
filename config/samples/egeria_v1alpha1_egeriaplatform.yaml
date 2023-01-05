@@ -1,6 +1,12 @@
 apiVersion: egeria.egeria-project.org/v1alpha1
 kind: EgeriaPlatform
 metadata:
+  labels:
+    app.kubernetes.io/name: egeriaplatform
+    app.kubernetes.io/instance: egeriaplatform-sample
+    app.kubernetes.io/part-of: egeria
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: egeria
   name: egeriaplatform-sample
 spec:
   replicas: 3
