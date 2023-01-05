@@ -13,4 +13,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: quay.io/odpi/egeria-k8s-operator
-  newTag: 0.9.207
+  newTag: 0.9.215

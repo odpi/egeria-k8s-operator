@@ -17,6 +17,8 @@ These need to be installed and configured in order to build the k8s operator
 * A *nix variant or macOS (shell script usage)
 * Ensure you have 'GO111MODULE=on' set
 
+NOTE As of 2023-01-05 the instructions below work on linux x64 only. There are some additional steps required for macOS to build images, but additionally then running on x86 requires yet more -- to be determined -- steps.
+
 ## Known issues/gotchas
 
 * This is currently work in progress 
